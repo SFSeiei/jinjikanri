@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinjikanri.mapper.ZyuyMapper">
+	<resultMap type="com.jinjikanri.entity.HKN0010ZyuyntsEntity" id="HKN0010ZyuyntsEntity">
+		<id column="STT_CD" property="sttCd"/>
+		<result column="TNZYB_ZYNTS" property="tnzybZynts"/>
+		<result column="MBNSYU_ZYNTS" property="mbnsyuZynts"/>
+		<result column="KNSUN_ZYNTS" property="knsunZynts"/>
+		<result column="HRMKU_KISI" property="hrmkuKisi"/>
+		<result column="HRMKU_SYRYU" property="hrmkuSyryu"/>
+		<result column="YKNKU_KISI" property="yknkuKisi"/>
+		<result column="YKNKU_SYRYU" property="yknkuSyryu"/>
+		<result column="REC_SAKS_ZITU_YMD_HMS" property="recSaksZituYmdHms"/>
+		<result column="REC_KOSN_ZITU_YMD_HMS" property="recKosnZituYmdHms"/>
+	</resultMap>
+	
+	<select id="getZyuyById" parameterType="com.jinjikanri.entity.HKN0010ZyuyntsEntity" 
+	resultMap="HKN0010ZyuyntsEntity">
+		SELECT * FROM HKN0010ZYUYNTS 
+	</select>
+	
+	<update id="updateZyuyById" parameterType="com.jinjikanri.entity.HKN0010ZyuyntsEntity">
+		UPDATE hkn0010zyuynts
+		<set>
+				TNZYB_ZYNTS=#{tnzybZynts},
+				MBNSYU_ZYNTS=#{mbnsyuZynts},
+				KNSUN_ZYNTS=#{knsunZynts},
+				HRMKU_KISI=#{hrmkuKisi},
+				HRMKU_SYRYU=#{hrmkuSyryu},
+				YKNKU_KISI=#{yknkuKisi},
+				YKNKU_SYRYU=#{yknkuSyryu},
+			<if test="recSaksZituYmdHms!=null">
+				REC_SAKS_ZITU_YMD_HMS=#{recSaksZituYmdHms},
+			</if>
+			<if test="recKosnZituYmdHms!=null">
+				REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms}
+			</if>
+		</set>
+		WHERE STT_CD=#{sttCd}
+	</update>
+	<select id="selectDB" resultMap="HKN0010ZyuyntsEntity">
+		SELECT * FROM hkn0010zyuynts 
+		WHERE REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms}
+	</select>
+</mapper>

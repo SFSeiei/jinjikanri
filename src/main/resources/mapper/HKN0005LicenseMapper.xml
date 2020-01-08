@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinjikanri.mapper.HKN0005LicenseMapper">
+	<resultMap type="com.jinjikanri.entity.HKN0005LicenseEntity" id="HKN0005LicenseEntity">
+		<!-- バス号 -->
+		<result column="bus_id" property="busId"/>
+		<!-- 車のナンバー -->
+		<result column="license_id" property="licenseId"/>
+		<!-- 従業員コード -->
+		<result column="staff_cd" property="staffCd"/>
+		<!-- 車種-->
+		<result column="vehicle_type" property="vehicleType"/>
+		<!-- 班次 -->
+		<result column="classes" property="classes"/>
+		<!-- シャトルバスの路線 -->
+		<result column="course" property="course"/>
+		<!-- 連絡先の区域 -->
+		<result column="location_id" property="locationId"/>
+		<!-- 連絡先 -->
+		<result column="destination" property="destination"/>
+		<!-- レコード作成実年月日時分秒 -->
+		<result column="rec_saks_zitu_ymd_hms" property="recSaksZituYmdHms"/>
+		<!-- レコード更新実年月日時分秒 -->
+		<result column="rec_kosn_zitu_ymd_hms" property="recKosnZituYmdHms"/>
+		<!-- 運転手の名前 -->
+		<result column="name" property="name"/>
+		<!-- 運転手の性別 -->
+		<result column="sex" property="sex"/>
+	</resultMap>
+	
+	<sql id="allColumn">
+		bus_id, license_id, hkn0005License.staff_cd, vehicle_type, classes, course, location_id, destination, hkn0005License.rec_saks_zitu_ymd_hms, hkn0005License.rec_kosn_zitu_ymd_hms, name, sex
+	</sql>
+	
+	<!-- 検索条件に基づいてデータベースを検索する -->
+	<select id="selectBus" parameterType="com.jinjikanri.entity.HKN0005LicenseEntity" resultMap="HKN0005LicenseEntity">
+		SELECT <include refid="allColumn" /> FROM hkn0005License JOIN jin0002staff
+		ON hkn0005License.staff_cd = jin0002staff.staff_cd
+	<where>
+		<if test="licenseId != null and licenseId != ''">
+			AND license_id = #{licenseId,jdbcType=VARCHAR}
+		</if>
+		<if test="name != null and name !=''">
+			AND name LIKE CONCAT('%',#{name},'%')
+		</if>
+		<if test="staffCd != null">
+			AND hkn0005License.staff_cd = #{staffCd,jdbcType=INTEGER}
+		</if>
+		<if test="classes != null">
+			AND classes = #{classes,jdbcType=INTEGER}
+		</if>
+		<if test="destination != null and destination !=''">
+			AND destination = #{destination,jdbcType=VARCHAR}
+		</if>
+	</where>
+	</select>
+	
+	<!-- バスIDでシャトルバスの情報を照会する -->
+	<select id="selectBusById" resultMap="HKN0005LicenseEntity">
+		SELECT <include refid="allColumn" /> FROM hkn0005License JOIN jin0002staff
+		ON hkn0005License.staff_cd = jin0002staff.staff_cd
+		WHERE bus_id = #{busId}
+	</select>
+	
+	<!-- バスIDとレコード更新実年月日時分秒でシャトルバスの情報を照会し、DB排他を完了する。 -->
+	<select id="selectDB" resultMap="HKN0005LicenseEntity">
+		SELECT * FROM hkn0005License
+	<where>
+		bus_id = #{busId} AND rec_kosn_zitu_ymd_hms = #{recKosnZituYmdHms}
+	</where>
+	</select>
+	
+	<!-- シャトルバスの情報を追加する。 -->
+	<insert id="busInsert" parameterType="com.jinjikanri.entity.HKN0005LicenseEntity">
+		insert into hkn0005License (license_id, staff_cd, vehicle_type, classes, course, location_id, destination, rec_saks_zitu_ymd_hms, rec_kosn_zitu_ymd_hms)
+		values(
+			#{licenseId,jdbcType=VARCHAR},
+			#{staffCd,jdbcType=INTEGER},
+			#{vehicleType,jdbcType=VARCHAR},
+			#{classes,jdbcType=INTEGER},
+			#{course,jdbcType=VARCHAR},
+			#{locationId,jdbcType=INTEGER},
+			#{destination,jdbcType=VARCHAR},
+			#{recSaksZituYmdHms,jdbcType=TIMESTAMP},
+			#{recKosnZituYmdHms,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	<!-- シャトルバスの情報を変更する。 -->
+	<update id="busUpdate" parameterType="com.jinjikanri.entity.HKN0005LicenseEntity">
+		UPDATE hkn0005License
+		<set>
+			<if test="licenseId != null and licenseId != ''">
+				license_id = #{licenseId,jdbcType=VARCHAR},
+			</if>
+			<if test="staffCd != null and staffCd !=''">
+				staff_cd = #{staffCd,jdbcType=INTEGER},
+			</if>
+			
+				vehicle_type = #{vehicleType,jdbcType=VARCHAR},
+				classes = #{classes,jdbcType=INTEGER},
+			
+			<if test="course != null and course !=''">
+				course = #{course,jdbcType=VARCHAR},
+			</if>
+			
+				location_id = #{locationId,jdbcType=INTEGER},
+			<if test="destination != null and destination !=''">
+				destination = #{destination,jdbcType=VARCHAR},
+			</if>
+				rec_kosn_zitu_ymd_hms = #{recKosnZituYmdHms,jdbcType=TIMESTAMP}
+		</set>
+		where bus_id = #{busId,jdbcType=INTEGER}
+	</update>
+	
+	<!-- シャトルバスの情報を削除する。 -->
+	<delete id="busDelete" parameterType="com.jinjikanri.entity.HKN0005LicenseEntity">
+		DELETE FROM hkn0005License WHERE bus_id = #{busId,jdbcType=INTEGER}
+	</delete>
+	
+	<!-- 班次と従業員コード、班次と車のナンバーでシャトルバスの情報を照会し、存在の判断を完了する。 -->
+	<select id="selectBusId" parameterType="com.jinjikanri.entity.HKN0005LicenseEntity" resultMap="HKN0005LicenseEntity">
+		SELECT * FROM hkn0005License
+	<where>
+			classes = #{classes,jdbcType=INTEGER}
+			AND	
+			staff_cd = #{staffCd,jdbcType=INTEGER}
+			OR
+			classes = #{classes,jdbcType=INTEGER}
+			AND	
+			license_id = #{licenseId,jdbcType=INTEGER}
+	</where>
+	</select>
+
+</mapper>

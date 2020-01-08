@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>人事勤怠管理システム構築 -シャトルバス-詳細</title>
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form method="get" class="form-horizontal" id="frm" onsubmit="return false">
+
+							<input type="hidden" class="form-control" name="busId" id="busId" th:value="${HKN0005LicenseEntity.busId}" />
+
+							<div class="form-group" th:if="${not #strings.isEmpty(HKN0005LicenseEntity.licenseId)}">
+								<label class="col-sm-3 control-label">車のナンバー</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" readonly="readonly" name="licenseId" id="licenseId" th:value="${HKN0005LicenseEntity.licenseId}" />
+								</div>
+							</div>
+
+							<div class="form-group" th:if="${not #strings.isEmpty(HKN0005LicenseEntity.name)}">
+								<label class="col-sm-3 control-label">運転手の名前</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" readonly="readonly" name="name" id="name" th:value="${HKN0005LicenseEntity.name}" />
+								</div>
+							</div>
+
+							<div class="form-group" th:if="${not #strings.isEmpty(HKN0005LicenseEntity.staffCd)}">
+								<label class="col-sm-3 control-label">従業員コード</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" readonly="readonly" name="staffCd" id="staffCd" th:value="${HKN0005LicenseEntity.staffCd}" />
+								</div>
+							</div>
+
+							<div class="form-group"
+								th:if="${not #strings.isEmpty(HKN0005LicenseEntity.sex)}">
+								<label class="col-sm-3 control-label">運転手の性別</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" th:if="${HKN0005LicenseEntity.sex} == 0" readonly="readonly" th:value="男" />
+									<input type="text" class="form-control" th:if="${HKN0005LicenseEntity.sex} == 1" readonly="readonly" th:value="女" />
+								</div>
+							</div>
+
+							<div class="form-group" th:if="${not #strings.isEmpty(HKN0005LicenseEntity.vehicleType)}">
+								<label class="col-sm-3 control-label">車種</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" readonly="readonly" name="vehicleType" id="vehicleType" th:value="${HKN0005LicenseEntity.vehicleType}" />
+								</div>
+							</div>
+
+							<div class="form-group" th:if="${not #strings.isEmpty(HKN0005LicenseEntity.classes)}">
+								<label class="col-sm-3 control-label">班次</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" th:if="${HKN0005LicenseEntity.classes} == 0" readonly="readonly" th:value="正常班" />
+									<input type="text" class="form-control" th:if="${HKN0005LicenseEntity.classes} == 1" readonly="readonly" th:value="倒加班" />
+								</div>
+							</div>
+
+							<div class="form-group" th:if="${not #strings.isEmpty(HKN0005LicenseEntity.course)}">
+								<label class="col-sm-3 control-label">シャトルバスの路線</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" id="course" value="" readonly="readonly" />
+								</div>
+							</div>
+
+							<div class="form-group" th:if="${not #strings.isEmpty(HKN0005LicenseEntity.locationId)}">
+								<label class="col-sm-3 control-label">連絡先の区域</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" th:if="${HKN0005LicenseEntity.locationId} == 0" readonly="readonly" th:value="市内" />
+									<input type="text" class="form-control" th:if="${HKN0005LicenseEntity.locationId} == 1" readonly="readonly" th:value="塘沽" />
+								</div>
+							</div>
+
+							<div class="form-group" th:if="${not #strings.isEmpty(HKN0005LicenseEntity.destination)}">
+								<label class="col-sm-3 control-label">連絡先</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" readonly="readonly" name="destination" id="destination" th:value="${HKN0005LicenseEntity.destination}" />
+								</div>
+							</div>
+
+							<input type="hidden" class="form-control" name="recKosnZituYmdHms" id="recKosnZituYmdHms" th:value="${HKN0005LicenseEntity.recKosnZituYmdHms}" />
+
+							<div class="form-group">
+								<div class="col-sm-5 col-sm-offset-3">
+									<a href="javascript:void();" th:onclick="|update(${HKN0005LicenseEntity.busId})|" class="btn btn-primary">変更</a>
+									&nbsp;&nbsp;
+									<a href="javascript:void();" th:onclick="|del(${HKN0005LicenseEntity.busId})|" class="btn btn-primary">削除</a>&nbsp;&nbsp;
+									<button type="button" th:onclick="closeWin();" class="btn btn-primary">戻る</button>
+								</div>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/js/jQuery1.7.2.js"></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js"></script>
+	<script src="/js/plugins/summernote/summernote.min.js"></script>
+	<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
+	<script>
+		/* 検索されたシャトルバスの路線名より、この路線の詳細情報を表示する。 */
+		$(document).ready(function() {
+			var course = "[[${HKN0005LicenseEntity.course}]]";
+			if (confirmEnding(course, ",")) {
+				course = course.substr(0, course.length - 1);
+			}
+			/* サイト間を"→"でリンクする。 */
+			var str = course.replace(/,/g, "→");
+			str = str.replace("A", "農学院");
+			str = str.replace("B", "体育館");
+			str = str.replace("C", "学院路");
+			str = str.replace("D", "六道沟");
+			str = str.replace("E", "天津站");
+			str = str.replace("F", "搪沽火東站");
+			$("#course").val(str);
+		});
+
+		function confirmEnding(str, target) {
+			var start = str.length - target.length;
+			var arr = str.substr(start, target.length);
+			if (arr == target) {
+				return true;
+			}
+			return false;
+		}
+
+		/* 戻るボタンを押下、検索画面に遷移する。 */
+		function closeWin() {
+			location.href = "/HKN0005LicenseEntity/selectBus";
+		}
+
+		/* 更新ボタンを押下、バスIDは存在チェック。 */
+		function update(id) {
+			$.ajax({
+					type : "POST",
+					url : "/HKN0005LicenseEntity/validData",
+					data : {
+						"busId" : id
+					},
+					success : function(obj) {
+						if (obj == "errors") {
+							location.href = "/errorException";
+						} else if (obj == "false") {
+							/* バスIDは存在しない 。*/
+							alert("現在の情報は削除 されました。");
+							/* 検索画面に遷移する。 */
+							location.href = "/HKN0005LicenseEntity/selectBus";
+						} else {
+							/* バスIDは存在し、更新画面に遷移する。 */
+							location.href = "/HKN0005LicenseEntity/selectBusById?busId="
+									+ id + "";
+						}
+					},
+					error : function() {
+						alert("操作に失敗する ");
+					}
+				});
+		}
+
+		/* 删除ボタンを押下、バスIDは存在チェック。 */
+		function del(id) {
+			if (confirm("削除を確定しますか?")) {
+				$.ajax({
+					type : "POST",
+					url : "/HKN0005LicenseEntity/busDelete",
+					data : {
+						"busId" : id
+					},
+					success : function(obj) {
+						if (obj == "false") {
+							alert("削除に失敗する。");
+						} else if (obj == "del") {
+							/* バスIDは存在しない 。*/
+							alert("指定のバス号情報がシャトルバス情報テーブルに存在しません。");
+							/* 検索画面に遷移する。 */
+							location.href = "/HKN0005LicenseEntity/selectBus";
+						} else {
+							/* バスIDは存在し、シャトルバスの情報を削除する。 */
+							alert("削除に成功。");
+							/* 検索画面に遷移する。 */
+							location.href = "/HKN0005LicenseEntity/selectBus";
+						}
+					},
+					error : function() {
+						alert("操作に失敗する ");
+					}
+				});
+			}
+		}
+	</script>
+
+</body>
+</html>

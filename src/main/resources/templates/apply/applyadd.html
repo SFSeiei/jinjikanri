@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>新規/変更</title>
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+<link href="/css/autocomplete/jquery.autocomplete.css" rel="stylesheet" />
+<style>
+	#errorMessage{
+		color:red;
+	}
+</style>
+</head>
+<body class="gray-bg">
+	<h2 align="center">人員情報変更申請表</h2>
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form  method="get" class="form-horizontal" id="frm" onsubmit="return false">
+							<div id="errorMessage" style="display: inline-block;"></div>
+							<input name="dateId" type="hidden" id="dateId" th:value="${apply.dateId}" />
+							<input name="recKosnZituYmdHms" type="hidden" id="recKosnZituYmdHms" th:value="${apply.recKosnZituYmdHms}" />
+							<div class="form-group">
+								<label class="col-sm-2 control-label">変更者名前</label>
+								<div class="col-sm-6" th:if=" ${flag} eq '1'">
+									<input type="text" class="form-control" name="changerName" id="changerName" th:value="${apply.changerName}" readonly="readonly"/>
+								</div>
+								<div class="col-sm-6" th:if=" ${flag} eq '0'">
+									<input type="text" class="form-control" name="changerName" id="changerName" th:value="${apply.changerName}"/>
+								</div>
+								<div class="col-sm-6" th:if=" ${flag} eq '2'">
+									<input type="text" class="form-control" name="changerName" id="changerName" th:value="${apply.changerName}"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">変更者従業員ID</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="changerStaffId" id="changerStaffId" th:value="${apply.changerStaffId}" readonly="readonly"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">変更内容</label>
+								<div class="col-sm-6" th:if=" ${flag} eq '1'">
+									<input type="text" class="form-control" name="changeContent" id="changeContent" th:value="${apply.changeContent}" readonly="readonly"/>
+								</div>
+								<div class="col-sm-6" th:if=" ${flag} eq '0'">
+									<input type="text" class="form-control" maxlength="20" name="changeContent" id="changeContent" th:value="${apply.changeContent}" />
+								</div>
+								<div class="col-sm-6" th:if=" ${flag} eq '2'">
+									<input type="text" class="form-control" maxlength="20" name="changeContent" id="changeContent" th:value="${apply.changeContent}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">変更前</label>
+								<div class="col-sm-6" th:if=" ${flag} eq '1'">
+									<input type="text" class="form-control"  name="changeBefore" id="changeBefore" th:value="${apply.changeBefore}" readonly="readonly"/>
+								</div>
+								<div class="col-sm-6" th:if=" ${flag} eq '0'">
+									<input type="text" class="form-control" maxlength="120" name="changeBefore" id="changeBefore" th:value="${apply.changeBefore}" />
+								</div>
+								<div class="col-sm-6" th:if=" ${flag} eq '2'">
+									<input type="text" class="form-control" maxlength="120" name="changeBefore" id="changeBefore" th:value="${apply.changeBefore}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">変更後</label>
+								<div class="col-sm-6" th:if=" ${flag} eq '1'">
+									<input type="text" class="form-control" name="changeAfter" id="changeAfter" th:value="${apply.changeAfter}" readonly="readonly"/>
+								</div>
+								<div class="col-sm-6" th:if=" ${flag} eq '0'">
+									<input type="text" class="form-control" maxlength="120" name="changeAfter" id="changeAfter" th:value="${apply.changeAfter}" />
+								</div>
+								<div class="col-sm-6" th:if=" ${flag} eq '2'">
+									<input type="text" class="form-control" maxlength="120" name="changeAfter" id="changeAfter" th:value="${apply.changeAfter}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">申請者名前</label>
+								<div class="col-sm-6" th:if=" ${flag} eq '1'">
+									<input type="text" class="form-control" name="applicantName" id="applicantName" th:value="${apply.applicantName}" readonly="readonly"/>
+								</div>
+								<div class="col-sm-6" th:if=" ${flag} eq '0'">
+									<input type="text" class="form-control" name="applicantName" id="applicantName" th:value="${apply.applicantName}" />
+								</div>
+								<div class="col-sm-6" th:if=" ${flag} eq '2'">
+									<input type="text" class="form-control" name="applicantName" id="applicantName" th:value="${apply.applicantName}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">申請者従業員ID</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="applicantStaffId" id="applicantStaffId" th:value="${apply.applicantStaffId}" readonly="readonly"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">承認者名前</label>
+								<div class="col-sm-6" th:if=" ${flag} eq '1'">
+									<input type="text" class="form-control" name="confirmName" id="confirmName" th:value="${apply.confirmName}" readonly="readonly"/>
+								</div>
+								<div class="col-sm-6" th:if=" ${flag} eq '0'">
+									<input type="text" class="form-control" name="confirmName" id="confirmName" th:value="${apply.confirmName}" />
+								</div>
+								<div class="col-sm-6" th:if=" ${flag} eq '2'">
+									<input type="text" class="form-control" name="confirmName" id="confirmName" th:value="${apply.confirmName}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">承認者従業員ID</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="confirmStaffId" id="confirmStaffId" th:value="${apply.confirmStaffId}" readonly="readonly"/>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<div class="col-sm-4 col-sm-offset-2" th:if=" ${flag} eq '0'">
+									<button class="btn btn-primary" type="submit">確認申請</button>
+									<button class="btn btn-primary" type="reset">リセット</button>
+									<button class="btn btn-primary" type="button" th:onclick="closeWin1();">戻る</button>
+								</div>
+								<div class="col-sm-4 col-sm-offset-2" th:if=" ${flag} eq '2'">
+									<button  class="btn btn-primary" type="submit">確認申請</button>
+									<button class="btn btn-primary" type="reset">リセット</button>
+								</div>
+								
+								<div class="col-sm-4 col-sm-offset-2" th:if=" ${flag} eq '1'">
+									<button class="btn btn-primary" type="button" th:onclick="closeWin();">戻る</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/js/jQuery1.7.2.js"></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js"></script>
+	<script src="/js/plugins/summernote/summernote.min.js"></script>
+	<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
+	<script src="/js/autocomplete/jquery.autocomplete.js"></script>
+	<script src="/js/autocomplete/personDetail.js"></script>
+	<script>
+	
+	
+	bindAutoComplete("#changerName", bind);
+	function bind(data) {
+		$("#changerStaffId").val(data.staffCd);
+		$("#changerName").val(data.name);
+    }
+	bindAutoComplete("#applicantName", bind1);
+	function bind1(data) {
+		$("#applicantStaffId").val(data.staffCd);
+		$("#applicantName").val(data.name);
+    }
+	bindAutoComplete("#confirmName", bind2);
+	function bind2(data) {
+		$("#confirmStaffId").val(data.staffCd);
+		$("#confirmName").val(data.name);
+    }
+	
+	function closeWin() {
+		 location.href="/getApplyHistory"; 
+	}
+	
+	function closeWin1() {
+		 location.href="/getApplyList"; 
+	}
+	
+	$.validator.setDefaults({
+		submitHandler : function () 
+		   {
+			var before=$("#changeBefore").val();
+			var after=$("#changeAfter").val();
+			if(before == after) {
+				$("#errorMessage").text("ERR0031:変更前と変更後の内容が一致していません");
+			} else {
+				$.ajax({
+					type : "GET",
+					url : "/addApplyInfor",
+					data : $('#frm').serialize(),
+					success : function(obj) {
+						if (obj =="true") {
+							alert("申請成功！");
+						} else if (obj == "errors")　{
+							location.href = "/errorException";
+						}　else {
+							alert("申請失敗！");
+							$("#errorMessage").text(obj);
+						}
+					},
+					error : function() {
+						alert("操作に失敗する ");
+					}
+				});
+			}		 
+		}
+	});
+	
+		$().ready(function() {
+			// キーボードを押してリリースし、提出したformを検証します
+			$("#frm").validate({
+				rules : {
+					changerName : {
+						required : true,
+					},
+					changeContent : {
+						required : true,
+					},
+					changeBefore : {
+						required : true,	
+					},
+					changeAfter : {
+						required : true,
+					},
+					applicantName : {
+						required : true,
+					},
+					confirmName : {
+						required : true,
+					}, 
+					
+				
+				},
+				messages : {
+					changerName : {
+						required : "変更者名前を入力してください",
+					},
+					changeContent : {
+						required : "変更内容を入力してください",
+					},
+					changeBefore : {
+						required : "変更前を入力してください",
+					},
+					changeAfter : {
+						required : "変更後を入力してください",
+					},
+					applicantName : {
+						required : "申請者名前を入力してください",
+					},
+					confirmName : {
+						required : "承認者名前を入力してください",
+					},
+					
+				}
+			});
+		});
+ 		
+		 
+	</script>
+</body>
+</html>

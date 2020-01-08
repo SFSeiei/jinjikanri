@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinjikanri.mapper.ApplyMapper">
+
+	<resultMap type="com.jinjikanri.entity.JIN0003QbbgEntity" id="applyResult">
+		<id column="DATE_ID" property="dateId" />
+		<result column="CHANGER_STAFF_ID" property="changerStaffId" />
+		<result column="CHANGER_NAME" property="changerName" />
+		<result column="CHANGE_CONTENT" property="changeContent" />
+		<result column="CHANGE_BEFORE" property="changeBefore" />
+		<result column="CHANGE_AFTER" property="changeAfter" />
+		<result column="APPLICANT_STAFF_ID" property="applicantStaffId" />
+		<result column="APPLICANT_NAME" property="applicantName" />
+		<result column="CONFIRM_STAFF_ID" property="confirmStaffId" />
+		<result column="CONFIRM_NAME" property="confirmName" />
+		<result column="APPLICANT_STATE" property="applicantState" />
+		<result column="CONFIRM_STATE" property="confirmState" />
+		<result column="REC_SAKS_ZITU_YMD_HMS" property="recSaksZituYmdHms" />
+		<result column="REC_KOSN_ZITU_YMD_HMS" property="recKosnZituYmdHms" />
+	</resultMap>
+	
+	<!--　データの追加　 -->
+	<insert id="addApplyInfor" parameterType="com.jinjikanri.entity.JIN0003QbbgEntity" useGeneratedKeys="true" keyProperty="dateId">
+		INSERT INTO jin0003qbbg(DATE_ID,CHANGER_STAFF_ID,CHANGER_NAME,CHANGE_CONTENT,CHANGE_BEFORE,
+			CHANGE_AFTER,APPLICANT_STAFF_ID,APPLICANT_NAME,CONFIRM_STAFF_ID,CONFIRM_NAME,
+			APPLICANT_STATE,CONFIRM_STATE,REC_SAKS_ZITU_YMD_HMS,REC_KOSN_ZITU_YMD_HMS)
+		VALUES(
+			#{dateId,jdbcType=INTEGER},
+			#{changerStaffId,jdbcType=INTEGER},
+			#{changerName,jdbcType=VARCHAR},
+			#{changeContent,jdbcType=VARCHAR},
+			#{changeBefore,jdbcType=VARCHAR},
+			#{changeAfter,jdbcType=VARCHAR},
+			#{applicantStaffId,jdbcType=INTEGER},
+			#{applicantName,jdbcType=VARCHAR},
+			#{confirmStaffId,jdbcType=INTEGER},
+			#{confirmName,jdbcType=VARCHAR},
+			#{applicantState,jdbcType=INTEGER},
+			#{confirmState,jdbcType=INTEGER},
+			#{recSaksZituYmdHms,jdbcType=TIMESTAMP},
+			#{recKosnZituYmdHms,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	<!-- 申請データの検索 -->
+	<select id="getApplyList" parameterType="com.jinjikanri.entity.JIN0003QbbgEntity" resultMap="applyResult">
+		SELECT * FROM jin0003qbbg
+		<where>
+			<if test="applicantStaffId != null and applicantStaffId != ''">
+				APPLICANT_STAFF_ID=#{applicantStaffId,jdbcType=INTEGER}
+			</if>
+			and APPLICANT_STATE=0
+		</where>
+	</select>
+	
+	<!-- 履歴データの検索 -->
+	<select id="getApplyHistory" parameterType="com.jinjikanri.entity.JIN0003QbbgEntity" resultMap="applyResult">
+		SELECT * FROM jin0003qbbg
+		<where>
+			<if test="applicantStaffId != null and applicantStaffId != ''">
+				APPLICANT_STAFF_ID=#{applicantStaffId,jdbcType=INTEGER}
+			</if>
+			and APPLICANT_STATE=1
+		</where>
+	</select>
+	
+	<!-- 指定IDデータの検索 -->
+	<select id="selApplyById" resultMap="applyResult">
+		SELECT * FROM jin0003qbbg WHERE DATE_ID=#{dateId,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 指定IDと更新日時データの削除 -->
+	<select id="getDataByIdTime" resultMap="applyResult">
+		SELECT * FROM jin0003qbbg WHERE DATE_ID=#{dateId,jdbcType=INTEGER} AND REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms,jdbcType=TIMESTAMP}
+	</select>
+	
+	<!-- 指定IDデータの更新 -->
+	<update id="updateApply" parameterType="com.jinjikanri.entity.JIN0003QbbgEntity">
+		UPDATE jin0003qbbg
+		<set>
+			<if test="changerStaffId !=null">
+				CHANGER_STAFF_ID=#{changerStaffId,jdbcType=INTEGER},
+			</if>
+			<if test="changerName !=null and changerName != ''">
+				CHANGER_NAME=#{changerName,jdbcType=VARCHAR},
+			</if>
+			<if test="changeContent !=null and changeContent != ''">
+				CHANGE_CONTENT=#{changeContent,jdbcType=VARCHAR},
+			</if>
+			<if test="changeBefore !=null and changeBefore != ''">
+				CHANGE_BEFORE=#{changeBefore,jdbcType=VARCHAR},
+			</if>
+			<if test="changeAfter !=null and changeAfter != ''">
+				CHANGE_AFTER=#{changeAfter,jdbcType=VARCHAR},
+			</if>
+			<if test="applicantStaffId !=null">
+				APPLICANT_STAFF_ID=#{applicantStaffId,jdbcType=INTEGER},
+			</if>
+			<if test="applicantName !=null and applicantName != ''">
+				APPLICANT_NAME=#{applicantName,jdbcType=VARCHAR},
+			</if>
+			<if test="confirmStaffId !=null">
+				CONFIRM_STAFF_ID=#{confirmStaffId,jdbcType=INTEGER},
+			</if>
+			<if test="confirmName !=null and confirmName != ''">
+				CONFIRM_NAME=#{confirmName,jdbcType=VARCHAR},
+			</if>
+			<if test="applicantState !=null">
+				APPLICANT_STATE=#{applicantState,jdbcType=INTEGER},
+			</if>
+			<if test="confirmState !=null">
+				CONFIRM_STATE=#{confirmState,jdbcType=INTEGER},
+			</if>
+			<if test="recKosnZituYmdHms !=null">
+				REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms,jdbcType=TIMESTAMP},
+			</if>
+		</set> 
+		WHERE DATE_ID=#{dateId,jdbcType=INTEGER}
+	</update>
+	
+	<!-- 指定IDデータの削除 -->
+	<delete id="delDate" parameterType="com.jinjikanri.entity.JIN0003QbbgEntity">
+		DELETE FROM jin0003qbbg WHERE DATE_ID=#{dateId}
+	</delete>	
+
+</mapper>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>新增/修改</title>
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+<link href="/css/plugins/ztree/css/metroStyle/metroStyle.css"
+	rel="stylesheet" />
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form method="get" class="form-horizontal" id="frm"
+							onsubmit="return false">
+							<input name="createUser" type="hidden" id="createUser" />
+							<div class="form-group">
+								<label class="col-sm-4 control-label">キャラクター名</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="charMei"
+										id="charMei" th:value="${char.charMei}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">キャラクターディスクリプション</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="charDhiskrpsn"
+										id="charDhiskrpsn" th:value="${char.charDhiskrpsn}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">権限リスト</label>     
+								<div class="col-sm-4">
+									<ul id="rightTree" class="ztree"></ul>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-4 col-sm-offset-4">
+									<button class="btn btn-primary" type="button"
+										th:onclick="|saveOrUpdate(${char.charCd})|">保存</button>
+									<button class="btn btn-default" type="button"
+										onclick="closeWin();">戻る</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" th:value="${rightCdList}" id="rightCdList" />
+	</div>
+
+	<script src="/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js"></script>
+	<script src="/js/plugins/summernote/summernote.min.js"></script>
+	<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
+	<script src="/js/plugins/ztree/jquery.ztree.all.min.js"></script>
+	<script>
+		$.validator.setDefaults({
+			submitHandler : function() {
+				$.ajax({
+					type : "POST",
+					url : "save.do",
+					data : $('#frm').serialize(),
+					success : function(obj) {
+						if (obj == "false") {
+							parent.layer.alert("请上传图片！ ", {
+								skin : 'layui-layer-molv'
+							});
+						} else {
+							closeWin();
+						}
+					},
+					error : function() {
+						parent.layer.alert("系统错误，请联系系统管理员！ ", {
+							skin : 'layui-layer-molv'
+						});
+					}
+				});
+			}
+		});
+		var rightZTree;
+		var rightZTreeSetting = {
+			data : {
+				simpleData : {
+					enable : true,
+					idKey : "rightCd",
+					pIdKey : "prightCd",
+					rootPId : -1
+				},
+				key : {
+					url : "nourl",
+					name : "rightMei"
+				}
+			},
+			check : {
+				enable : true,
+				nocheckInherit : true,
+				chkboxType : {
+					"Y" : "",
+					"N" : ""
+				}
+			}
+		};
+		function saveOrUpdate(charCd) {
+			if ($("#frm").valid()) {
+				var nodes = rightZTree.getCheckedNodes(true);
+				var rightCdList = "";
+				for (var i = 0; i < nodes.length; i++) {
+					if (i == 0) {
+						rightCdList = nodes[i].rightCd;
+					} else {
+						rightCdList += "," + nodes[i].rightCd;
+					}
+					/* charCdList.push(nodes[i].charCd); */
+				}
+				console.log(rightCdList);
+				var url = charCd == null ? "/sys/char/save"
+						: "/sys/char/update";
+				var msg = charCd == null ? "追加" : "更新";
+				$.ajax({
+					/* contentType : "application/json;charsetset=UTF-8",
+					dataType : "json", */
+					type : "POST",
+					url : url,
+					data : {
+						"rightCdList" : rightCdList,
+						"charCd" : charCd,
+						"charMei" : $("#charMei").val(),
+						"charDhiskrpsn" : $("#charDhiskrpsn").val(),
+					},
+					success : function(obj) {
+						parent.layer.alert(msg + "成功！", {
+							skin : 'layui-layer-molv'
+						});
+					},
+					error : function() {
+						parent.layer.alert(msg + "失败！ ", {
+							skin : 'layui-layer-molv'
+						});
+					}
+				});
+			}
+		}
+		$().ready(
+				function() {
+					//  フォームを送信
+					var validator = $("#frm").validate({
+						// 画面入力項目チェック規
+						rules : {
+							// キャラクター名単項目チェッ
+							charMei : {
+								// キャラクター名単項目必須チェック
+								required : true,
+								maxlength : 20
+							},
+							// キャラクターディスクリプション単項目チェッ
+							charDhiskrpsn : {
+								// キャラクターディスクリプション単項目必須チェック
+								maxlength : 200
+							}
+						},
+						// 画面入力項目単項目チェックエラーメッセージ
+						messages : {
+							charMei : {
+								// キャラクター名単項目必須チェックでエラーが発生した場合、エラーメッセージ 
+								required : "キャラクター名を入力してください",
+								maxlength : "キャラクター名が20桁以内"
+							},
+							charDhiskrpsn : {
+								// キャラクターディスクリプション単項目必須チェックでエラーが発生した場合、エラーメッセージ 
+								maxlength : "キャラクターディスクリプションが200桁以内"
+							}
+						},
+						// 設定エラーメッセージは画面項目の後に表示されます 
+						errorPlacement : function(error, element) {
+							error.appendTo(element.parent().parent());
+						},
+						onsubmit : true,
+						onfocusout : false,
+						onkeyup : false,
+						onclick : false,
+						focusInvalid : false,
+						focusCleanup : true
+					});
+					//加载权限树
+					$.get("/sys/right/list", function(r) {
+						rightZTree = $.fn.zTree.init($("#rightTree"),
+								rightZTreeSetting, r.rightList);
+						//展开所有节点
+						rightZTree.expandAll(true);
+						/*
+						 * 勾选角色所具有的权限。
+						 */
+						var rightCds = $("#rightCdList").val().match(/\d+/g);
+						if (rightCds != null) {
+							for (var i = 0; i < rightCds.length; i++) {
+								var node = rightZTree.getNodeByParam("rightCd",
+										rightCds[i]);
+								rightZTree.checkNode(node, true, false);
+							}
+						}
+					});
+				});
+		function closeWin() {
+			location.href = "/sys/char/selectChars";
+		}
+	</script>
+</body>
+</html>

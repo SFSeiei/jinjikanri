@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>新增/修改</title>
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+<link href="/css/plugins/ztree/css/metroStyle/metroStyle.css"
+	rel="stylesheet" />
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal" id="frm" onsubmit="return false">
+							<input name="createUser" type="hidden" id="createUser" />
+							<div class="form-group">
+								<label class="col-sm-3 control-label">ユーザーID：</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" name="usrId"
+										id="USR_ID" th:value="${user.usrId}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">パスワード：</label>
+								<div class="col-sm-3">
+									<input disabled="disabled" type="password" class="form-control"
+										name="passwd" id="PASSWD" th:value="${user.passwd}" />
+								</div>
+								<div class="col-sm-2">
+									<button th:disabled="${user.usrCd}!=null?null:disabled"
+										class="btn btn-primary" type="button"
+										th:onclick="saveOrUpdate([[${user.usrCd}]],[[${user.passwd}]])">パスワードを重置</button>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">従業員コード：</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" name="staffCd"
+										id="STAFF_CD" th:value="${user.staffCd}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">キャラクターリスト：</label>     
+								<div class="col-sm-5">
+									<ul id="charTree" class="ztree"></ul>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">ユーザー状態：</label>
+								<div class="col-sm-5" style="margin: 5px 0 2px 0;">
+									<input type="radio"
+										th:checked="${user.usrSutts}==0?checked:null" name="status"
+										th:value="0" />启用 <input type="radio"
+										th:checked="${user.usrSutts}==1?checked:null" name="status"
+										th:value="1" />禁用
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-4 col-sm-offset-3">
+									<button class="btn btn-primary" type="button"
+										th:onclick="|saveOrUpdate(${user.usrCd},null)|">保存</button>
+									<button class="btn btn-default" type="button"
+										onclick="closeWin();">戻る</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" th:value="${charCdList}" id="charCdList" />
+	</div>
+
+	<script src="/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js"></script>
+	<script src="/js/plugins/summernote/summernote.min.js"></script>
+	<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
+	<script src="/js/plugins/ztree/jquery.ztree.all.min.js"></script>
+	<script>
+		var charZTree;
+		var charZTreeSetting = {
+			data : {
+				simpleData : {
+					enable : true,
+					idKey : "charCd",
+					pIdKey : "parentId",
+					rootPId : -1
+				},
+				key : {
+					url : "nourl",
+					name : "charMei"
+				}
+			},
+			check : {
+				enable : true,
+				nocheckInherit : true,
+				chkboxType : {
+					"Y" : "",
+					"N" : ""
+				}
+			}
+		};
+		function saveOrUpdate(usrCd, passwd) {
+			if ($("#frm").valid()) {
+				var status = $(':radio[name="status"]:checked').val();
+				if (status != null) {
+				} else {
+					status = 0;
+				}
+				var nodes = charZTree.getCheckedNodes(true);
+				var charCdList = "";
+				for (var i = 0; i < nodes.length; i++) {
+					if (i == 0) {
+						charCdList = nodes[i].charCd;
+					} else {
+						charCdList += "," + nodes[i].charCd;
+					}
+					/* charCdList.push(nodes[i].charCd); */
+				}
+				var url = usrCd == null ? "/sys/user/save" : "/sys/user/update";
+				var msg = usrCd == null ? "追加" : "更新";
+				if (isNaN(parseInt($("#STAFF_CD").val()))) {
+					var staffCd = null;
+				} else {
+					var staffCd = parseInt($("#STAFF_CD").val());
+				}
+				$.ajax({
+					/* contentType : "application/json;charsetset=UTF-8",
+					dataType : "json", */
+					type : "POST",
+					url : url,
+					data : {
+						"charCdList" : charCdList,
+						"usrCd" : usrCd,
+						"usrId" : $("#USR_ID").val(),
+						"passwd" : passwd,
+						"staffCd" : staffCd,
+						"usrSutts" : parseInt(status)
+					},
+					success : function(obj) {
+						parent.layer.alert(msg + "成功！", {
+							skin : 'layui-layer-molv'
+						});
+					},
+					error : function() {
+						parent.layer.alert(msg + "失败！ ", {
+							skin : 'layui-layer-molv'
+						});
+					}
+				});
+			}
+		}
+		$().ready(
+				function() {
+					//  フォームを送信
+					var validator = $("#frm").validate({
+						// 画面入力項目チェック規
+						rules : {
+							// ユーザーID単項目チェック
+							usrId : {
+								// ユーザーID単項目チェック
+								required : true,
+								maxlength : 8,
+								checkUsrId : true
+							},
+							// パスワード単項目チェック
+							passwd : {
+							// パスワード単項目必須チェック
+							},
+							// 従業員コード単項目チェッ
+							staffCd : {
+								// 従業員コード単項目必須チェック
+								maxlength : 6,
+								checkStaffCd : true
+							}
+						},
+						// 画面入力項目単項目チェックエラーメッセージ
+						messages : {
+							usrId : {
+								// ユーザーID単項目必須チェックでエラーが発生した場合、エラーメッセージ
+								required : "ユーザーIDを入力してください",
+								maxlength : "ユーザーIDが8桁以内"
+							},
+							passwd : {
+							// パスワード単項目必須チェックでエラーが発生した場合、エラーメッセージ
+							},
+							staffCd : {
+								// 従業員コード単項目必須チェックでエラーが発生した場合、エラーメッセージ 
+								maxlength : "従業員コードが6桁以内"
+							}
+						},
+						onsubmit : true,
+						onfocusout : false,
+						onkeyup : false,
+						onclick : false,
+						focusInvalid : false,
+						focusCleanup : true
+					});
+					// ユーザーID単項目属性チェック 
+					$.validator.addMethod("checkUsrId", function(value,
+							element, params) {
+						// ユーザーIDの正規表現
+						var reg = /^[0-9a-zA-Z]+$/;
+						return this.optional(element) || (reg.test(value));
+					}, $.validator.format("ユーザーIDが英数字"));
+					// 従業員コード単項目属性チェック 
+					$.validator.addMethod("checkStaffCd", function(value,
+							element, params) {
+						// 従業員コードの正規表現
+						var reg = /^[0-9]+$/;
+						return this.optional(element) || (reg.test(value));
+					}, $.validator.format("従業員コードが数字"));
+					//加载角色树
+					$.get("/sys/char/list", function(r) {
+						charZTree = $.fn.zTree.init($("#charTree"),
+								charZTreeSetting, r.charList);
+						//展开所有节点
+						charZTree.expandAll(true);
+						/*
+						 * 勾选用户所具有的角色。
+						 */
+						var charCds = $("#charCdList").val().match(/\d+/g);
+						if (charCds != null) {
+							for (var i = 0; i < charCds.length; i++) {
+								var node = charZTree.getNodeByParam("charCd",
+										charCds[i]);
+								charZTree.checkNode(node, true, false);
+							}
+						}
+					});
+				});
+		function closeWin() {
+			location.href = "/sys/user/selectUsers";
+		}
+		/**
+		 * ヒントボックスに関する設定
+		 * @param title メッセージ
+		 * @param iconItem	メッセージボックス情報前ICON
+		 * @returns なし
+		 */
+		function alertMessage(title, iconItem) {
+			parent.layer.alert(title, {
+				skin : 'layui-layer-molv',
+				time : 10000,
+				icon : iconItem,
+				btn : [ 'はい' ],
+				yes : function() {
+					toSubmit();
+				}
+			});
+		}
+	</script>
+</body>
+</html>

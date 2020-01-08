@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinjikanri.mapper.RightMapper">
+	<resultMap type="com.jinjikanri.entity.SYST06RightEntity"
+		id="RightMap">
+		<result column="RIGHT_CD" property="rightCd" />
+		<result column="P_RIGHT_CD" property="pRightCd" />
+		<result column="RIGHT_MEI" property="rightMei" />
+		<result column="RIGHT_DHISKRPSN" property="rightDhiskrpsn" />
+		<result column="RIGHT_KEY" property="rightKey" />
+		<result column="RIGHT_URL" property="rightUrl" />
+		<result column="REC_SAKS_ZITU_YMD_HMS"
+			property="recSaksZituYmdHms" />
+		<result column="REC_KOSN_ZITU_YMD_HMS"
+			property="recKosnZituYmdHms" />
+	</resultMap>
+
+	<select id="selectRights"
+		parameterType="com.jinjikanri.entity.SYST06RightEntity"
+		resultMap="RightMap">
+		SELECT * FROM syst06right
+		<where>
+			<if test="rightCd!=null"> AND RIGHT_CD = #{rightCd}</if>
+			<if test="pRightCd!=null"> AND P_RIGHT_CD = #{pRightCd}</if>
+			<if test="rightMei!=null"> AND RIGHT_MEI LIKE CONCAT('%',#{rightMei},'%')</if>
+			<if test="rightDhiskrpsn!=null"> AND RIGHT_DHISKRPSN LIKE
+				CONCAT('%',#{rightDhiskrpsn},'%')</if>
+			<if test="rightKey!=null"> AND RIGHT_KEY = #{rightKey}</if>
+			<if test="rightUrl!=null"> AND RIGHT_URL = #{rightUrl}</if>
+			<if test="recSaksZituYmdHms!=null"> AND REC_SAKS_ZITU_YMD_HMS LIKE
+				CONCAT('%',#{recSaksZituYmdHms},'%')</if>
+			<if test="recKosnZituYmdHms!=null"> AND REC_KOSN_ZITU_YMD_HMS LIKE
+				CONCAT('%',#{recKosnZituYmdHms},'%')</if>
+		</where>
+	</select>
+
+	<select id="selectRightListByCharCd" resultMap="RightMap"
+		parameterType="Integer"> select * from syst06right where
+		RIGHT_CD in (select
+		syst06user_char_right_rel.RIGHT_CD from
+		syst06user_char_right_rel
+		where
+		syst06user_char_right_rel.CHAR_CD = #{CHAR_CD})
+	</select>
+
+	<insert id="saveRight"
+		parameterType="com.jinjikanri.entity.SYST06RightEntity">
+		INSERT INTO
+		syst06right(P_RIGHT_CD,RIGHT_MEI,RIGHT_DHISKRPSN,RIGHT_KEY,RIGHT_URL)
+		VALUES(#{pRightCd},#{rightMei},#{rightDhiskrpsn},#{rightKey},#{rightUrl})
+	</insert>
+
+	<!--修改Right -->
+	<update id="updateRight"
+		parameterType="com.jinjikanri.entity.SYST06RightEntity">
+		UPDATE syst06right
+		<trim prefix="set" suffixOverrides=",">
+			<if test="pRightCd!=null">P_RIGHT_CD = #{pRightCd},</if>
+			<if test="rightMei!=null">RIGHT_MEI = #{rightMei},</if>
+			<if test="rightDhiskrpsn!=null">RIGHT_DHISKRPSN = #{rightDhiskrpsn},</if>
+			<if test="rightKey!=null">RIGHT_KEY = #{rightKey},</if>
+			<if test="rightUrl!=null">RIGHT_URL = #{rightUrl},</if>
+			<if
+				test="pRightCd==null and rightMei==null and rightDhiskrpsn==null and rightKey==null and rightUrl==null">
+				RIGHT_CD = #{rightCd},
+			</if>
+		</trim>
+		WHERE RIGHT_CD = #{rightCd}
+	</update>
+
+	<delete id="deleteRightBatch">
+		DELETE FROM syst06right
+		WHERE RIGHT_CD IN (
+		<foreach collection="rightCds" item="rightCd" separator=",">
+			#{rightCd}
+		</foreach>
+		)
+	</delete>
+</mapper>

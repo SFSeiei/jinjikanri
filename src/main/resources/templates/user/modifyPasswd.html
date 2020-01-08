@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>新增/修改</title>
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form th:action="@{/sys/user/password}" method="post"
+							class="form-horizontal" id="frm">
+							<input name="createUser" type="hidden" id="createUser" />
+							<div class="form-group">
+								<label class="col-sm-4 control-label">パスワード：</label>
+								<div class="col-sm-4">
+									<input type="password" class="form-control" name="password"
+										id="OLD_PASSWD" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">新しいパスワード：</label>
+								<div class="col-sm-4">
+									<input type="password" class="form-control" name="newPassword"
+										id="NEW_PASSWD" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">新しいパスワードを確認：</label>
+								<div class="col-sm-4">
+									<input type="password" class="form-control"
+										name="newPassword_cf" id="NEW_PASSWD_CF" />
+									<!-- onkeyup="this.value=this.value.replace(/\D/g,'')"  onsubmit="return false"-->
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-4 col-sm-offset-4">
+									<button class="btn btn-primary" type="submit">变更</button>
+									<button class="btn btn-default" type="button"
+										onclick="closeWin();">キャンセル</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" id="USR_ID" th:value="${user.usrId}" /> <input
+			type="hidden" id="MSG" th:value="${msg}" />
+	</div>
+
+	<script src="/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js"></script>
+	<script src="/js/plugins/summernote/summernote.min.js"></script>
+	<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
+	<script>
+		$().ready(function() {
+			//  フォームを送信
+			$("#frm").validate({
+				rules : {
+					password: {
+						required: true,
+						remote: {
+							url: "/login",
+							type: "post",
+							dataType: "json",
+							data: {
+								usrId: function () {
+									return $("#USR_ID").val();
+								},
+								passwd: function () {
+									return $("#OLD_PASSWD").val();　　　　//这个是取要验证的密码
+								}
+							},
+							dataFilter: function (data) {　　　　//判断控制器返回的内容
+								if (data.lastIndexOf("安全退出") != -1) {
+									return true;
+								}
+								else {
+									return false;
+								}
+							}
+						},
+						checkUserMassage:true
+					},
+					newPassword : {
+						required : true,
+						maxlength : 20,
+						checkUserMassage:true
+					},
+					newPassword_cf : {
+						required : true,
+						maxlength : 20,
+						equalTo : "#NEW_PASSWD",
+						checkUserMassage:true
+					}
+				},
+				messages : {
+					password: {
+						required: "パスワードを入力してください",
+						remote: "もとのパスワードが不正,もう一度入力してください！"
+					},
+					newPassword : {
+						required : "新しいパスワードを入力してください",
+						rangelength : $.validator.format("パスワードが20桁以内英数字")
+					},
+					newPassword_cf : {
+						required : "確認のパスワードを入力してください",
+						rangelength : $.validator.format("パスワードが20桁以内英数字"),
+						equalTo : "パスワードが一致しない！"
+					}
+				}
+			});
+			// パスワード単項目属性チェック 
+			$.validator.addMethod("checkUserMassage",function(value,element,params) {
+				// パスワードの正規表現
+				var reg = /^[0-9a-zA-Z]+$/;
+				return this.optional(element)||(reg.test(value));
+			},$.validator.format("パスワードが20桁以内英数字"));
+			if($("#MSG").val()!=null && $("#MSG").val()!=""){
+				if($("#MSG").val().lastIndexOf("成功")){
+					alertMessage($("#MSG").val(),1);
+				}else{
+					alertMessage($("#MSG").val(),5);
+				}
+			}
+		});
+		function closeWin() {
+			location.href = "/welcome";
+		}
+		/**
+		 * ヒントボックスに関する設定
+		 * @param title メッセージ
+		 * @param iconItem	メッセージボックス情報前ICON
+		 * @returns なし
+		 */
+		function alertMessage(title, iconItem) {
+			parent.layer.alert(title, {
+				skin : 'layui-layer-molv',
+				time : 10000,
+			 	icon : iconItem,
+				btn : ['はい']
+			});
+		}
+	</script>
+</body>
+</html>

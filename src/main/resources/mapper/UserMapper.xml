@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinjikanri.mapper.UserMapper">
+	<resultMap type="com.jinjikanri.entity.SYST01UserEntity"
+		id="UserMap">
+		<result column="USR_CD" property="usrCd" />
+		<result column="USR_ID" property="usrId" />
+		<result column="PASSWD" property="passwd" />
+		<result column="STAFF_CD" property="staffCd" />
+		<result column="USR_SUTTS" property="usrSutts" />
+		<result column="ONRIN_FURG" property="onrinFurg" />
+		<result column="REC_SAKS_ZITU_YMD_HMS"
+			property="recSaksZituYmdHms" />
+		<result column="REC_KOSN_ZITU_YMD_HMS"
+			property="recKosnZituYmdHms" />
+	</resultMap>
+
+	<select id="selectUsers"
+		parameterType="com.jinjikanri.entity.SYST01UserEntity"
+		resultMap="UserMap">
+		SELECT * FROM syst01user
+		<where>
+			<if test="usrCd!=null"> AND USR_CD = #{usrCd}</if>
+			<if test="usrId!=null"> AND USR_ID LIKE CONCAT('%',#{usrId},'%')</if>
+			<if test="staffCd!=null"> AND STAFF_CD = #{staffCd}</if>
+		</where>
+	</select>
+
+	<select id="selectUserByUsrCd" resultMap="UserMap">
+		SELECT * FROM
+		syst01user WHERE USR_CD = #{usrCd}
+	</select>
+
+	<select id="selectUserByUsrId" parameterType="String"
+		resultMap="UserMap">
+		SELECT * FROM syst01user
+		<where>
+			<if test="usrId!=null"> USR_ID = #{usrId} </if>
+		</where>
+	</select>
+
+	<insert id="saveUser"
+		parameterType="com.jinjikanri.entity.SYST01UserEntity">
+		INSERT INTO
+		syst01user(USR_ID,PASSWD,STAFF_CD,USR_SUTTS,ONRIN_FURG)
+		VALUES(#{usrId},#{passwd},#{staffCd},#{usrSutts},#{onrinFurg})
+	</insert>
+
+	<!--修改User -->
+	<update id="updateUser"
+		parameterType="com.jinjikanri.entity.SYST01UserEntity">
+		UPDATE syst01user
+		<trim prefix="set" suffixOverrides=",">
+			<if test="usrId!=null">USR_ID=#{usrId},</if>
+			<if test="passwd!=null">PASSWD=#{passwd},</if>
+			<if test="staffCd!=null">STAFF_CD=#{staffCd},</if>
+			<if test="usrSutts!=null">USR_SUTTS=#{usrSutts},</if>
+			<if test="onrinFurg!=null">ONRIN_FURG=#{onrinFurg},</if>
+			<if
+				test="usrId==null and passwd==null and staffCd==null and usrSutts==null and onrinFurg==null">
+				USR_CD=#{usrCd},
+			</if>
+		</trim>
+		WHERE USR_CD=#{usrCd}
+	</update>
+
+	<delete id="deleteUserBatch">
+		DELETE FROM syst01user
+		WHERE USR_CD IN (
+		<foreach collection="usrCds" item="usrCd" separator=",">
+			#{usrCd}
+		</foreach>
+		)
+	</delete>
+</mapper>

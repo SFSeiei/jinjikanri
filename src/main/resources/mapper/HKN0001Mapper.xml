@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinjikanri.mapper.HKN0001Mapper">
+	<resultMap type="com.jinjikanri.entity.HKN0001ORGEntity" id="hKN0001EntityMap">
+	<id column="ORGANIZATION_CD" property="organizationCd"/>
+		<result column="DEPARTMENT_NAME" property="departmentName"/>
+		<result column="SUPERIOR_ORGANIZATION_CD" property="superiorOrganizationCd"/>
+		<result column="REC_SAKS_ZITU_YMD_HMS" property="recSaksZituYmdHms"/>
+	    <result column="REC_KOSN_ZITU_YMD_HMS" property="recKosnZituYmdHms"/>
+	</resultMap>
+	
+
+<sql id="Subordinate query">
+select * from hkn0001org 
+<if test="departmentName != null and departmentName !=''">
+where SUPERIOR_ORGANIZATION_CD=(select ORGANIZATION_CD from hkn0001org where DEPARTMENT_NAME=#{departmentName,jdbcType=VARCHAR})
+</if>
+</sql>
+	<select id="getOrganization" resultMap="hKN0001EntityMap">
+		<include refid="Subordinate query"></include>
+	</select>
+	<sql id="query">
+	delete from hkn0001org where ORGANIZATION_CD =#{organizationCd,jdbcType=INTEGER}
+	
+	</sql>
+	<delete id="deleteOrgazization" parameterType="com.jinjikanri.entity.HKN0001ORGEntity">
+
+  <include refid="query"></include>
+</delete>
+
+<sql id="a">
+select * from hkn0001org where ORGANIZATION_CD =#{organizationCd,jdbcType=INTEGER}
+</sql>
+<select id="selectUserById" resultMap="hKN0001EntityMap">
+     <include refid="a"></include>
+</select> 
+<update id="updateorganizationCd" parameterType="com.jinjikanri.entity.HKN0001ORGEntity">
+update hkn0001org
+<set>
+<if test="departmentName != null and departmentName !=''">
+			DEPARTMENT_NAME=#{departmentName,jdbcType=VARCHAR},
+		</if>
+		<if test="recKosnZituYmdHms != null">
+			REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms,jdbcType=TIMESTAMP}
+		</if>	
+
+</set>
+where ORGANIZATION_CD =#{organizationCd,jdbcType=INTEGER}
+</update>
+	<insert id="insertganizationCd" parameterType="com.jinjikanri.entity.HKN0001ORGEntity">
+	insert into hkn0001org(ORGANIZATION_CD,DEPARTMENT_NAME,SUPERIOR_ORGANIZATION_CD,REC_SAKS_ZITU_YMD_HMS,REC_KOSN_ZITU_YMD_HMS)
+	values(
+	#{organizationCd,jdbcType=INTEGER},
+	#{departmentName,jdbcType=VARCHAR},
+	#{superiorOrganizationCd,jdbcType=INTEGER},
+	#{recSaksZituYmdHms,jdbcType=TIMESTAMP},
+	#{recKosnZituYmdHms,jdbcType=TIMESTAMP}
+	)
+</insert>
+
+
+
+<insert id="insert1ganizationCd" parameterType="com.jinjikanri.entity.HKN0001ORGEntity">
+	insert into hkn0001org(ORGANIZATION_CD,DEPARTMENT_NAME,SUPERIOR_ORGANIZATION_CD,REC_SAKS_ZITU_YMD_HMS,REC_KOSN_ZITU_YMD_HMS)
+	values(
+	#{organizationCd,jdbcType=INTEGER},
+	#{departmentName,jdbcType=VARCHAR},
+	#{superiorOrganizationCd,jdbcType=INTEGER},
+	#{recSaksZituYmdHms,jdbcType=TIMESTAMP},
+	#{recKosnZituYmdHms,jdbcType=TIMESTAMP}
+	)
+</insert>
+
+<update id="update1organizationCd" parameterType="com.jinjikanri.entity.HKN0001ORGEntity">
+update hkn0001org
+<set>
+<if test="organizationCd != null and organizationCd !=''">
+			SUPERIOR_ORGANIZATION_CD=#{organizationCd,jdbcType=INTEGER},
+		</if>
+		<if test="recKosnZituYmdHms != null">
+			REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms,jdbcType=TIMESTAMP}
+		</if>	
+
+</set>
+where ORGANIZATION_CD =(select ORGANIZATION_CD from hkn0001org where SUPERIOR_ORGANIZATION_CD=#{superiorOrganizationCd,jdbcType=INTEGER})
+</update>
+</mapper>
+

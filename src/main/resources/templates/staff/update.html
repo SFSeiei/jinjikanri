@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>人員基本情報登録</title>
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+<style type="text/css">
+	#ERR_TOP{
+		color: #cc5965;
+		font-weight:bold;
+	}
+	.error{
+		color:red;
+	}
+</style>
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form method="post" class="form-horizontal" id="frm" name="staff">
+							<input type="hidden" th:value = "${staffEntity.staffCd}" name="staffCd" id="staffCd" />
+							<input type="hidden" th:value = "${staffEntity.reckosnzituymdhms}" name="kosnzituymdhms" />
+							<div class="error" id="ERR_TOP" style="display: inline-block;"></div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">名前</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${staffEntity.name}" class="form-control" name="name" id="name" maxlength="10" size="20" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label  class="col-sm-2 control-label">証件類型</label>
+								<div style="display: inline-block;">
+									<select name="idRuikei" id="idRuikei" class="form-control1" >
+										<option value="0" th:field="*{staffEntity.idRuikei}">住民身分証</option>
+										<option value="1" th:field="*{staffEntity.idRuikei}">パスポート</option>
+										<option value="2" th:field="*{staffEntity.idRuikei}">香港とマカオの通行証</option>
+										<option value="3" th:field="*{staffEntity.idRuikei}">台湾通行証</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">証件番号</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${staffEntity.idNumber}" class="form-control" name="idNumber" id="idNumber" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">所属部門</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${staffEntity.dePartMent}" class="form-control" name="dePartMent" id="dePartMent" maxlength="5" size="10" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">性別</label>
+								<div style="display: inline-block;">
+									<select name="sex" id="sex" class="form-control1" >
+										<option value="0" th:field="*{staffEntity.sex}">男</option>
+										<option value="1" th:field="*{staffEntity.sex}">女</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">職務</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${staffEntity.posiTion}" class="form-control" name="posiTion" id="posiTion" maxlength="10" size="20" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">課長</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${staffEntity.secTionManager}" class="form-control" name="secTionManager" id="secTionManager" maxlength="5" size="10" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">部長</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${staffEntity.miniSter}" class="form-control" name="miniSter" id="miniSter" maxlength="5" size="10" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">民族</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${staffEntity.naTion}" class="form-control" name="naTion" id="naTion" maxlength="5" size="10" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">出身地</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${staffEntity.birthAddress}" class="form-control" name="birthAddress" id="birthAddress" maxlength="20" size="30" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">卒業日付</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${#dates.format(staffEntity.graduationTime,'yyyy-MM-dd')}" class="form-control" autocomplete="off" name="graduationTime" id="graduationTime" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">卒業学校</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${staffEntity.graduationSchool}" class="form-control" name="graduationSchool" id="graduationSchool" maxlength="30" size="40" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">専攻科目</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${staffEntity.majorStudied}" class="form-control" name="majorStudied" id="majorStudied" maxlength="30" size="40" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">生誕日付</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${#dates.format(staffEntity.birthDate,'yyyy-MM-dd')}" class="form-control" name="birthDate" id="birthDate" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">入社日付</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${#dates.format(staffEntity.entryTime,'yyyy-MM-dd')}" class="form-control" name="entryTime" id="entryTime" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">政治様相</label>
+								<div style="display: inline-block;">
+									<select name="politicaloutLook" id="politicaloutLook" class="form-control1" >
+										<option value="" th:field="*{staffEntity.politicaloutLook}">選択してください</option>
+										<option value="0" th:field="*{staffEntity.politicaloutLook}">0:共産党員</option>
+										<option value="1" th:field="*{staffEntity.politicaloutLook}">1:共産主義青年団員</option>
+										<option value="2" th:field="*{staffEntity.politicaloutLook}">2:民主党派人士</option>
+										<option value="3" th:field="*{staffEntity.politicaloutLook}">3:大衆</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">教養程度</label>
+								<div style="display: inline-block;">
+									<select name="educationDegree" id="educationDegree" class="form-control1" >
+										<option value="" th:field="*{staffEntity.educationDegree}">選択してください</option>
+										<option value="11" th:field="*{staffEntity.educationDegree}">11:文盲または半文盲</option>
+										<option value="12" th:field="*{staffEntity.educationDegree}">12:小学校</option>
+										<option value="13" th:field="*{staffEntity.educationDegree}">13:中学校</option>
+										<option value="14" th:field="*{staffEntity.educationDegree}">14:高等学校</option>
+										<option value="15" th:field="*{staffEntity.educationDegree}">15:専門学校</option>
+										<option value="16" th:field="*{staffEntity.educationDegree}">16:中等専門</option>
+										<option value="17" th:field="*{staffEntity.educationDegree}">17:職業高校</option>
+										<option value="18" th:field="*{staffEntity.educationDegree}">18:大学専攻</option>
+										<option value="19" th:field="*{staffEntity.educationDegree}">19:大学</option>
+										<option value="20" th:field="*{staffEntity.educationDegree}">20:マスター</option>
+										<option value="21" th:field="*{staffEntity.educationDegree}">21:博士</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">戸籍性質</label>
+								<div style="display: inline-block;">
+									<select name="accountCharacter" id="accountCharacter" class="form-control1" >
+										<option value="" th:field="*{staffEntity.accountCharacter}">選択してください</option>
+										<option value="0" th:field="*{staffEntity.accountCharacter}">0:本市町</option>
+										<option value="1" th:field="*{staffEntity.accountCharacter}">1:本市農村</option>
+										<option value="2" th:field="*{staffEntity.accountCharacter}">2:外省町</option>
+										<option value="3" th:field="*{staffEntity.accountCharacter}">3:外省農村</option>
+										<option value="4" th:field="*{staffEntity.accountCharacter}">4:香港、マカオ地区、台湾人員</option>
+										<option value="5" th:field="*{staffEntity.accountCharacter}">5:外国籍人員</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">戸籍登録日付</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${#dates.format(staffEntity.accountregistrationDate,'yyyy-MM-dd')}" class="form-control" name="accountregistrationDate" id="accountregistrationDate" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">戸籍所在地</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${staffEntity.registrationResidence}" class="form-control" name="registrationResidence" id="registrationResidence" maxlength="20" size="40" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">常住場所</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${staffEntity.permanentAddress}" class="form-control" name="permanentAddress" id="permanentAddress" maxlength="40" size="50" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">職業資格等級</label>
+								<div style="display: inline-block;">
+									<select name="professionalLevel" id="professionalLevel" class="form-control1" >
+										<option value="" th:field="*{staffEntity.professionalLevel}">選択してください</option>
+										<option value="0" th:field="*{staffEntity.professionalLevel}">0:初級工</option>
+										<option value="1" th:field="*{staffEntity.professionalLevel}">1:中級工</option>
+										<option value="2" th:field="*{staffEntity.professionalLevel}">2:高級工</option>
+										<option value="3" th:field="*{staffEntity.professionalLevel}">3:技師</option>
+										<option value="4" th:field="*{staffEntity.professionalLevel}">4:高級技師</option>
+										<option value="5" th:field="*{staffEntity.professionalLevel}">5:予備技師</option>
+										<option value="6" th:field="*{staffEntity.professionalLevel}">6:特定職業能力</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">取得職業資格日付</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${#dates.format(staffEntity.professionallevelDate,'yyyy-MM-dd')}" class="form-control" name="professionallevelDate" id="professionallevelDate" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">取得国家職業資格等級職業名前</label>
+								<div style="display: inline-block;">
+									<select name="nameofWork" id="nameofWork" class="form-control1" >
+										<option value="" th:field="*{staffEntity.nameofWork}">選択してください</option>
+										<option value="0" th:field="*{staffEntity.nameofWork}">0:単位責任者</option>
+										<option value="1" th:field="*{staffEntity.nameofWork}">1:専門、技術者</option>
+										<option value="2" th:field="*{staffEntity.nameofWork}">2:仕事者</option>
+										<option value="3" th:field="*{staffEntity.nameofWork}">3:商業、サービス業者</option>
+										<option value="4" th:field="*{staffEntity.nameofWork}">4:農林牧畜水利生産者</option>
+										<option value="5" th:field="*{staffEntity.nameofWork}">5:生産輸送員</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">連絡電話</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${staffEntity.contactNumber}" class="form-control" name="contactNumber" id="contactNumber" maxlength="20" size="30" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">E-MAIL場所</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${staffEntity.eMail}" class="form-control" name="eMail" id="eMail" maxlength="30" size="40" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">郵便番号</label>
+								<div style="display: inline-block;">
+									<input type="text" th:value="${staffEntity.postalCode}" class="form-control" name="postalCode" id="postalCode" maxlength="10" size="20" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-4 col-sm-offset-2">
+									<button type="submit" class="btn btn-primary" >送&nbsp;信</button>
+								</div>
+								<div style="display: inline-block;">
+									<button type="button" onclick="closeWin();" class="btn btn-primary">戻&nbsp;る</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js"></script>
+	<script src="/js/plugins/summernote/summernote.min.js"></script>
+	<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
+	<script src="/js/layer/layer.js"></script>
+	<script src="/js/bootstrap-datetimepicker.js"></script>
+	<script>
+		function closeWin() {
+			location.href="/staff/selectStaffs";
+		}
+
+		/*	日付フォーマット変換 */
+		$("#graduationTime").datetimepicker({
+			format: "yyyy-mm-dd",
+			minView: "month",
+			autoclose : true,
+			endDate : new Date() 
+		});
+		$("#birthDate").datetimepicker({
+			format: "yyyy-mm-dd",
+			minView: "month",
+			autoclose : true,
+			endDate : new Date() 
+		});
+		$("#entryTime").datetimepicker({
+			format: "yyyy-mm-dd",
+			minView: "month",
+			autoclose : true,
+			endDate : new Date() 
+		});
+		$("#accountregistrationDate").datetimepicker({
+			format: "yyyy-mm-dd",
+			minView: "month",
+			autoclose : true,
+			endDate : new Date() 
+		});
+		$("#professionallevelDate").datetimepicker({
+			format: "yyyy-mm-dd",
+			minView: "month",
+			autoclose : true,
+			endDate : new Date() 
+		});
+
+		/**
+		 * ヒントボックス
+		 * @param title メッセージ
+		 * @param flag フラッグ どのような操作を実行するかを確認します。
+		 * @param iconItem
+		 * @returns
+		 */
+		function alertMessage(title, flag, iconItem) {
+			parent.layer.alert (title, {
+				skin : 'layui-layer-molv',
+				time : 10000,
+			 	icon : iconItem,
+				btn : ['はい','いいえ'],
+				yes : function () {
+					closeWin();
+				},
+				btn2 : function() {
+					layer.msg("キャンセル成功！");
+				}
+			});
+		}
+
+		$.validator.setDefaults({
+			submitHandler : function() {
+				$.ajax({
+					type : "POST",
+					url : "/staff/toUpdateStaff",
+					data : $('#frm').serialize(),
+					success : function(obj) {
+						if (obj == "true") {
+							alertMessage("更新に成功しました、戻りますか？");
+						} else if (obj == "errors") {
+							location.href = "/errorException";
+						} else {
+							$("#ERR_TOP").text(obj);
+						}
+					},
+					error : function() {
+						alert("系统错误，联系管理员");
+					}
+				});
+			}
+		});
+
+		// 画面入力項目単項目チェック
+		$().ready(function() {
+			// キーボードを押してリリースし、提出したformを検証します
+			$("#frm").validate({
+				rules : {
+					// 名前単項目チェック
+					name : {
+						// 必須チェック
+						required : true,
+						// 属性チェック
+						typeface : true
+					},
+					// 証件番号単項目チェック
+					idNumber : {
+						// 必須チェック
+						required : true
+					},
+					// 所属部門
+					dePartMent : {
+						// 必須チェック
+						required : true,
+						// 属性チェック
+						typeface : true
+					},
+					// 職務
+					posiTion : {
+						// 必須チェック
+						required : true,
+						// 属性チェック
+						typeface : true
+					},
+					// 課長
+					secTionManager : {
+						// 必須チェック
+						required : true,
+						// 属性チェック
+						typeface : true
+					},
+					// 部長
+					miniSter : {
+						// 必須チェック
+						required : true,
+						// 属性チェック
+						typeface : true
+					},
+					// 連絡電話
+					contactNumber : {
+						// 属性チェック
+						isPhone : true
+					},
+					// E-MAIL場所
+					eMail : {
+						// 属性チェック
+						email : true
+					},
+					// 郵便番号
+					postalCode : {
+						// 属性チェック
+						zipCode : true
+					}
+				},
+				messages : {
+					name : {
+						required : "名前が必須項目を入力して下さい。"
+					},
+					idNumber : {
+						required : "証件番号が必須項目を入力して下さい。"
+					},
+					dePartMent : {
+						required : "所属部門が必須項目を入力して下さい。"
+					},
+					posiTion : {
+						required : "職務が必須項目を入力して下さい。"
+					},
+					secTionManager : {
+						required : "課長が必須項目を入力して下さい。"
+					},
+					miniSter : {
+						required : "部長が必須項目を入力して下さい。"
+					},
+					eMail : {
+						email : "有効なメールアドレスを入力してください。"
+					}
+				},
+				/* 設定エラーメッセージは画面項目の後に表示されます */
+				 errorPlacement: function(error, element) {
+					error.appendTo(element.parent().parent());
+				} 
+			});
+			/* 漢字チェック */
+			$.validator.addMethod("typeface",function(value, element, params) {
+				var length = value.length;
+				var word = /^[\u4e00-\u9fa5]{0,}$/;
+				return this.optional(element) || (word.test(value));
+			}, "漢字を入力してください。");
+			/* 連絡電話属性チェック */
+			$.validator.addMethod("isPhone",function(value, element, params) {
+				var length = value.length;
+				var mobile = /^1(3|4|5|6|7|8|9)\d{9}$/;
+				var tel = /^\d{3}-\d{8}|\d{4}-\d{7}$/;
+				return this.optional(element) || (tel.test(value) || mobile.test(value));
+			}, "連絡先の電話番号が正しい書式を入力してください");
+			/* 郵便番号属性チェック */
+			$.validator.addMethod("zipCode",function(value, element, params) {
+				var length = value.length;
+				var zipcode1 = /^[0-9]{6}$/;
+				var zipcode2 = /^[0-9]{3}-[0-9]{4}$/;
+				return this.optional(element) || (zipcode1.test(value) || zipcode2.test(value));
+			}, "郵便番号が正しい書式を入力してください");
+			$("#idNumber").change(function() {  	
+				var type = $("#idRuikei").find("option:selected").text();
+				if (type == "住民身分証") {
+					$("#idNumber").rules("remove");
+					$("#idNumber").rules("add", {idCard: true});
+				} else if (type == "パスポート") {
+					$("#idNumber").rules("remove");
+					$("#idNumber").rules("add", {passPort: true});
+				} else if (type == "香港とマカオの通行証") {
+					$("#idNumber").rules("remove");
+					$("#idNumber").rules("add", {hkmaKao: true});
+				} else {
+					$("#idNumber").rules("remove");
+					$("#idNumber").rules("add", {taiWan: true});
+				}
+			});
+			/* 住民身分証属性チェック */
+			$.validator.addMethod("idCard",function(value, element, params) {
+				var length = value.length;
+				var idcard = /^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+				return this.optional(element) || (idcard.test(value));
+			}, "住民身分証が正しい書式を入力してください");
+			/* パスポート属性チェック */
+			$.validator.addMethod("passPort",function(value, element, params) {
+				var length = value.length;
+				var passport1 = /^[a-zA-Z]{5,17}$/;
+				var passport2 = /^[a-zA-Z0-9]{5,17}$/;
+				return this.optional(element) || (passport1.test(value) || passport2.test(value));
+			}, "パスポート番号が正しい書式を入力してください");
+			/* 香港とマカオの通行証属性チェック */
+			$.validator.addMethod("hkmaKao",function(value, element, params) {
+				var length = value.length;
+				var hkmakao = /^[a-zA-Z0-9]{5,21}$/;
+				return this.optional(element) || (hkmakao.test(value));
+			}, "香港とマカオの通行証が正しい書式を入力してください");
+			/* 台湾通行証属性チェック */
+			$.validator.addMethod("taiWan",function(value,element,params) {
+				var length = value.length;
+				var taiwan1 = /^[0-9]{8}$/;
+				var taiwan2 = /^[0-9]{10}$/;
+				return this.optional(element) || (taiwan1.test(value) || taiwan2.test(value));
+			}, "台湾通行証が正しい書式を入力してください");
+		});
+	</script>
+</body>
+</html>

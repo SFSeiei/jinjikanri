@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HKN0007KNSUN_健診日情報テーブル検索</title>
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+
+<!-- Data Tables -->
+<link href="/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+
+<link href="/css/animate.min.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+<script src="/js/jquery.min.js?v=2.1.4"></script>
+<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/js/plugins/jeditable/jquery.jeditable.js"></script>
+<script src="/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/js/kkpager.min.js"></script>
+<link href="/css/kkpager_blue.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<div>
+							<form th:action="@{/knsunStaff/selectKnsunStaffs}" method="post" id="frm">
+								<div class="form-group">
+									<label class="control-label">健診日：</label>
+									<div style="display: inline-block;">
+										<select class="form-control" id="knsunYmdId" name="knsunYmdId" th:field="*{hkn0008KnsunStaffEntity.knsunYmdId}">
+											<option value="">请选择</option>
+											<option th:each="knsun : ${hkn0007Knsuns}" th:value="${knsun.knsunYmdId}" th:text="${#dates.format(knsun.knsunYmdStart,'yyyy-MM-dd')} + '~' + ${#dates.format(knsun.knsunYmdEnd,'yyyy-MM-dd')}"></option>
+										</select>
+									</div>&nbsp;&nbsp;
+									<label for="input">名前:</label>
+									<div style="display: inline-block;">
+										<input type="text" class="form-control" id="name" name="name" th:value="${hkn0008KnsunStaffEntity.name}" placeholder="氏名を入力してください"/>
+									</div>&nbsp;&nbsp;
+									<div id="nameErr" style="color:red;display: inline-block;"></div>
+									<br>
+									<br>
+									<div style="display: inline-block;">
+										<button type="button" th:onclick="|toSubmit()|" class="btn btn-primary">検&nbsp;索</button>
+										<button type="button" id="add" class="btn btn-primary">新規追加</button>
+										<button type="button" id="change" class="btn btn-primary">変&nbsp;更</button>
+										<button type="button" id="delete" class="btn btn-primary">削&nbsp;除</button>
+										<button type="button" id="reset" class="btn btn-primary">リセット</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div style="clear: both;"></div>
+					</div>
+					<label>検索(結果)</label>
+					<div class="ibox-content">
+						<button type="button" id="plus" class="btn btn-primary">新規追加</button>&nbsp;&nbsp;
+						<table class="table table-striped table-bordered table-hover dataTables-example">
+							<thead>
+								<tr>
+									<th style="text-align: center;">番号</th>
+									<th style="text-align: center;">名前</th>
+									<th style="text-align: center;">健診日</th>
+									<th style="text-align: center;">開始日</th>
+									<th style="text-align: center;">終了日</th>
+									<th style="text-align: center;">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="gradeX" th:each="HKN0008KnsunStaffEntity,var : ${knsunList}">
+									<td th:text="${var.count}" align="center"></td>
+									<td align="center" th:text="${HKN0008KnsunStaffEntity.name}"></td>
+									<td th:text="${#dates.format(HKN0008KnsunStaffEntity.hkn0007KnsunEntity.knsunYmdStart,'yyyy-MM-dd')} + '~' + ${#dates.format(HKN0008KnsunStaffEntity.hkn0007KnsunEntity.knsunYmdEnd,'yyyy-MM-dd')}" align="center"></td>
+									<td align="center" th:text="${#dates.format(HKN0008KnsunStaffEntity.kaiseBi,'yyyy-MM-dd')}"></td>
+									<td align="center" th:text="${#dates.format(HKN0008KnsunStaffEntity.endBi,'yyyy-MM-dd')}"></td>
+									<td width="200" align="center">
+										<a href="javascript:void();" th:onclick="|update(${HKN0008KnsunStaffEntity.id})|">変更</a>
+										<a href="javascript:void();" th:onclick="|del(${HKN0008KnsunStaffEntity.id})|">削除</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div style="width:800px;margin:0 auto;">
+							<div id="kkpager"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" id="total" th:value="${total}"/>
+	<input type="hidden" id="pages" th:value="${pages}"/>
+	<script>
+		/*	検索およびnameの桁数check */
+		function toSubmit() {
+			var name = $("#name").val();
+			if (name.length > 20) {
+				$("#name").val("");
+				$("#nameErr").text("名前は20桁以内で入力してください。");
+			} 
+			else {
+				$("#frm").submit();
+			}
+		}
+		/*	新规追加 */
+		$("#add").bind("click", function() {
+			location.href = "/knsun/oper";
+		});
+		$("#plus").bind("click", function() {
+			location.href = "/knsunStaff/oper";
+		});
+		/*	重置 */
+		$("#reset").bind("click", function() {
+			$("#name").val("");
+			$("#knsunYmdId option:first").prop("selected", 'selected');
+		});
+		/*	变更 */
+		$("#change").bind("click", function() {
+			$.ajax({
+				type : "POST",
+				url : "/knsun/operValid",
+				data : {"knsunYmdId": $("#knsunYmdId").val()},
+				success : function(obj) {
+					if (obj == "notChange") {
+						alert("本項目は変更できません");
+					} else if (obj == "isNull") {
+						alert("该数据已被删除");
+						location.reload();
+					} else {
+						location.href = "/knsun/oper?knsunYmdId="+$("#knsunYmdId").val();
+					}
+				},
+				error : function() {
+					alert("操作に失敗する ");
+				}
+			});
+		});
+		
+		function update(id) {
+			$.ajax({
+				type : "POST",
+				url : "/knsunStaff/operValid",
+				data : {"id": id},
+				success : function(obj) {
+					if (obj == "notChange") {
+						alert("本項目は変更できません");
+					} else if (obj == "isNull") {
+						alert("このデータは削除された!");
+						location.reload();
+					} else if (obj == "connectNull") {
+						alert("该数据关联数据已被删除，不可变更");
+						location.reload();
+					} else {
+						location.href = "/knsunStaff/oper?id="+id+"";
+					}
+				},
+				error : function() {
+					alert("操作に失敗する ");
+				}
+			});
+		}
+		
+		/*	删除 */
+		$("#delete").bind("click", function() {
+			if (confirm("削除を確定しますか?")) {
+				$.ajax({
+					type : "POST",
+					url : "/knsun/deleteKnsun",
+					data : {"knsunYmdId": $("#knsunYmdId").val()},
+					success : function(obj) {
+						if (obj == "false") {
+							alert("削除に失敗する ");
+						} else if (obj == "isNull") {
+							alert("このデータは削除された");
+							location.reload();
+						} else if (obj == "notDelete") {
+							alert("本項目は削除できません");
+						} else if (obj == "error") {
+							location.href = "/errorException";
+						} else {
+							alert("削除に成功");
+							/* setTimeout(function(){},1000); */
+							location.reload();
+						}
+					},
+					error : function() {
+						alert("操作に失敗する ");
+					}
+				});
+			}
+		});
+		
+		function del(id) {
+			if (confirm("削除を確定しますか?")) {
+				$.ajax({
+					type : "POST",
+					url : "/knsunStaff/deleteKnsunStaffById",
+					data : {"id": id},
+					success : function(obj) {
+						if (obj == "false") {
+							alert("削除に失敗する ");
+						} else if (obj == "isNull") {
+							alert("このデータは削除された");
+							location.reload();
+						} else if (obj == "notDelete") {
+							alert("本項目は削除できません");
+						} else {
+							alert("削除に成功");
+							/* setTimeout(function(){},1000); */
+							location.reload();
+						}
+					},
+					error : function() {
+						alert("操作に失敗する ");
+					}
+				});
+			}
+		}
+		
+		function getParameter(name) { 
+			var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); 
+			var r = window.location.search.substr(1).match(reg); 
+			if (r!=null) return unescape(r[2]); return null;
+		}
+		
+		// init 改ページ
+		$(function(){
+			var totalPage = $("#pages").val();
+			var totalRecords = $("#total").val();
+			var pageNo = getParameter('pageIndex');
+			if(!pageNo){
+				pageNo = 1;
+			}
+			var name = $("#name").val();
+			var knsunYmdId = $("#knsunYmdId").val();
+			kkpager.generPageHtml({
+				pno : pageNo,
+				total : totalPage,
+				totalRecords : totalRecords,
+				hrefFormer : '/knsunStaff/selectKnsunStaffs',
+				hrefLatter : '?name='+name+'&knsunYmdId='+knsunYmdId+'',
+				getLink : function(n){
+					return this.hrefFormer + this.hrefLatter + "&pageIndex="+n;
+				}
+			});
+		});
+	</script>
+
+</body>
+</html>

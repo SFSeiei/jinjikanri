@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>新增/修改</title>
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form method="get" class="form-horizontal" id="frm" onsubmit="return false">
+							<input name="createUser" type="hidden" id="createUser" />
+							<div class="form-group">
+								<label class="col-sm-2 control-label">用户名</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="userName" id="userName" th:value="${user.usrId}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">链接地址</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="url" id="url" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">排序</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="sort" id="sort" onkeyup="this.value=this.value.replace(/\D/g,'')" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">状态</label>
+								<div class="col-sm-9">
+									<input type="radio" name="status" th:value="1" />启用 
+									<input type="radio" name="status" th:value="2" />禁用
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-4 col-sm-offset-2">
+									<button class="btn btn-primary" type="submit">保存</button>
+									<button class="btn btn-default" type="button" onclick="closeWin();">取消</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js"></script>
+	<script src="/js/plugins/summernote/summernote.min.js"></script>
+	<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
+	<script>
+		$.validator.setDefaults({
+			submitHandler : function() {
+				$.ajax({
+					type : "POST",
+					url : "save.do",
+					data : $('#frm').serialize(),
+					success : function(obj) {
+						if (obj == "false") {
+							parent.layer.alert("请上传图片！ ", {
+								skin : 'layui-layer-molv'
+							});
+						} else {
+							closeWin();
+						}
+					},
+					error : function() {
+						parent.layer.alert("系统错误，请联系系统管理员！ ", {
+							skin : 'layui-layer-molv'
+						});
+					}
+				});
+			}
+		});
+		$().ready(function() {
+			// 在键盘按下并释放及提交后验证提交表单
+			$("#frm").validate({
+				rules : {
+					title : {
+						required : true,
+						minlength : 2,
+						maxlength : 50
+					},
+					sort : {
+						required : true,
+						digits : true
+					}
+				},
+				messages : {
+					title : {
+						required : "请输入标题名称",
+						minlength : "标题名称长度不能小于 2 个字符",
+						maxlength : "标题名称长度不能大于 50 个字符"
+					},
+					sort : {
+						required : "请输入排序",
+						digits : "排序请输入正整数"
+					}
+				}
+			});
+		});
+
+		function closeWin() {
+			location.href="/user/selectUsers";
+		}
+	</script>
+</body>
+</html>

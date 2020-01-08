@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HKN0008KNSUNSTAFF_人員健診日情報テーブル新規追加/変更</title>
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+<link href="/css/autocomplete/jquery.autocomplete.css" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form method="post" class="form-horizontal" id="frm" onsubmit="return false">
+							<input type="hidden" id="id" name="id" th:value="${hkn0008KnsunStaffEntity.id}" />
+							<input th:if="${hkn0008KnsunStaffEntity.recKosnZituYmdHms != null}" type="hidden" id="recKosnZituYmdHms" name="recKosnZituYmdHms" th:value="${hkn0008KnsunStaffEntity.recKosnZituYmdHms}" />
+							<div class="form-group">
+								<label class="col-sm-2 control-label">名前</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="name" id="name" th:value="${hkn0008KnsunStaffEntity.name}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">従業員ID</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" readonly name="staffId" id="staffId" th:value="${hkn0008KnsunStaffEntity.staffId}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">健診日</label>
+								<div class="col-sm-6">
+									<select class="form-control" id="knsunYmdId" name="knsunYmdId" th:field="*{hkn0008KnsunStaffEntity.knsunYmdId}">
+										<option value="">请选择</option>
+										<option th:each="knsun : ${hkn0007Knsuns}" th:value="${knsun.knsunYmdId}" th:text="${#dates.format(knsun.knsunYmdStart,'yyyy-MM-dd')} + '~' + ${#dates.format(knsun.knsunYmdEnd,'yyyy-MM-dd')}"></option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">開始日</label>
+								<div class="col-sm-6">
+									<input type="text" class="input-text datetimepicker-input disabled form-control" readonly name="kaiseBi" id="kaiseBi" autocomplete="off" th:value="${#dates.format(hkn0008KnsunStaffEntity.kaiseBi,'yyyy-MM-dd')}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">終了日</label>
+								<div class="col-sm-6">
+									<input type="text" class="input-text datetimepicker-input disabled form-control" readonly name="endBi" id="endBi" autocomplete="off" th:value="${#dates.format(hkn0008KnsunStaffEntity.endBi,'yyyy-MM-dd')}"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-4 col-sm-offset-2">
+									<button class="btn btn-primary" type="submit">確認</button>
+									<button class="btn btn-default" type="button" onclick="history.go(-1)">戻る</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/js/jQuery1.7.2.js"></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js"></script>
+	<script src="/js/plugins/summernote/summernote.min.js"></script>
+	<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
+	<script src="/js/bootstrap-datetimepicker.js"></script>
+	<script src="/js/autocomplete/jquery.autocomplete.js"></script>
+	<script src="/js/autocomplete/personDetail.js"></script>
+	<script>
+		/*	フロントは名前桁のcheckを実現する */
+		function toSubmit() {
+			var name = $("#name").val();
+			if (name.length > 20) {
+				$("#name").val("");
+				$("#nameErr").text("名前は20桁以内で入力してください。");
+			} 
+			else {
+				$("#frm").submit();
+			}
+			/* $("#frm").submit(); */
+		}
+		bindAutoComplete("#name", bind);
+		function bind(data) {
+			$("#staffId").val(data.staffCd);
+			$("#name").val(data.name);
+	    }
+		/*	清空输入框*/
+		$("#name").bind("keyup", function() {
+			var str = this.value;
+			if (str == null || str == "") {
+				$("#staffId").val("");
+			}
+		});
+		/*	日付フォーマット変換 */
+		$("#kaiseBi").datetimepicker({
+			format: "yyyy-mm-dd",
+			minView: "month",
+			autoclose : true
+		});
+		$("#endBi").datetimepicker({
+			format: "yyyy-mm-dd",
+			minView: "month",
+			autoclose : true
+		});
+		$.validator.setDefaults({
+			submitHandler : function() {
+				$.ajax({
+					type : "POST",
+					url : "/knsunStaff/insertKnsunStaff",
+					data : $('#frm').serialize(),
+					success : function(obj) {
+						if (obj == "false") {
+							alert("データを入力してください ");
+						} else if (obj == "errors") {
+							location.href = "/errorException";
+							/*	バックグラウンド新規追加方法のDBcheck */
+						} else if (obj == "notNull") {
+							alert("本項目がデータベースにもう存在します。");
+						} else if (obj == "alreadyUpdate") {
+							alert("このデータは修正された!");
+							closeWin();
+						} else {
+							location.href="/knsunStaff/selectKnsunStaffs";
+						}
+					},
+					error : function() {
+						alert("操作に失敗する ");
+					}
+				});
+			}
+		});
+		$().ready(function() {
+			//	キーボードを押してリリースし、提出したformを検証します
+			$("#frm").validate({
+				rules : {
+					name : {
+						required : true, 
+					},
+					staffId : {
+						required : true, 
+					},
+					knsunYmdId : {
+						required : true, 
+					},
+					kaiseBi : {
+						required : true, 
+					},
+					endBi : {
+						required : true, 
+						/*	開始日,終了日,健診日から健診日終了に関するcheck */
+						remote: {
+							type: "POST",
+							url: "/knsunStaff/validDate",
+							data: {
+								knsunYmdId: function () {
+									return $("#knsunYmdId").val();
+								},
+								kaiseBi: function () {
+									return $("#kaiseBi").val();
+								},
+								endBi: function() {
+									return $("#endBi").val();
+								}
+							}
+						}
+					}
+				},
+				/*	受付項目チェックミス情報 */
+				messages : {
+					name : {
+						required : "名前を入力してください" 
+					},
+					staffId : {
+						required : "従業員IDを入力してください", 
+					},
+					knsunYmdId : {
+						required : "健診日IDを入力してください" 
+					},
+					kaiseBi : {
+						required : "開始日を入力してください", 
+					},
+					endBi : {
+						required : "終了日を入力してください" ,
+						/*	開始日,終了日,健診日から健診日終了に関するcheckの誤り情報 */
+						remote : "開始日と終了日が健診日に存在しません。"
+					}
+				}
+			});
+		});
+		/*	戻るボタンの実装*/
+		function closeWin() {
+			history.go(-1);
+		}
+	</script>
+</body>
+</html>

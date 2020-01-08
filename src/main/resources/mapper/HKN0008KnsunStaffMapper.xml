@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+       
+<mapper namespace="com.jinjikanri.mapper.HKN0008KnsunStaffMapper">
+
+	<resultMap type="com.jinjikanri.entity.HKN0008KnsunStaffEntity" id="HKN0008KnsunStaffEntity">
+		<result property="id" column="ID"></result>
+		<result property="staffId" column="STAFF_ID"></result>
+		<result property="name" column="NAME"></result>
+		<result property="knsunYmdId" column="KNSUN_YMD_ID"></result>
+		<result property="kaiseBi" column="KAISE_BI"></result>
+		<result property="endBi" column="END_BI"></result>
+		<result property="recSaksZituYmdHms" column="REC_SAKS_ZITU_YMD_HMS"/>
+		<result property="recKosnZituYmdHms" column="REC_KOSN_ZITU_YMD_HMS"/>
+		<association property="hkn0007KnsunEntity" javaType="com.jinjikanri.entity.HKN0007KnsunEntity">
+			<result property="knsunYmdId" column="KNSUN_YMD_ID"/>
+			<result property="knsunYmdStart" column="KNSUN_YMD_START"/>
+			<result property="knsunYmdEnd" column="KNSUN_YMD_END"/>
+		</association>
+	</resultMap>
+	<insert id="insertKnsunStaff" parameterType="com.jinjikanri.entity.HKN0008KnsunStaffEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into tbl_knsunstaff(STAFF_ID,NAME,KNSUN_YMD_ID,KAISE_BI,END_BI,REC_SAKS_ZITU_YMD_HMS,REC_KOSN_ZITU_YMD_HMS) values (#{staffId},#{name},#{knsunYmdId},#{kaiseBi},#{endBi},#{recSaksZituYmdHms},#{recKosnZituYmdHms})
+	</insert>
+
+	<select id="selectKnsunStaffEntity" parameterType="com.jinjikanri.entity.HKN0008KnsunStaffEntity" resultMap="HKN0008KnsunStaffEntity"></select>
+	
+	 <select id="getKnsunStaffById" resultMap="HKN0008KnsunStaffEntity" parameterType="java.lang.Integer">
+		select * from tbl_knsunstaff where ID=#{knsunStaffId}
+	</select>
+	
+	<select id="getKnsunStaffByIdAndUpdateTime" resultMap="HKN0008KnsunStaffEntity">
+		select * from tbl_knsunstaff where ID=#{knsunStaffId,jdbcType=INTEGER} and REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms,jdbcType=TIMESTAMP}
+	</select>
+
+	<update id="updateknsunStaffById" parameterType="com.jinjikanri.entity.HKN0008KnsunStaffEntity">
+		update tbl_knsunstaff
+		<set>
+			<if test="staffId!=null">
+				STAFF_ID=#{staffId},
+			</if>
+			<if test="name!=null and name!=''">
+				NAME=#{name},
+			</if>
+			<if test="knsunYmdId!=null">
+				KNSUN_YMD_ID=#{knsunYmdId},	
+			</if>
+			<if test="kaiseBi!=null">
+				KAISE_BI=#{kaiseBi},
+			</if>
+			<if test="endBi!=null">
+				END_BI=#{endBi},
+			</if>
+			<if test="recSaksZituYmdHms!=null">
+				REC_SAKS_ZITU_YMD_HMS=#{recSaksZituYmdHms},
+			</if>
+			<if test="recKosnZituYmdHms!=null">
+				REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms}
+			</if>		
+		</set>
+		where ID=#{id}
+	</update>
+		
+	<delete id="deleteKnsunStaffById" parameterType="java.lang.Integer">
+		DELETE FROM tbl_knsunstaff WHERE ID = #{id}
+	</delete>
+	
+	<select id="hkn0008KnsunStaffEntities" parameterType="com.jinjikanri.entity.HKN0008KnsunStaffEntity" resultMap="HKN0008KnsunStaffEntity">
+		SELECT tks.`ID`, tks.`STAFF_ID`, tks.`NAME`, tks.`KNSUN_YMD_ID`, tks.`KAISE_BI`, tks.`END_BI`, tks.`REC_SAKS_ZITU_YMD_HMS`, tks.`REC_KOSN_ZITU_YMD_HMS`, tk.`KNSUN_YMD_END`, tk.`KNSUN_YMD_START`, tk.`KNSUN_YMD_ID` FROM tbl_knsunstaff AS tks
+		  LEFT JOIN tbl_knsun AS tk ON tk.`KNSUN_YMD_ID` = tks.`KNSUN_YMD_ID`
+		<where>
+			<if test="name!=null and name!=''"> AND tks.`NAME` LIKE CONCAT('%',#{name},'%') </if>
+			<if test="knsunYmdId!=null">AND tks.`KNSUN_YMD_ID` = #{knsunYmdId} </if>
+			<if test="name==null and knsunYmdId==null"> AND tks.`ID` &lt; -1</if>
+		</where>
+	</select>
+	
+	<select id="dataValid" parameterType="com.jinjikanri.entity.HKN0008KnsunStaffEntity" resultMap="HKN0008KnsunStaffEntity">
+		SELECT * FROM tbl_knsunstaff 
+		<where>
+			<if test="staffId!=null"> AND STAFF_ID = #{staffId}</if>
+			<if test="knsunYmdId!=null"> AND KNSUN_YMD_ID=#{knsunYmdId}</if>
+			<if test="id!=null"> AND ID != #{id}</if>
+		</where>
+	</select>
+	
+	<select id="dataValid1" parameterType="com.jinjikanri.entity.HKN0008KnsunStaffEntity" resultMap="HKN0008KnsunStaffEntity">
+		SELECT * FROM tbl_knsunstaff 
+		<where>
+			<if test="name!=null"> AND NAME = #{name}</if>
+		</where>
+	</select>
+</mapper>

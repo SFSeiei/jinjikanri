@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinjikanri.mapper.ZiknMapper">
+	<resultMap type="com.jinjikanri.entity.HKN0009ZiknEntity" id="HKN0009ZiknEntity">
+		<result column="ZIKN_CD" property="ziknCd" />
+		<result column="TUKI_TINKIN_TKYU_1" property="tukiTinkinTkyu1" />
+		<result column="TUKI_TINKIN_TKYU_2" property="tukiTinkinTkyu2" />
+		<result column="TUKI_TINKIN_TKYU_3" property="tukiTinkinTkyu3" />
+		<result column="TUKI_TINKIN_TKYU_4" property="tukiTinkinTkyu4" />
+		<result column="TUKI_TINKIN_TKYU_5" property="tukiTinkinTkyu5" />
+		<result column="TUKI_TINKIN_TKYU_6" property="tukiTinkinTkyu6" />
+		<result column="TUKI_TINKIN_TKYU_7" property="tukiTinkinTkyu7" />
+		<result column="ZEIRIT_KBN_1" property="zeiritKbn1" />
+		<result column="ZEIRIT_KBN_2" property="zeiritKbn2" />
+		<result column="ZEIRIT_KBN_3" property="zeiritKbn3" />
+		<result column="ZEIRIT_KBN_4" property="zeiritKbn4" />
+		<result column="ZEIRIT_KBN_5" property="zeiritKbn5" />
+		<result column="ZEIRIT_KBN_6" property="zeiritKbn6" />
+		<result column="ZEIRIT_KBN_7" property="zeiritKbn7" />
+		<result column="REC_SAKS_ZITU_YMD_HMS" property="recSaksZituYmdHms"/>
+		<result column="REC_KOSN_ZITU_YMD_HMS" property="recKosnZituYmdHms"/>
+	</resultMap>
+
+	<select id="selectZiknById" resultMap="HKN0009ZiknEntity">
+		SELECT * FROM hkn0009zikn
+	</select>
+
+	<update id="updateZiknById" parameterType="com.jinjikanri.entity.HKN0009ZiknEntity">
+	UPDATE hkn0009zikn
+	<set>
+		<if test="tukiTinkinTkyu1!=null">
+			TUKI_TINKIN_TKYU_1=#{tukiTinkinTkyu1},
+		</if>
+		<if test="tukiTinkinTkyu2!=null">
+			TUKI_TINKIN_TKYU_2=#{tukiTinkinTkyu2},
+		</if>
+		<if test="tukiTinkinTkyu3!=null">
+			TUKI_TINKIN_TKYU_3=#{tukiTinkinTkyu3},
+		</if>
+		<if test="tukiTinkinTkyu4!=null">
+			TUKI_TINKIN_TKYU_4=#{tukiTinkinTkyu4},
+		</if>
+		<if test="tukiTinkinTkyu5!=null">
+			TUKI_TINKIN_TKYU_5=#{tukiTinkinTkyu5},
+		</if>
+		<if test="tukiTinkinTkyu6!=null">
+			TUKI_TINKIN_TKYU_6=#{tukiTinkinTkyu6},
+		</if>
+		<if test="tukiTinkinTkyu7!=null">
+			TUKI_TINKIN_TKYU_7=#{tukiTinkinTkyu7},
+		</if>
+		<if test="zeiritKbn1!=null">
+			ZEIRIT_KBN_1=#{zeiritKbn1},
+		</if>
+		<if test="zeiritKbn2!=null">
+			ZEIRIT_KBN_2=#{zeiritKbn2},
+		</if>
+		<if test="zeiritKbn3!=null">
+			ZEIRIT_KBN_3=#{zeiritKbn3},
+		</if>
+		<if test="zeiritKbn4!=null">
+			ZEIRIT_KBN_4=#{zeiritKbn4},
+		</if>
+		<if test="zeiritKbn5!=null">
+			ZEIRIT_KBN_5=#{zeiritKbn5},
+		</if>
+		<if test="zeiritKbn6!=null">
+			ZEIRIT_KBN_6=#{zeiritKbn6},
+		</if>
+		<if test="zeiritKbn7!=null">
+			ZEIRIT_KBN_7=#{zeiritKbn7},
+		</if>
+		<if test="recSaksZituYmdHms!=null">
+			REC_SAKS_ZITU_YMD_HMS=#{recSaksZituYmdHms},
+		</if>
+		<if test="recKosnZituYmdHms!=null">
+			REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms}
+		</if>
+	</set>
+		WHERE ZIKN_CD=#{ziknCd}
+	</update>
+
+	<select id="getZiknDBcheck" resultMap="HKN0009ZiknEntity">
+		SELECT * from hkn0009zikn where REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms,jdbcType=TIMESTAMP}
+	</select>
+
+</mapper>

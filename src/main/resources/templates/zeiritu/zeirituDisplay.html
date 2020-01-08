@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>税金計算基準の設定(一覧)</title>
+		<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+		<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+		<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+		<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+		<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />		
+	</head>
+	<body>
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="ibox float-e-margins">
+						<div class="ibox-content">
+							<form method="get" class="form-horizontal" >
+								<input name="ziknCD" type="hidden" id="ziknCd" />
+								<input name="recKosnZituYmdHms" type="hidden" id="recKosnZituYmdHms" th:value="${Zikn.recKosnZituYmdHms }" />
+								<div class="form-group">
+									<label class="col-sm-2 control-label">一級課税所得額（元）</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" disabled="disabled" style="width:25%;float:left;" th:value="${Zikn.tukiTinkinTkyu1 }" />
+										<span style="float:left;padding-top:9px;">～</span>
+										<input type="text" class="form-control" disabled="disabled" style="width:25%;float:left;" th:value="${Zikn.tukiTinkinTkyu2 }" />
+										<label class="col-sm-2 control-label" style="margin-left:0%;">税率（%）</label>
+										<input type="text" class="form-control" disabled="disabled" style="width:8%;float:left;" th:value="${Zikn.zeiritKbn1 }" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">二級課税所得額（元）</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" disabled="disabled" style="width:25%;float:left;" th:value="${Zikn.tukiTinkinTkyu2 }" />
+										<span style="float:left;padding-top:9px;">～</span>
+										<input type="text" class="form-control" disabled="disabled" style="width:25%;float:left;" th:value="${Zikn.tukiTinkinTkyu3 }" />
+										<label class="col-sm-2 control-label" style="margin-left:0%;">税率（%）</label>
+										<input type="text" class="form-control" disabled="disabled" style="width:8%;float:left;" th:value="${Zikn.zeiritKbn2 }" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">三級課税所得額（元）</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" disabled="disabled" style="width:25%;float:left;" th:value="${Zikn.tukiTinkinTkyu3 }" />
+										<span style="float:left;padding-top:9px;">～</span>
+										<input type="text" class="form-control" disabled="disabled" style="width:25%;float:left;" th:value="${Zikn.tukiTinkinTkyu4 }" />
+										<label class="col-sm-2 control-label" style="margin-left:0%;">税率（%）</label>
+										<input type="text" class="form-control" disabled="disabled" style="width:8%;float:left;" th:value="${Zikn.zeiritKbn3 }" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">四級課税所得額（元）</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" disabled="disabled" style="width:25%;float:left;" th:value="${Zikn.tukiTinkinTkyu4 }" />
+										<span style="float:left;padding-top:9px;">～</span>
+										<input type="text" class="form-control" disabled="disabled" style="width:25%;float:left;" th:value="${Zikn.tukiTinkinTkyu5 }" />
+										<label class="col-sm-2 control-label" style="margin-left:0%;">税率（%）</label>
+										<input type="text" class="form-control" disabled="disabled" style="width:8%;float:left;" th:value="${Zikn.zeiritKbn4 }" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">五級課税所得額（元）</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" disabled="disabled" style="width:25%;float:left;" th:value="${Zikn.tukiTinkinTkyu5 }" />
+										<span style="float:left;padding-top:9px;">～</span>
+										<input type="text" class="form-control" disabled="disabled" style="width:25%;float:left;" th:value="${Zikn.tukiTinkinTkyu6 }" />
+										<label class="col-sm-2 control-label" style="margin-left:0%;">税率（%）</label>
+										<input type="text" class="form-control" disabled="disabled" style="width:8%;float:left;" th:value="${Zikn.zeiritKbn5 }" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">六級課税所得額（元）</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" disabled="disabled" style="width:25%;float:left;" th:value="${Zikn.tukiTinkinTkyu6 }" />
+										<span style="float:left;padding-top:9px;">～</span>
+										<input type="text" class="form-control" disabled="disabled" style="width:25%;float:left;" th:value="${Zikn.tukiTinkinTkyu7 }" />
+										<label class="col-sm-2 control-label" style="margin-left:0%;">税率（%）</label>
+										<input type="text" class="form-control" disabled="disabled" style="width:8%;float:left;" th:value="${Zikn.zeiritKbn6 }" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">七級課税所得額（元）</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" disabled="disabled" style="width:25%;float:left;" th:value="${Zikn.tukiTinkinTkyu7 }" />
+										<label class="col-sm-2 control-label" style="float:left; margin-right:10.4%;">以上</label>
+										<label class="col-sm-2 control-label">税率（%）</label>
+										<input type="text" class="form-control" disabled="disabled" style="width:8%;float:left;" th:value="${Zikn.zeiritKbn7 }" />
+									</div>
+								</div>
+								
+ 								<div class="form-group">
+									<div class="col-sm-4 col-sm-offset-2">
+										<button class="btn btn-primary" type="button" th:onclick="|update()|" >変更</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<Script>
+		function update(){
+			location.href="update";
+		}
+		</Script>
+	</body>
+</html>
+                                                                      

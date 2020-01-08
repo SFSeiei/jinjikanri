@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jinjikanri.mapper.HKN0003TravelAreaMapper">
+
+ <resultMap type="com.jinjikanri.entity.HKN0003TravelAreaEntity" id="hKN0003TravelAreaEntityMap">
+	<id column="TRAVELAREA_ID" property="travelAreaId"/>
+	<result column="PROVINCE_NAME" property="provinceName"/>
+	<result column="CITY_NAME" property="cityName"/>
+	<result column="COUNTRY_NAME" property="countryName"/>
+	<result column="TRAVEL_MONEY" property="travelMoney"/>
+	<result column="REC_SAKS_ZITU_YMD_HMS" property="recSaksZituYmdHms"/>
+	<result column="REC_KOSN_ZITU_YMD_HMS" property="recKosnZituYmdHms"/>
+</resultMap>
+ 
+<select id="getTravelArea" resultMap="hKN0003TravelAreaEntityMap">
+	select * from hkn0003travelarea
+	<where>
+		<if test="provinceName != null and provinceName !=''">
+			PROVINCE_NAME=#{provinceName,jdbcType=VARCHAR}
+		</if>
+		<if test="cityName != null and cityName !=''">
+			and CITY_NAME=#{cityName,jdbcType=VARCHAR}
+		</if>
+		<if test="countryName != null and countryName !=''">
+			and COUNTRY_NAME=#{countryName,jdbcType=VARCHAR}
+		</if>	
+	</where>
+</select>
+
+ <select id="getTravelAreaById" resultMap="hKN0003TravelAreaEntityMap" parameterType="java.lang.Integer">
+	select * from hkn0003travelarea where TRAVELAREA_ID=#{travelAreaId,jdbcType=INTEGER}
+</select>
+
+ 
+ <select id="selectTravelAreas" resultMap="hKN0003TravelAreaEntityMap" parameterType="java.lang.Integer">
+	select * from hkn0003travelarea where TRAVELAREA_ID in
+	<foreach collection="list" item="travelAreaId" separator="," open="(" close=")">
+		#{travelAreaId,jdbcType=INTEGER}
+    </foreach>
+</select>
+ 
+<select id="getTravelAreaByIdAndUpdateTime" resultMap="hKN0003TravelAreaEntityMap">
+	select * from hkn0003travelarea where TRAVELAREA_ID=#{travelAreaId,jdbcType=INTEGER} and REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms,jdbcType=TIMESTAMP}
+</select>
+
+<delete id="deleteTravelAreaById" parameterType="com.jinjikanri.entity.HKN0003TravelAreaEntity">
+	delete from hkn0003travelarea where TRAVELAREA_ID in
+	<foreach collection="list" item="travelAreaId" separator="," open="(" close=")">
+		#{travelAreaId,jdbcType=INTEGER}
+    </foreach>
+</delete>
+
+<update id="updateTravelAreaById" parameterType="com.jinjikanri.entity.HKN0003TravelAreaEntity">
+	update hkn0003travelarea
+	<set>
+		<if test="travelAreaId != null and travelAreaId !=''">
+			TRAVELAREA_ID=#{travelAreaId,jdbcType=INTEGER},
+		</if>
+		<if test="provinceName != null and provinceName !=''">
+			PROVINCE_NAME=#{provinceName,jdbcType=VARCHAR},
+		</if>
+		<if test="cityName != null and cityName !=''">
+			CITY_NAME=#{cityName,jdbcType=VARCHAR},	
+		</if>
+		<if test="countryName != null and countryName !=''">
+			COUNTRY_NAME=#{countryName,jdbcType=VARCHAR},
+		</if>
+		<if test="travelMoney != null and travelMoney !=''">
+			TRAVEL_MONEY=#{travelMoney,jdbcType=DOUBLE},
+		</if>
+		<if test="recSaksZituYmdHms != null">
+			REC_SAKS_ZITU_YMD_HMS=#{recSaksZituYmdHms,jdbcType=TIMESTAMP},
+		</if>
+		<if test="recKosnZituYmdHms != null">
+			REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms,jdbcType=TIMESTAMP}
+		</if>		
+	</set>
+	where  TRAVELAREA_ID=#{travelAreaId,jdbcType=INTEGER}
+</update>
+
+<insert id="addTravelArea" parameterType="com.jinjikanri.entity.HKN0003TravelAreaEntity">
+	insert into hkn0003travelarea(PROVINCE_NAME,CITY_NAME,COUNTRY_NAME,TRAVEL_MONEY,REC_SAKS_ZITU_YMD_HMS,REC_KOSN_ZITU_YMD_HMS)
+	values(
+	#{provinceName,jdbcType=VARCHAR},
+	#{cityName,jdbcType=VARCHAR},
+	#{countryName,jdbcType=VARCHAR},
+	#{travelMoney,jdbcType=DOUBLE},
+	#{recSaksZituYmdHms,jdbcType=TIMESTAMP},
+	#{recKosnZituYmdHms,jdbcType=TIMESTAMP}
+	)
+</insert>
+
+</mapper>

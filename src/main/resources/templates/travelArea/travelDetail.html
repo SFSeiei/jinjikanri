@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>出張地域変更（追加）画面</title>
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+<link href="/css/travelArea/travelCommon.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form method="get" class="form-horizontal" id="frm" onsubmit="return true">
+							<select id="provinceArea" class="area" size='10' onclick="setAreaText('provinceName','provinceArea','provinceId')" onchange="clearChild('provinceArea','provinceId');" style="display:none"></select>
+							<select id="cityArea" class="area" size='10' onclick="setAreaText('cityName','cityArea','cityId')" onchange="clearChild('cityArea','cityId');" style="display:none"></select>
+							<select id="countryArea" class="area" size='10' onclick="setAreaText('countryName','countryArea','')" onchange="clearChild('countryArea','countryId');" style="display:none"></select>
+							<input type="hidden" id="provinceId" name="provinceId" th:value="${travelArea.provinceId}"/>
+							<input type="hidden" id="cityId" name="cityId" th:value="${travelArea.cityId}"/>
+							<input type="hidden" id="travelAreaId" name="travelAreaId" th:value="${travelArea.travelAreaId}"/> 
+							<input type="hidden" id="recSaksZituYmdHms" th:value="${travelArea.recSaksZituYmdHms}"/>
+							<input type="hidden" id="recKosnZituYmdHms" name="recKosnZituYmdHmsStr" th:value="${travelArea.recKosnZituYmdHms}"/>
+							<div class="form-group">
+								<div class="error" id="ERR_TOP" style="display: inline-block;"></div>
+								<table class="table table-striped table-bordered table-hover dataTables-example">
+									<tr>
+										<td>
+											<label class="control-label">出&nbsp;張&nbsp;地&nbsp;域&nbsp;省:&nbsp;</label>
+											<div style="display: inline-block;">
+												<input type="text" onclick="getProvince();" class="form-control" id="provinceName" name="provinceName" th:value="${travelArea.provinceName}" placeholder="クリックして選択"  readonly="readonly" maxlength="16"/>										
+											</div>&nbsp;&nbsp;
+											<div class="error" id="ERR_PROVINCE" style="display: inline-block;"></div>										
+										</td>									
+									</tr>
+									<tr>
+										<td>
+											<label class="control-label">出&nbsp;張&nbsp;地&nbsp;域&nbsp;市:&nbsp;</label>
+											<div style="display: inline-block;">
+												<input type="text" onclick="getCityOrCountry('cityArea','provinceId');" class="form-control" id="cityName" name="cityName" th:value="${travelArea.cityName}" placeholder="クリックして選択" readonly="readonly" maxlength="16"/>
+											</div>&nbsp;&nbsp;
+											<div class="error" id="ERR_CITY" style="display: inline-block;"></div>
+										</td>										
+									</tr>
+									<tr>
+										<td>
+											<label class="control-label">出張地域区/县:</label>
+											<div style="display: inline-block;">
+												<input type="text" onclick="getCityOrCountry('countryArea','cityId');" class="form-control" id="countryName" name="countryName" th:value="${travelArea.countryName}" placeholder="クリックして選択" readonly="readonly" maxlength="16"/>
+											</div>&nbsp;&nbsp;
+											<div class="error" id="ERR_COUNTRY" style="display: inline-block;"></div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<label class="control-label">補助金（元）:&nbsp;</label>
+											<div style="display: inline-block;">
+												<input type="text" class="form-control" id="travelMoney" name="travelMoneyStr" th:value="${travelArea.travelMoney}" placeholder="補助金を入力してください" maxlength="13"/>
+											</div>&nbsp;&nbsp;
+											<div class="error" id="ERR_TRAVELMONEY" style="display: inline-block;"></div>
+										</td>
+									</tr>			
+								</table>
+								
+								<div style="display: inline-block;" th:if="${not #strings.isEmpty(travelArea.travelAreaId)}">
+									<button type="submit" class="btn btn-primary">変&nbsp;更</button>
+								</div>
+									
+								<div style="display: inline-block;" th:if="${#strings.isEmpty(travelArea.travelAreaId)}">
+									<button type="submit" class="btn btn-primary">追&nbsp;加</button>
+								</div>
+								<div style="display: inline-block;">
+									<button type="button" onclick="closeWin();" class="btn btn-primary">戻&nbsp;る</button>
+								</div>
+								
+								<div style="display: inline-block;">
+									<button type="reset" id="reset" onclick="clearErrorMsg()" class="btn btn-primary">リセット</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js"></script>
+	<script src="/js/plugins/summernote/summernote.min.js"></script>
+	<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
+	<script src="/js/layer/layer.js"></script>
+	<script src="/js/travelArea/area.js"></script>
+	<script src="/js/travelArea/travelDetail.js"></script>
+</body>
+</html>
