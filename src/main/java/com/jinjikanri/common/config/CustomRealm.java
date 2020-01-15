@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.catalina.User;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -50,7 +51,9 @@ public class CustomRealm extends AuthorizingRealm {
 			// 添加权限
 			for (SYST06RightEntity oneRight : (List<SYST06RightEntity>) RightListsMap
 					.get("char" + oneChar.getCharCd() + "rights")) {
-				simpleAuthorizationInfo.addStringPermission(oneRight.getRightKey());
+				if (StringUtils.isNotBlank(oneRight.getRightKey()) && StringUtils.isNotEmpty(oneRight.getRightKey())) {
+					simpleAuthorizationInfo.addStringPermission(oneRight.getRightKey());
+				}
 			}
 		}
 		return simpleAuthorizationInfo;
@@ -73,8 +76,8 @@ public class CustomRealm extends AuthorizingRealm {
 		} else {
 			// 这里验证authenticationToken和simpleAuthenticationInfo的信息
 			// 先验证用户名再验证密码
-			SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user,
-					user.getPasswd(), ByteSource.Util.bytes(user.getUsrId()),getName());
+			SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, user.getPasswd(),
+					ByteSource.Util.bytes(user.getUsrId()), getName());
 			return simpleAuthenticationInfo;
 		}
 	}

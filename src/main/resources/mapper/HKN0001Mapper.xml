@@ -23,11 +23,10 @@ where SUPERIOR_ORGANIZATION_CD=(select ORGANIZATION_CD from hkn0001org where DEP
 	</select>
 	<sql id="query">
 	delete from hkn0001org where ORGANIZATION_CD =#{organizationCd,jdbcType=INTEGER}
-	
+	 
 	</sql>
-	<delete id="deleteOrgazization" parameterType="com.jinjikanri.entity.HKN0001ORGEntity">
-
-  <include refid="query"></include>
+	<delete id="deleteOrganizationCd" parameterType="com.jinjikanri.entity.HKN0001ORGEntity">
+	<include refid="query"></include>
 </delete>
 
 <sql id="a">
@@ -84,7 +83,14 @@ update hkn0001org
 		</if>	
 
 </set>
-where ORGANIZATION_CD =(select ORGANIZATION_CD from hkn0001org where SUPERIOR_ORGANIZATION_CD=#{superiorOrganizationCd,jdbcType=INTEGER})
+where SUPERIOR_ORGANIZATION_CD =#{superiorOrganizationCd,jdbcType=INTEGER}
 </update>
+<sql id="quer">
+	delete from hkn0001org where ORGANIZATION_CD =#{organizationCd,jdbcType=INTEGER}
+	 
+	</sql>
+	<delete id="delDate" parameterType="com.jinjikanri.entity.HKN0001ORGEntity">
+	<include refid="quer"></include>
+</delete>
 </mapper>
 

@@ -19,19 +19,29 @@ public class ZiknServiceImpl implements ZiknService {
 	@Autowired
 	private ZiknMapper ziknMapper;
 
-	// 1データの検索
+	/**
+	 * 課税所得額から税率取得する
+	 * @return ziknMapper.selectZiknById()
+	 */
 	@Override
 	public HKN0009ZiknEntity selectZiknById() {
 		return this.ziknMapper.selectZiknById();
 	}
 
-	// 1データの変更
+	/**
+	 * 課税所得額から税率変更する
+	 * @param zikn 課税所得額から税率
+	 */
 	@Override
 	public void updateZiknById(HKN0009ZiknEntity zikn) {
 		ziknMapper.updateZiknById(zikn);
 	}
 
-	// 1データの排他
+	/**
+	 * 課税所得額から税率排他クエリーする
+	 * @param recKosnZituYmdHms レコード更新実年月日時分秒
+	 * @return ziknMapper.getZiknDBcheck(recKosnZituYmdHms)
+	 */
 	@Override
 	public HKN0009ZiknEntity getZiknDBcheck(Timestamp recKosnZituYmdHms) {
 		return ziknMapper.getZiknDBcheck(recKosnZituYmdHms);

@@ -18,8 +18,10 @@ import com.jinjikanri.entity.HKN0008KnsunStaffEntity;
 import com.jinjikanri.service.HKN0007KnsunService;
 import com.jinjikanri.service.HKN0008KnsunStaffService;
 
-import net.sf.ehcache.hibernate.strategy.ReadOnlyEhcacheEntityRegionAccessStrategy;
-
+/**
+ * “人員健診日”の控制器
+ *@author 李春菊 2019/12/17
+ */
 @Controller
 @RequestMapping(value = "/knsunStaff")
 public class KnsunStaffController {
@@ -163,7 +165,6 @@ public class KnsunStaffController {
 			return "isNull";
 		}
 		HKN0007KnsunEntity knsun = this.knsunService.getKnsunById(knsunStaffEntity.getKnsunYmdId());
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     	Date local = new Date();
     	//	変更ボタンをクリックすると,そのデータの関連データが存在するかどうかを判断する
     	if (knsun == null) {
@@ -216,7 +217,6 @@ public class KnsunStaffController {
 			}
 			//	現地時間と健診日終了時間はcheck
 			HKN0007KnsunEntity knsun = this.knsunService.getKnsunById(knsunStaffEntity.getKnsunYmdId());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	    	Date local = new Date();
 	    	if(local.after(knsun.getKnsunYmdEnd())) {
 	    		return "notDelete";

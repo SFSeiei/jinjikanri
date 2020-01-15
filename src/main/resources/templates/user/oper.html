@@ -75,9 +75,10 @@
 				</div>
 			</div>
 		</div>
-		<input type="hidden" th:value="${charCdList}" id="charCdList" />
 	</div>
-
+	<input type="hidden" th:value="${charCdList}" id="charCdList" />
+	<input type="hidden" th:value="${user.recKosnZituYmdHms}"
+		id="dbUserUpdateTime" />
 	<script src="/js/jquery.min.js?v=2.1.4"></script>
 	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
 	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
@@ -109,6 +110,20 @@
 				}
 			}
 		};
+		/**
+		 * ヒントボックスに関する設定
+		 * @param title メッセージ
+		 * @param iconItem	メッセージボックス情報前ICON
+		 * @returns なし
+		 */
+		function alertMessage(title, iconItem) {
+			parent.layer.alert(title, {
+				skin : 'layui-layer-molv',
+				time : 10000,
+				icon : iconItem,
+				btn : [ 'はい' ]
+			});
+		}
 		function saveOrUpdate(usrCd, passwd) {
 			if ($("#frm").valid()) {
 				var status = $(':radio[name="status"]:checked').val();
@@ -127,7 +142,6 @@
 					/* charCdList.push(nodes[i].charCd); */
 				}
 				var url = usrCd == null ? "/sys/user/save" : "/sys/user/update";
-				var msg = usrCd == null ? "追加" : "更新";
 				if (isNaN(parseInt($("#STAFF_CD").val()))) {
 					var staffCd = null;
 				} else {
@@ -139,6 +153,7 @@
 					type : "POST",
 					url : url,
 					data : {
+						"updateTime" : $("#dbUserUpdateTime").val(),
 						"charCdList" : charCdList,
 						"usrCd" : usrCd,
 						"usrId" : $("#USR_ID").val(),
@@ -147,14 +162,18 @@
 						"usrSutts" : parseInt(status)
 					},
 					success : function(obj) {
-						parent.layer.alert(msg + "成功！", {
-							skin : 'layui-layer-molv'
-						});
+						if (obj.lastIndexOf("成功") != -1) {
+							alertMessage(obj, 1);
+						} else if (obj.lastIndexOf("失敗") != -1) {
+							alertMessage(obj, 2);
+						} else if (obj == "errors") {
+							alertMessage("ユーザーIDが存在しました、新しいユーザーIDを入力して下さい", 5);
+						} else {
+							alertMessage(obj, 5);
+						}
 					},
 					error : function() {
-						parent.layer.alert(msg + "失败！ ", {
-							skin : 'layui-layer-molv'
-						});
+						location.href = "/errorException";
 					}
 				});
 			}
@@ -240,23 +259,6 @@
 				});
 		function closeWin() {
 			location.href = "/sys/user/selectUsers";
-		}
-		/**
-		 * ヒントボックスに関する設定
-		 * @param title メッセージ
-		 * @param iconItem	メッセージボックス情報前ICON
-		 * @returns なし
-		 */
-		function alertMessage(title, iconItem) {
-			parent.layer.alert(title, {
-				skin : 'layui-layer-molv',
-				time : 10000,
-				icon : iconItem,
-				btn : [ 'はい' ],
-				yes : function() {
-					toSubmit();
-				}
-			});
 		}
 	</script>
 </body>

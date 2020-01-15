@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jinjikanri.entity.HKN0007KnsunEntity;
-import com.jinjikanri.entity.HKN0008KnsunStaffEntity;
 import com.jinjikanri.service.HKN0007KnsunService;
 
+/**
+ * “健診日”の控制器
+ *@author 李春菊 2019/12/17
+ */
 @Controller
 @RequestMapping(value = "/knsun")
 public class KnsunController {
@@ -24,7 +27,6 @@ public class KnsunController {
 	
 	/**
 	 * 健診日の新規追加/変更方法
-	 * 
 	 * @param knsun
 	 * @return
 	 * @throws Exception
@@ -93,7 +95,6 @@ public class KnsunController {
 	@ResponseBody
 	public String operValid(Integer knsunYmdId) {
 		HKN0007KnsunEntity knsun = this.knsunService.getKnsunById(knsunYmdId);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     	Date local = new Date();
     	//	変更ボタンをクリックするとデータが存在するかどうかを判断する
     	if (knsun == null) {
@@ -146,7 +147,6 @@ public class KnsunController {
 
 	/**
 	 * 健診日の削除方法
-	 * 
 	 * @param knsunYmdId
 	 * @return
 	 * @throws Exception
@@ -162,7 +162,6 @@ public class KnsunController {
 				return "isNull";
 			}
 			//	現地時間と健診日終了時間はcheck
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date local = new Date();
 			if (local.after(knsunEntity.getKnsunYmdEnd())) {
 				return "notDelete";

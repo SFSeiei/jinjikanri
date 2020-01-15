@@ -1,5 +1,6 @@
 package com.jinjikanri.service.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.jinjikanri.common.constant.ItemConstant;
+import com.jinjikanri.common.util.ErrorMessage;
 import com.jinjikanri.common.util.Md5;
+import com.jinjikanri.common.util.Tools;
 import com.jinjikanri.entity.SYST01UserEntity;
 import com.jinjikanri.entity.SYST06CharEntity;
 import com.jinjikanri.mapper.CharMapper;
@@ -75,6 +78,9 @@ public class UserServiceImpl implements UserService {
 				throw new Exception();
 			}
 		}
+		// レコード作成実年月日時分秒を設定する。
+		user.setRecSaksZituYmdHms(Tools.getSysDate());
+		user.setRecKosnZituYmdHms(Tools.getSysDate());
 		/*
 		 * 对密码进行加密
 		 */
@@ -94,34 +100,62 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean updateUser(SYST01UserEntity user, List<Integer> charCdList) {
+	public String updateUser(String updateTime, SYST01UserEntity user, List<Integer> charCdList) {
+		String message = null;
 		if (StringUtils.isBlank(user.getPasswd())) {
 			user.setPasswd(null);
 		} else {
 			String encryResult = Md5.encode(user.getPasswd(), user.getUsrId());
 			user.setPasswd(encryResult);
 		}
-		userMapper.updateUser(user);
-
-		// 保存用户与角色关系
-		userCharRightRelService.saveOrUpdateUCRel(user.getUsrCd(), charCdList);
-		return true;
+		// 画面のUsrCdを取得する
+		Integer usrCd = user.getUsrCd();
+		Timestamp updateTimeDate = Tools.transStringToTimestamp(updateTime);
+		// 更新されたデータを検索
+		SYST01UserEntity dbUserEntity = this.userMapper.selectUserByUsrCd(usrCd);
+		if (dbUserEntity == null) {
+			// 更新されたデータは存在しませんエラー
+			message = ErrorMessage.ERR0029();
+		} else {
+			// DB更新排他チェック
+			if (!dbUserEntity.getRecKosnZituYmdHms().equals(updateTimeDate)) {
+				// 更新排他エラー
+				message = ErrorMessage.ERR0048();
+			} else {
+				// DB更新操作を実行する
+				user.setRecKosnZituYmdHms(Tools.getSysDate());
+				if (userMapper.updateUser(user)) {
+					// 保存用户与角色关系
+					userCharRightRelService.saveOrUpdateUCRel(user.getUsrCd(), charCdList);
+					// 更新成功
+					message = "updateSucess";
+				} else {
+					// 更新失敗
+					message = "updateFail";
+				}
+			}
+		}
+		return message;
 	}
 
 	@Override
-	public boolean updateUserPassword(Integer usrCd, String password, String newPassword) {
+	public boolean updateUserPassword(Integer usrCd, String password, String newPassword, String updateTime) {
 		List<SYST06CharEntity> charlist = charMapper.selectCharListByUsrCd(usrCd);
 		List<Integer> charCdList = new ArrayList<>();
 		for (SYST06CharEntity oneChar : charlist) {
 			charCdList.add(oneChar.getCharCd());
 		}
-		SYST01UserEntity dbUserEntity = userMapper.selectUserByUsrCd(usrCd);
+		SYST01UserEntity dbUserEntity = this.userMapper.selectUserByUsrCd(usrCd);
 		// 进行加密
 		String encryResult = Md5.encode(password, dbUserEntity.getUsrId());
 		// 判断原密码。没有加密对比。
 		if (dbUserEntity.getPasswd().equals(encryResult)) {
 			dbUserEntity.setPasswd(newPassword);
-			return this.updateUser(dbUserEntity, charCdList);
+			if (this.updateUser(updateTime, dbUserEntity, charCdList) == "updateSucess") {
+				return true;
+			} else {
+				return false;
+			}
 		} else
 			// 此处应该报密码不一致异常而不是返回false.
 			return false;

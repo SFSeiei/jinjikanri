@@ -44,8 +44,8 @@
 	<insert id="saveUser"
 		parameterType="com.jinjikanri.entity.SYST01UserEntity">
 		INSERT INTO
-		syst01user(USR_ID,PASSWD,STAFF_CD,USR_SUTTS,ONRIN_FURG)
-		VALUES(#{usrId},#{passwd},#{staffCd},#{usrSutts},#{onrinFurg})
+		syst01user(USR_ID,PASSWD,STAFF_CD,USR_SUTTS,ONRIN_FURG,REC_SAKS_ZITU_YMD_HMS,REC_KOSN_ZITU_YMD_HMS)
+		VALUES(#{usrId},#{passwd},#{staffCd},#{usrSutts},#{onrinFurg},#{recSaksZituYmdHms},#{recKosnZituYmdHms})
 	</insert>
 
 	<!--修改User -->
@@ -58,8 +58,10 @@
 			<if test="staffCd!=null">STAFF_CD=#{staffCd},</if>
 			<if test="usrSutts!=null">USR_SUTTS=#{usrSutts},</if>
 			<if test="onrinFurg!=null">ONRIN_FURG=#{onrinFurg},</if>
+			<if test="recSaksZituYmdHms!=null">REC_SAKS_ZITU_YMD_HMS=#{recSaksZituYmdHms},</if>
+			<if test="recKosnZituYmdHms!=null">REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms},</if>
 			<if
-				test="usrId==null and passwd==null and staffCd==null and usrSutts==null and onrinFurg==null">
+				test="usrId==null and passwd==null and staffCd==null and usrSutts==null and onrinFurg==null and recSaksZituYmdHms==null and recKosnZituYmdHms==null">
 				USR_CD=#{usrCd},
 			</if>
 		</trim>

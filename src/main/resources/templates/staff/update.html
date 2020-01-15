@@ -93,37 +93,37 @@
 							<div class="form-group">
 								<label class="col-sm-2 control-label">出身地</label>
 								<div style="display: inline-block;">
-									<input type="text" th:value="${staffEntity.birthAddress}" class="form-control" name="birthAddress" id="birthAddress" maxlength="20" size="30" />
+									<input type="text" th:value="${staffEntity.birthAddress}" class="form-control" name="birthAddress" id="birthAddress" maxlength="20" size="40" />
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">卒業日付</label>
 								<div style="display: inline-block;">
-									<input type="text" th:value="${#dates.format(staffEntity.graduationTime,'yyyy-MM-dd')}" class="form-control" autocomplete="off" name="graduationTime" id="graduationTime" />
+									<input type="text" th:value="${#dates.format(staffEntity.graduationTime,'yyyy-MM-dd')}" class="form-control" editable="false" name="graduationTime" id="graduationTime" />
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">卒業学校</label>
 								<div style="display: inline-block;">
-									<input type="text" th:value="${staffEntity.graduationSchool}" class="form-control" name="graduationSchool" id="graduationSchool" maxlength="30" size="40" />
+									<input type="text" th:value="${staffEntity.graduationSchool}" class="form-control" name="graduationSchool" id="graduationSchool" maxlength="30" size="60" />
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">専攻科目</label>
 								<div style="display: inline-block;">
-									<input type="text" th:value="${staffEntity.majorStudied}" class="form-control" name="majorStudied" id="majorStudied" maxlength="30" size="40" />
+									<input type="text" th:value="${staffEntity.majorStudied}" class="form-control" name="majorStudied" id="majorStudied" maxlength="30" size="60" />
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">生誕日付</label>
 								<div style="display: inline-block;">
-									<input type="text" th:value="${#dates.format(staffEntity.birthDate,'yyyy-MM-dd')}" class="form-control" name="birthDate" id="birthDate" />
+									<input type="text" th:value="${#dates.format(staffEntity.birthDate,'yyyy-MM-dd')}" class="form-control" editable="false" name="birthDate" id="birthDate" />
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">入社日付</label>
 								<div style="display: inline-block;">
-									<input type="text" th:value="${#dates.format(staffEntity.entryTime,'yyyy-MM-dd')}" class="form-control" name="entryTime" id="entryTime" />
+									<input type="text" th:value="${#dates.format(staffEntity.entryTime,'yyyy-MM-dd')}" class="form-control" editable="false" name="entryTime" id="entryTime" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -174,7 +174,7 @@
 							<div class="form-group">
 								<label class="col-sm-2 control-label">戸籍登録日付</label>
 								<div style="display: inline-block;">
-									<input type="text" th:value="${#dates.format(staffEntity.accountregistrationDate,'yyyy-MM-dd')}" class="form-control" name="accountregistrationDate" id="accountregistrationDate" />
+									<input type="text" th:value="${#dates.format(staffEntity.accountregistrationDate,'yyyy-MM-dd')}" class="form-control" editable="false" name="accountregistrationDate" id="accountregistrationDate" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -186,7 +186,7 @@
 							<div class="form-group">
 								<label class="col-sm-2 control-label">常住場所</label>
 								<div style="display: inline-block;">
-									<input type="text" th:value="${staffEntity.permanentAddress}" class="form-control" name="permanentAddress" id="permanentAddress" maxlength="40" size="50" />
+									<input type="text" th:value="${staffEntity.permanentAddress}" class="form-control" name="permanentAddress" id="permanentAddress" maxlength="40" size="80" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -207,7 +207,7 @@
 							<div class="form-group">
 								<label class="col-sm-2 control-label">取得職業資格日付</label>
 								<div style="display: inline-block;">
-									<input type="text" th:value="${#dates.format(staffEntity.professionallevelDate,'yyyy-MM-dd')}" class="form-control" name="professionallevelDate" id="professionallevelDate" />
+									<input type="text" th:value="${#dates.format(staffEntity.professionallevelDate,'yyyy-MM-dd')}" class="form-control" editable="false" name="professionallevelDate" id="professionallevelDate" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -456,6 +456,22 @@
 				var zipcode2 = /^[0-9]{3}-[0-9]{4}$/;
 				return this.optional(element) || (zipcode1.test(value) || zipcode2.test(value));
 			}, "郵便番号が正しい書式を入力してください");
+			$("#idRuikei").change(function() {  	
+				var type = $("#idRuikei").find("option:selected").text();
+				if (type == "住民身分証") {
+					$("#idNumber").rules("remove");
+					$("#idNumber").rules("add", {idCard: true});
+				} else if (type == "パスポート") {
+					$("#idNumber").rules("remove");
+					$("#idNumber").rules("add", {passPort: true});
+				} else if (type == "香港とマカオの通行証") {
+					$("#idNumber").rules("remove");
+					$("#idNumber").rules("add", {hkmaKao: true});
+				} else {
+					$("#idNumber").rules("remove");
+					$("#idNumber").rules("add", {taiWan: true});
+				}
+			});
 			$("#idNumber").change(function() {  	
 				var type = $("#idRuikei").find("option:selected").text();
 				if (type == "住民身分証") {

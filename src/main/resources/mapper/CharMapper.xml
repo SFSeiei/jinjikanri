@@ -44,8 +44,8 @@
 		parameterType="com.jinjikanri.entity.SYST06CharEntity"
 		useGeneratedKeys="true" keyProperty="charCd">
 		INSERT INTO
-		syst06char(CHAR_MEI,CHAR_DHISKRPSN)
-		VALUES(#{charMei},#{charDhiskrpsn})
+		syst06char(CHAR_MEI,CHAR_DHISKRPSN,REC_SAKS_ZITU_YMD_HMS,REC_KOSN_ZITU_YMD_HMS)
+		VALUES(#{charMei},#{charDhiskrpsn},#{recSaksZituYmdHms},#{recKosnZituYmdHms})
 	</insert>
 
 	<!--修改Char -->
@@ -55,7 +55,9 @@
 		<trim prefix="set" suffixOverrides=",">
 			<if test="charMei!=null">CHAR_MEI=#{charMei},</if>
 			<if test="charDhiskrpsn!=null">CHAR_DHISKRPSN=#{charDhiskrpsn},</if>
-			<if test="charMei==null and charDhiskrpsn==null">
+			<if test="recSaksZituYmdHms!=null">REC_SAKS_ZITU_YMD_HMS=#{recSaksZituYmdHms},</if>
+			<if test="recKosnZituYmdHms!=null">REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms},</if>
+			<if test="charMei==null and charDhiskrpsn==null and recSaksZituYmdHms==null and recKosnZituYmdHms==null">
 				CHAR_CD = #{charCd},
 			</if>
 		</trim>

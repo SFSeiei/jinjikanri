@@ -25,6 +25,14 @@
 <script src="/js/plugins/summernote/summernote.min.js"></script>
 <script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
 <link href="/css/kkpager_blue.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.line {
+	width:300px;	
+	white-space: normal;
+	word-wrap: break-word;
+	word-break: break-all;
+}
+</style>
 </head>
 <body class="gray-bg">
 	<div class="wrapper wrapper-content  animated fadeInRight">
@@ -95,7 +103,7 @@
 									<td th:text="${char.charCd}" align="center"></td>
 									<td th:text="${char.charMei}" align="center"></td>
 									<!-- <td th:text="${char.recKosnZituYmdHms}" align="center"></td> -->
-									<td th:text="${char.charDhiskrpsn}" align="center"></td>
+									<td class="line" th:text="${char.charDhiskrpsn}" align="center"></td>
 									<td width="200" align="center">&nbsp;&nbsp; <a
 										href="javascript:void(0);"
 										th:onclick="|update(${char.charCd})|">編集</a>&nbsp;&nbsp; <a
@@ -104,7 +112,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<div style="width: 800px; margin: 0 auto;">
+						<div style="width: 800px; margin: 0 auto;">	
 							<div id="kkpager"></div>
 						</div>
 					</div>
@@ -134,10 +142,17 @@
 		}
 
 		function del(id) {
-			if (confirm("你确定删除吗？")) {
-				var charCds = [ id ];
-				location.href = "/sys/char/delete?charCds=" + charCds + "";
-			}
+			parent.layer.alert ('削除しますか？', {
+				skin : 'layui-layer-molv',
+				time : 10000,
+			 	icon : 3,
+				btn : ['はい','いいえ'],
+				yes : function () {
+					parent.layer.closeAll('dialog');
+					var charCds = [ id ];
+					location.href = "/sys/char/delete?charCds=" + charCds + "";
+				}
+			});
 		}
 		function getParameter(name) {
 			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -156,28 +171,30 @@
 			}
 			var charCd = $("#CHAR_CD").val();
 			//因为后端类型不同，数字传空是null，字符串是“”（空串）.
-			if(!$("#CHAR_MEI").val()){
+			if (!$("#CHAR_MEI").val()) {
 				var charMei = $("#CHAR_MEI").val();
-			}else{
-				var charMei ='&charMei=' + $("#CHAR_MEI").val();
+			} else {
+				var charMei = '&charMei=' + $("#CHAR_MEI").val();
 			}
-			if(!$("#CHAR_DHISKRPSN").val()){
+			if (!$("#CHAR_DHISKRPSN").val()) {
 				var charDhiskrpsn = $("#CHAR_DHISKRPSN").val();
-			}else{
-				var charDhiskrpsn ='&charDhiskrpsn=' + $("#CHAR_DHISKRPSN").val();
+			} else {
+				var charDhiskrpsn = '&charDhiskrpsn='
+						+ $("#CHAR_DHISKRPSN").val();
 			}
-			kkpager.generPageHtml({
-				pno : pageNo,
-				total : totalPage,
-				totalRecords : totalRecords,
-				hrefFormer : 'selectChars',
-				hrefLatter : '?charCd=' + charCd + charMei
-						+ charDhiskrpsn + '',
-				getLink : function(n) {
-					return this.hrefFormer + this.hrefLatter + "&pageIndex="
-							+ n;
-				}
-			});
+			kkpager
+					.generPageHtml({
+						pno : pageNo,
+						total : totalPage,
+						totalRecords : totalRecords,
+						hrefFormer : 'selectChars',
+						hrefLatter : '?charCd=' + charCd + charMei
+								+ charDhiskrpsn + '',
+						getLink : function(n) {
+							return this.hrefFormer + this.hrefLatter
+									+ "&pageIndex=" + n;
+						}
+					});
 		})
 		$().ready(
 				function() {

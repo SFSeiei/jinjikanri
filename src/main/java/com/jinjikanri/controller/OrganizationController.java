@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jinjikanri.common.util.ErrorMessage;
 import com.jinjikanri.entity.HKN0001ORGEntity;
 
 
@@ -56,15 +57,30 @@ public class OrganizationController {
 	 * @param なし
 	 * @return
 	 */
-	@RequestMapping("/deleteOrgazization")
-	public String deleteTravelAreaById(Integer organizationCd,Model model ) {
-		HKN0001ORGEntity orga=new HKN0001ORGEntity();
-		if(organizationCd!=null) {
-			orga = hkn0001ServiceImpl.deleteOrgazization(organizationCd);
+	@RequestMapping("/deleteOrganization")
+	@ResponseBody
+	public String delDate(Integer organizationCd, Timestamp makeTime) {
+		 try {
+			// 0削除存在チェック
+			HKN0001ORGEntity  orga= hkn0001ServiceImpl.selectUserById(organizationCd);
+			if(orga == null) {
+				return ErrorMessage.ERR0029();
+			} else {
+				// 0执行削除
+				int str = this.hkn0001ServiceImpl.delDate(organizationCd);
+				return "true";
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+		    return "false";
 		}
-		model.addAttribute("orga", orga);
-		return "user/list1";
 	}
+	
+	
+
+
+
+
 	/**
 	 * 変更画面に遷移します
 	 * @param model
@@ -99,10 +115,7 @@ public class OrganizationController {
 	 * @return
 	 */
 	@RequestMapping("/updateOrgazization")
-	public String updateorganizationCd(@Valid HKN0001ORGEntity orga, Model model, BindingResult result) {
-		if(result.hasErrors()){
-		return"user/oper2";
-		}
+	public String updateorganizationCd( HKN0001ORGEntity orga, Model model) {
 		Integer organizationCd = orga.getOrganizationCd();
 		Timestamp updateDate = orga.getRecKosnZituYmdHms();
 		orga.setRecKosnZituYmdHms(new Timestamp(System.currentTimeMillis()));
@@ -116,26 +129,37 @@ public class OrganizationController {
 	 * @return
 	 */
 	@RequestMapping("/insertOrgazization")
-	public String insertorganizationCd(@Valid HKN0001ORGEntity orga, Model model, BindingResult result) {
-		if(result.hasErrors()){
-			return"user/oper1";
-			}
+
+	public String insertorganizationCd( HKN0001ORGEntity orga, Model model) {
+		
 		
 		Integer organizationCd = orga.getOrganizationCd();
 		Timestamp updateDate = orga.getRecKosnZituYmdHms();
-		orga.setRecSaksZituYmdHms(new Timestamp(System.currentTimeMillis()));
-		orga.setRecKosnZituYmdHms(new Timestamp(System.currentTimeMillis()));
-		int orgaEntity=hkn0001ServiceImpl.insertorganizationCd(orga);
-		model.addAttribute("orga", orga);
-		return "user/list1";
+		 
+				
+				HKN0001ORGEntity  orga1= hkn0001ServiceImpl.selectUserById(organizationCd);
+				if(orga1 != null) {
+					 model.addAttribute("updateResult", "ERR0031:組織コードと組織情報Ｔの組織コードの内容が一致していません。");
+					return "user/oper1";
+				} else {
+					
+					orga.setRecSaksZituYmdHms(new Timestamp(System.currentTimeMillis()));
+					orga.setRecKosnZituYmdHms(new Timestamp(System.currentTimeMillis()));
+					int orgaEntity=hkn0001ServiceImpl.insertorganizationCd(orga);
+					 model.addAttribute("orga", orga);
+						return "user/list1";
+				}
 		}
-	@RequestMapping("insertOrgazizationmid")
+	
+		
+	
+	@RequestMapping("/insertOrgazizationmid")
 	public String insert1organizationCd(HKN0001ORGEntity orga, Model model) {
 		
 		orga.setRecSaksZituYmdHms(new Timestamp(System.currentTimeMillis()));
 		orga.setRecKosnZituYmdHms(new Timestamp(System.currentTimeMillis()));
-		int orgaEntity=hkn0001ServiceImpl.insert1organizationCd(orga);
 		int orgaEntity1=hkn0001ServiceImpl.update1organizationCd(orga);
+		int orgaEntity=hkn0001ServiceImpl.insert1organizationCd(orga);
 		model.addAttribute("orga", orga);
 		return "user/list1";
 	}

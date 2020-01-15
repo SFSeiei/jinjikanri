@@ -10,7 +10,7 @@ public interface CharService {
 
 	boolean saveChar(SYST06CharEntity charEntity, List<Integer> rightCdList);
 
-	boolean updateChar(SYST06CharEntity charEntity, List<Integer> rightCdList);
+	String updateChar(String updateTime, SYST06CharEntity charEntity, List<Integer> rightCdList);
 
 	boolean deleteCharBatch(Integer[] charCds);
 }

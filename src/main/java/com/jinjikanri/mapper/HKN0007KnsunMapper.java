@@ -8,6 +8,12 @@ import org.apache.ibatis.annotations.Param;
 
 import com.jinjikanri.entity.HKN0007KnsunEntity;
 
+/**
+ * DB操作<BR>
+ * DB詳細操作の実行
+ * @author 李春菊  2019/12/27
+ *
+ */
 @Mapper
 public interface HKN0007KnsunMapper {
 	/**

@@ -12,49 +12,6 @@ import com.jinjikanri.entity.JIN0002StaffEntity;
  */
 public class StaffCheck {
 
-	// 所属部門
-	private static String dePartMent;
-	// 名前
-	private static String name;
-	// 性別
-	private static String sex;
-	// 職務
-	private static String posiTion;
-	// 課長
-	private static String secTionManager;
-	// 部長
-	private static String miniSter;
-	// 証件類型
-	private static String idRuikei;
-	// 証件番号
-	private static String idNumber;
-	// 卒業日付
-	private static String graduationTime;
-	// 生誕日付
-	private static String birthDate;
-	// 入社日付
-	private static String entryTime;
-	// 政治様相
-	private static String politicaloutLook;
-	// 教養程度
-	private static String educationDegree;
-	// 戸籍性質
-	private static String accountCharacter;
-	// 戸籍登録日付
-	private static String accountregistrationDate;
-	// 職業資格等級
-	private static String professionalLevel;
-	// 取得職業資格日付
-	private static String professionallevelDate;
-	// 取得国家職業資格等級職業名前
-	private static String nameofWork;
-	// 連絡電話
-	private static String contactNumber;
-	// E-MAIL場所
-	private static String eMail;
-	// 郵便番号
-	private static String postalCode;
-
 	/**
 	 * パラメータチェックステージ。<BR>
 	 * 変更照会のパラメータチェックを順次実行する。<BR>
@@ -89,37 +46,37 @@ public class StaffCheck {
 		String zipcode2 = "(^[0-9]{3}-[0-9]{4}$)";
 
 		// 所属部門
-		dePartMent = staffEntity.getDePartMent();
+		String dePartMent = staffEntity.getDePartMent();
 		// 名前
-		name = staffEntity.getName();
+		String name = staffEntity.getName();
 		// 性別
-		sex = staffEntity.getSex();
+		String sex = staffEntity.getSex();
 		// 職務
-		posiTion = staffEntity.getPosiTion();
+		String posiTion = staffEntity.getPosiTion();
 		// 課長
-		secTionManager = staffEntity.getSecTionManager();
+		String secTionManager = staffEntity.getSecTionManager();
 		// 部長
-		miniSter = staffEntity.getMiniSter();
+		String miniSter = staffEntity.getMiniSter();
 		// 証件類型
-		idRuikei = staffEntity.getIdRuikei();
+		String idRuikei = staffEntity.getIdRuikei();
 		// 証件番号
-		idNumber = staffEntity.getIdNumber();
+		String idNumber = staffEntity.getIdNumber();
 		// 政治様相
-		politicaloutLook = staffEntity.getPoliticaloutLook();
+		String politicaloutLook = staffEntity.getPoliticaloutLook();
 		// 教養程度
-		educationDegree = staffEntity.getEducationDegree();
+		String educationDegree = staffEntity.getEducationDegree();
 		// 戸籍性質
-		accountCharacter = staffEntity.getAccountCharacter();
+		String accountCharacter = staffEntity.getAccountCharacter();
 		// 職業資格等級
-		professionalLevel = staffEntity.getProfessionalLevel();
+		String professionalLevel = staffEntity.getProfessionalLevel();
 		// 取得国家職業資格等級職業名前
-		nameofWork = staffEntity.getNameofWork();
+		String nameofWork = staffEntity.getNameofWork();
 		// 連絡電話
-		contactNumber = staffEntity.getContactNumber();
+		String contactNumber = staffEntity.getContactNumber();
 		// E-MAIL場所
-		eMail = staffEntity.getEMail();
+		String eMail = staffEntity.getEMail();
 		// 郵便番号
-		postalCode = staffEntity.getPostalCode();
+		String postalCode = staffEntity.getPostalCode();
 
 		// 所属部門必須チェック
 		if (Tools.isNull(dePartMent)) {
@@ -205,7 +162,7 @@ public class StaffCheck {
 
 		// 卒業日付その他チェック
 		if (staffEntity.getGraduationTime() != null) {
-			graduationTime = sdf.format(
+			String graduationTime = sdf.format(
 					staffEntity.getGraduationTime());
 			if (!graduationTime.matches(date)) {
 				isTrue = false;
@@ -214,7 +171,7 @@ public class StaffCheck {
 
 		// 生誕日付
 		if (staffEntity.getBirthDate() != null) {
-			birthDate = sdf.format(staffEntity.getBirthDate());
+			String birthDate = sdf.format(staffEntity.getBirthDate());
 			if (!birthDate.matches(date)) {
 				isTrue = false;
 			}
@@ -222,7 +179,7 @@ public class StaffCheck {
 
 		// 入社日付
 		if (staffEntity.getEntryTime() != null) {
-			entryTime = sdf.format(staffEntity.getEntryTime());
+			String entryTime = sdf.format(staffEntity.getEntryTime());
 			if (!entryTime.matches(date)) {
 				isTrue = false;
 			}
@@ -290,7 +247,7 @@ public class StaffCheck {
 
 		// 戸籍登録日付その他チェック
 		if (staffEntity.getAccountregistrationDate() != null) {
-			accountregistrationDate =
+			String accountregistrationDate =
 					sdf.format(staffEntity.getAccountregistrationDate());
 			if (!accountregistrationDate.matches(date)) {
 				isTrue = false;
@@ -319,7 +276,7 @@ public class StaffCheck {
 
 		// 取得職業資格日付その他チェック
 		if (staffEntity.getProfessionallevelDate() != null) {
-			professionallevelDate =
+			String professionallevelDate =
 					sdf.format(staffEntity.getProfessionallevelDate());
 			if (!professionallevelDate.matches(date)) {
 				isTrue = false;
@@ -375,6 +332,7 @@ public class StaffCheck {
 		// 日期
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		// 卒業日付
+		String graduationTime = null;
 		if (staffEntity.getGraduationTime() != null) {
 			graduationTime = sdf.format(
 					staffEntity.getGraduationTime());
@@ -386,8 +344,9 @@ public class StaffCheck {
 		String majorstudied =
 				staffEntity.getMajorStudied();
 		// 戸籍性質
-		accountCharacter = staffEntity.getAccountCharacter();
+		String accountCharacter = staffEntity.getAccountCharacter();
 		// 戸籍登録日付
+		String accountregistrationDate = null;
 		if (staffEntity.getAccountregistrationDate() != null) {
 			accountregistrationDate =
 					sdf.format(staffEntity.getAccountregistrationDate());
@@ -396,14 +355,15 @@ public class StaffCheck {
 		String registrationresidence =
 				staffEntity.getRegistrationResidence();
 		// 職業資格等級
-		professionalLevel = staffEntity.getProfessionalLevel();
+		String professionalLevel = staffEntity.getProfessionalLevel();
 		// 取得職業資格日付
+		String professionallevelDate = null;
 		if (staffEntity.getProfessionallevelDate() != null) {
 			professionallevelDate =
 					sdf.format(staffEntity.getProfessionallevelDate());
 		}
 		// 取得国家職業資格等級職業名前
-		nameofWork = staffEntity.getNameofWork();
+		String nameofWork = staffEntity.getNameofWork();
 		
 		// 卒業情報组合 チェック
 		if (!Tools.isNull(graduationTime) &&

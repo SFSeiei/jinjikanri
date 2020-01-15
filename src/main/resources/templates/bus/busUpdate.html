@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
 <meta charset="UTF-8">
 <title>人事勤怠管理システム構築 -シャトルバス-更新</title>
@@ -19,8 +18,7 @@
 			<div class="col-sm-12">
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
-						<form method="post" class="form-horizontal" id="frm"
-							onsubmit="return true">
+						<form method="post" class="form-horizontal" id="frm" onsubmit="return true">
 
 							<input type="hidden" class="form-control" name="busId" id="busId" th:value="${HKN0005LicenseEntity.busId}" th:if="${not #strings.isEmpty(HKN0005LicenseEntity.busId)}" />
 
@@ -30,24 +28,28 @@
 									<input type="text" class="form-control" name="licenseId" id="licenseId" th:value="${HKN0005LicenseEntity.licenseId}" />
 								</div>
 							</div>
+							
 							<div class="form-group">
 								<label class="col-sm-2 control-label">運転手の名前</label>
 								<div class="col-sm-6">
 									<input type="text" class="form-control" name="name" id="name" th:value="${HKN0005LicenseEntity.name}" />
 								</div>
 							</div>
+							
 							<div class="form-group">
 								<label class="col-sm-2 control-label">従業員コード</label>
 								<div class="col-sm-6">
 									<input type="text" class="form-control" readonly="readonly" name="staffCd" id="staffCd" th:value="${HKN0005LicenseEntity.staffCd}" />
 								</div>
 							</div>
+							
 							<div class="form-group">
 								<label class="col-sm-2 control-label">車種</label>
 								<div class="col-sm-6">
 									<input type="text" class="form-control" name="vehicleType" id="vehicleType" th:value="${HKN0005LicenseEntity.vehicleType}" />
 								</div>
 							</div>
+							
 							<div class="form-group">
 								<label class="col-sm-2 control-label">班次</label>
 								<div class="col-sm-6">
@@ -55,19 +57,20 @@
 									<input type="radio" name="classes" th:value="1" th:field="*{HKN0005LicenseEntity.classes}" />倒加班
 								</div>
 							</div>
+							
 							<div class="form-group">
 								<label class="col-sm-2 control-label">シャトルバスの路線</label>
 								<div class="col-sm-6">
-									<input type="hidden" id="course"
-										th:value="${HKN0005LicenseEntity.course}" /> <input
-										type="checkbox" name="course" th:value="A" id="A" />農学院 <input
-										type="checkbox" name="course" th:value="B" id="B" />体育館 <input
-										type="checkbox" name="course" th:value="C" id="C" />学院路 <input
-										type="checkbox" name="course" th:value="D" id="D" />六道沟 <input
-										type="checkbox" name="course" th:value="E" id="E" />天津站 <input
-										type="checkbox" name="course" th:value="F" id="F" />搪沽火東站
+									<input type="hidden" id="course" th:value="${HKN0005LicenseEntity.course}" />
+									<input type="checkbox" name="course" th:value="A" id="A" />農学院
+									<input type="checkbox" name="course" th:value="B" id="B" />体育館
+									<input type="checkbox" name="course" th:value="C" id="C" />学院路
+									<input type="checkbox" name="course" th:value="D" id="D" />六道沟
+									<input type="checkbox" name="course" th:value="E" id="E" />天津站
+									<input type="checkbox" name="course" th:value="F" id="F" />搪沽火東站
 								</div>
 							</div>
+							
 							<div class="form-group">
 								<label class="col-sm-2 control-label">連絡先の区域</label>
 								<div class="col-sm-6">
@@ -75,17 +78,15 @@
 									<input type="radio" name="locationId" th:value="1" th:field="*{HKN0005LicenseEntity.locationId}" />塘沽
 								</div>
 							</div>
+							
 							<div class="form-group">
 								<label class="col-sm-2 control-label">連絡先</label>
 								<div class="col-sm-6">
 									<input type="text" class="form-control" name="destination" id="destination" th:value="${HKN0005LicenseEntity.destination}" />
 								</div>
-								<div class="error" id="err_destination"
-									style="display: inline-block;"></div>
 							</div>
 
-							<input type="hidden" class="form-control" name="recKosnZituYmdHms" id="recKosnZituYmdHms" th:value="${HKN0005LicenseEntity.recKosnZituYmdHms}"
-								th:if="${not #strings.isEmpty(HKN0005LicenseEntity.busId)}" />
+							<input type="hidden" class="form-control" name="recKosnZituYmdHms" id="recKosnZituYmdHms" th:value="${HKN0005LicenseEntity.recKosnZituYmdHms}" th:if="${not #strings.isEmpty(HKN0005LicenseEntity.busId)}" />
 
 							<div class="form-group">
 								<div class="col-sm-4 col-sm-offset-2">
@@ -95,6 +96,7 @@
 									<button class="btn btn-primary" type="button" th:onclick="closeWin();">戻る</button>
 								</div>
 							</div>
+							
 						</form>
 					</div>
 				</div>

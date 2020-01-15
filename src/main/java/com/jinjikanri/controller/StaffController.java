@@ -122,13 +122,13 @@ public class StaffController {
 							}
 						} else {
 							//更新されたデータは存在しませんエラー
-							return ErrorMessage.ERR0021("該人員基本情報");
+							return String.valueOf(staffCd) + ErrorMessage.ERR0021("該人員基本情報");
 						}
 					// 追加の場合、人員基本情報追加
 					} else {
 						if (staffService.selectstaffid(
 								staffEntity.getIdNumber()) != null) {
-							return ErrorMessage.ERR0020("該人員基本情報");
+							return staffEntity.getIdNumber() + ErrorMessage.ERR0020("該人員基本情報");
 						}
 						staffEntity.setRecsakszituymdhms(Tools.getSysDate());
 						staffEntity.setReckosnzituymdhms(Tools.getSysDate());

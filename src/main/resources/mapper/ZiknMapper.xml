@@ -27,7 +27,7 @@
 		SELECT * FROM hkn0009zikn
 	</select>
 
-	<update id="updateZiknById" parameterType="com.jinjikanri.entity.HKN0009ZiknEntity">
+ 	<update id="updateZiknById" parameterType="com.jinjikanri.entity.HKN0009ZiknEntity">
 	UPDATE hkn0009zikn
 	<set>
 		<if test="tukiTinkinTkyu1!=null">

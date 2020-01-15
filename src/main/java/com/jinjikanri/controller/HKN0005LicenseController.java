@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jinjikanri.entity.HKN0005LicenseEntity;
 import com.jinjikanri.service.HKN0005LicenseService;
 
+
+/**
+ * 
+ * @author 田柳　2020/01/08
+ *
+ */
 @Controller
 @RequestMapping(value = "/HKN0005LicenseEntity")
 public class HKN0005LicenseController {
@@ -31,21 +37,40 @@ public class HKN0005LicenseController {
 	@RequestMapping(value = "/selectBus")
 	public String selectBus(HKN0005LicenseEntity hkn0005LicenseEntity, Integer pageIndex, Model model)
 			throws Exception {
-		/* 車のナンバーの桁数は判断する。 */
+		/**
+		 * 
+		 * 車のナンバーの桁数は判断する。
+		 * 車のナンバーの桁数が8桁以上、系统错误画面を表示する。
+		 * 
+		 */
 		if (hkn0005LicenseEntity.getLicenseId() != null && hkn0005LicenseEntity.getLicenseId().length() > 8) {
 			throw new Exception("系统错误");
 		}
 		
-		/* 運転手の名前の桁数は判断する。 */
+		/**
+		 * 
+		 * 運転手の名前の桁数は判断する。
+		 * 運転手の名前の桁数が20桁以上、系统错误画面を表示する。
+		 * 
+		 */
 		if (hkn0005LicenseEntity.getName() != null && hkn0005LicenseEntity.getName().length() > 20) {
 			throw new Exception("系统错误");
 		}
-
-		/* 連絡先の桁数は判断する。 */
+		
+		/**
+		 * 
+		 * 連絡先の桁数は判断する。
+		 * 連絡先の桁数が50桁以上、系统错误画面を表示する。
+		 * 
+		 */
 		if (hkn0005LicenseEntity.getDestination() != null && hkn0005LicenseEntity.getDestination().length() > 50) {
 			throw new Exception("系统错误");
 		}
 		
+		
+		/**
+		 * 列表方法，带分页
+		 */
 		if (pageIndex == null) {
 			pageIndex = 1;
 		}
@@ -81,70 +106,138 @@ public class HKN0005LicenseController {
 	@RequestMapping(value = "/busInsert")
 	@ResponseBody
 	public String busInsert(HKN0005LicenseEntity hkn0005LicenseEntity, Model model) throws Exception {
-		/* 車のナンバーの入力は判断する。 */
+		/**
+		 * 
+		 * 車のナンバーの入力は判断する。
+		 * 車のナンバーが入力しない、系统错误画面を表示する。
+		 * 
+		 */
 		if (hkn0005LicenseEntity.getLicenseId() == "") {
 			throw new Exception("系统错误");
 		} else {
-			/* 車のナンバーの桁数は判断する。 */
+			/**
+			 * 
+			 * 車のナンバーの桁数は判断する。
+			 * 車のナンバーの桁数が8桁以上、系统错误画面を表示する。
+			 * 
+			 */
 			if (hkn0005LicenseEntity.getLicenseId() != "" && hkn0005LicenseEntity.getLicenseId().length() > 8) {
 				throw new Exception("系统错误");
 			}
 		}
-
-		/* 運転手の名前の桁数は判断する。 */
+		
+		/**
+		 * 
+		 * 運転手の名前の桁数は判断する。
+		 * 運転手の名前の桁数が20桁以上、系统错误画面を表示する。
+		 * 
+		 */
 		if (hkn0005LicenseEntity.getName() != "" && hkn0005LicenseEntity.getName().length() > 20) {
 			throw new Exception("系统错误");
 		}
-
-		/* 従業員コードの入力は判断する。 */
+		
+		/**
+		 * 
+		 * 従業員コードの入力は判断する。
+		 * 従業員コードが入力しない、系统错误画面を表示する。
+		 * 
+		 */
 		if (hkn0005LicenseEntity.getStaffCd() == null) {
 			throw new Exception("系统错误");
 		}
-
-		/* 車種の桁数は判断する。 */
+		
+		/**
+		 * 
+		 * 車種の桁数は判断する。
+		 * 車種の桁数が50桁以上、系统错误画面を表示する。
+		 * 
+		 */
 		if (hkn0005LicenseEntity.getVehicleType() != "" && hkn0005LicenseEntity.getVehicleType().length() > 50) {
 			throw new Exception("系统错误");
 		}
-
-		/* 班次の入力は判断する。 */
+		
+		/**
+		 * 
+		 * 班次の入力は判断する。
+		 * 班次が入力しない、系统错误画面を表示する。
+		 * 
+		 */
 		if (hkn0005LicenseEntity.getClasses() == null) {
 			throw new Exception("系统错误");
 		}
-
-		/* シャトルバスの路線の入力は判断する。 */
+		
+		/**
+		 * 
+		 * シャトルバスの路線の入力は判断する。
+		 * シャトルバスの路線が入力しない、系统错误画面を表示する。
+		 * 
+		 */
 		if (hkn0005LicenseEntity.getCourse() == "" || hkn0005LicenseEntity.getCourse() == null) {
 			throw new Exception("系统错误");
 		}
-
-		/* 連絡先の入力は判断する。 */
+		
+		/**
+		 * 
+		 * 連絡先の入力は判断する。 
+		 * 連絡先が入力しない、系统错误画面を表示する。
+		 * 
+		 */
 		if (hkn0005LicenseEntity.getDestination() == "") {
 			throw new Exception("系统错误");
 		} else {
-			/* 連絡先の桁数は判断する。 */
+			/**
+			 * 
+			 * 連絡先の桁数は判断する。
+			 * 連絡先が50桁以上、系统错误画面を表示する。
+			 * 
+			 */
 			if (hkn0005LicenseEntity.getDestination() != "" && hkn0005LicenseEntity.getDestination().length() > 50) {
 				throw new Exception("系统错误");
 			}
 		}
-
-		/* シャトルバスの情報を変更は判断する。 */
+		
+		/**
+		 * 
+		 * バスIDは存在しない。
+		 * シャトルバスの情報を変更は判断する。
+		 * 
+		 */
 		if (hkn0005LicenseEntity.getBusId() != null) {
 			int str = this.hkn0005LicenseService.busUpdate(hkn0005LicenseEntity);
 			if (str == 6) {
-				/* バスIDは存在チェック。 */
+				/**
+				 * バスIDは存在しない。
+				 * 指定のバス号情報がシャトルバス情報テーブルに存在しません。
+				 * 出力del。
+				 */
 				return "del";
 			} else if (str == 3) {
-				/* DBチェック。 */
+				/**
+				 * 指定情報が失効しました、更新してから送信してください。
+				 * 出力alter。
+				 */
 				return "alter";
 			} else if (str == 5) {
-				/* バス情報は存在チェック。 */
+				/**
+				 * バス情報は存在する。
+				 * 指定の更新情報がシャトルバス情報テーブルに存在します。
+				 *  出力exist。
+				 */
 				return "exist";
 			}
 		} else {
-			/* シャトルバスの情報を追加は判断する。 */
+			/**
+			 * バスIDは存在しない。
+			 * シャトルバスの情報を追加は判断する。
+			 */
 			model.addAttribute("HKN0005LicenseEntity", hkn0005LicenseEntity);
 			int str = this.hkn0005LicenseService.busInsert(hkn0005LicenseEntity);
 			if (str == 5) {
-				/* バス情報は存在チェック。 */
+				/**
+				 * バス情報は存在する。
+				 * 指定の更新情報がシャトルバス情報テーブルに存在します。
+				 *  出力exist。
+				 */
 				return "exist";
 			}
 		}
@@ -162,6 +255,10 @@ public class HKN0005LicenseController {
 	public String selectBusById(Integer busId, Model model) {
 		HKN0005LicenseEntity hkn0005LicenseEntity = new HKN0005LicenseEntity();
 		if (busId != null) {
+			/**
+			 * バスIDは存在する。
+			 * シャトルバス-更新画面にシャトルバスの情報を表示する。
+			 */
 			hkn0005LicenseEntity = this.hkn0005LicenseService.selectBusById(busId);
 		}
 		model.addAttribute(hkn0005LicenseEntity);
@@ -179,7 +276,11 @@ public class HKN0005LicenseController {
 		try {
 			HKN0005LicenseEntity str = this.hkn0005LicenseService.selectBusById(busId);
 			if (str == null) {
-				/* バスIDは存在チェック */
+				/**
+				 * バスIDは存在しない。
+				 * 指定のバス号情報がシャトルバス情報テーブルに存在しません。
+				 * 出力false。
+				 */
 				return "false";
 			}
 			return "true";
@@ -214,7 +315,11 @@ public class HKN0005LicenseController {
 		try {
 			int str = this.hkn0005LicenseService.busDelete(busId, recKosnZituYmdHms);
 			if (str == 6) {
-				/* バスIDは存在チェック。 */
+				/**
+				 * バスIDは存在しない。
+				 * 指定のバス号情報がシャトルバス情報テーブルに存在しません。
+				 * 出力del。
+				 */
 				return "del";
 			}
 			return "true";

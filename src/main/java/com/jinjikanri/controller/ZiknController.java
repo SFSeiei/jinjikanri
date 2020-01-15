@@ -34,13 +34,13 @@ public class ZiknController {
 		// 1課税所得額から税率取得する。
 		HKN0009ZiknEntity zikn = this.ziknService.selectZiknById();
 		if (zikn==null) {
-			// 1データは存在しません、エラーERR0029に戻る。
-			return ErrorMessage.ERR0029();
+			// 1データは存在しません、エラーの画面に戻る。
+			return "zeiritu/zeirituError";
 		} else {
 			// 1データは存在します。
 			model.addAttribute("Zikn",zikn);
+			return "zeiritu/zeirituDisplay";
 		}
-		return "zeiritu/zeirituDisplay";
 	}
 
 	/**
@@ -53,13 +53,13 @@ public class ZiknController {
 		// 1課税所得額から税率取得する。
 		HKN0009ZiknEntity zikn = this.ziknService.selectZiknById();
 		if (zikn==null) {
-			// 1データは存在しません、エラーERR0029に戻る。
-			return ErrorMessage.ERR0029();
+			// 1データは存在しません、エラーの画面に戻る。
+			return "zeiritu/zeirituError";
 		} else {
 			// 1データは存在します。
 			model.addAttribute("Zikn",zikn);
+			return "zeiritu/zeirituUpdate";
 		}
-		return "zeiritu/zeirituUpdate";
 	}
 
 	/**
@@ -79,7 +79,6 @@ public class ZiknController {
 			if (ziknDBcheck==null) {
 				// 1更新排他エラー
 				return ErrorMessage.ERR0048();
-			
 			} else {
 				// 1DB更新排他チェックを通過する
 				// 1更新操作を実行する
@@ -89,10 +88,10 @@ public class ZiknController {
 				ziknService.updateZiknById(zikn);
 				// 1データを视レイヤーに転送します。
 				model.addAttribute("Zikn",zikn);
+				return "zeiritu/zeirituDisplay";
 			}
-			return "zeiritu/zeirituDisplay";
 		} else {
-			//1後の単一項目と関連check==falseの場合
+			// 1後の単一項目と関連check==falseの場合
 			throw new Exception("系统错误");
 		}
 	}
@@ -132,10 +131,8 @@ public class ZiknController {
 				zikn.getTukiTinkinTkyu5() < zikn.getTukiTinkinTkyu6() &&
 				zikn.getTukiTinkinTkyu6() < zikn.getTukiTinkinTkyu7()
 				) {
-			System.out.println("check true");
 			return true;
 		} else {
-			System.out.println("check false");
 			return false;
 		}
 	}

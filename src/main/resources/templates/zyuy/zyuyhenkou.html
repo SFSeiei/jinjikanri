@@ -10,14 +10,15 @@
 <link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
 <link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
 <style type="text/css">
-#ERR_TOP{
+#ERR_TOP {
 	color: #cc5965;
-	font-weight:bold;
+	font-weight: bold;
 }
-span{
-	float:left;
-	height:34px;
-	line-height:34px;
+
+span {
+	float: left;
+	height: 34px;
+	line-height: 34px;
 }
 </style>
 </head>
@@ -27,7 +28,7 @@ span{
 			<div class="col-sm-12">
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
-					<!-- th:action="@{/user/updateZyuyById}" -->
+						<!-- th:action="@{/user/updateZyuyById}" -->
 						<form action="" method="post" class="form-horizontal" id="frm">
 							<input type="hidden" name="sttCd" />
 							<input type="hidden" name="recKosnZituYmdHms" id="recKosnZituYmdHms" th:value="${zyuy.recKosnZituYmdHms }" />
@@ -53,18 +54,18 @@ span{
 							<div class="form-group">
 								<label class="col-sm-3 control-label">昼間出勤時刻</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="hrmkuKisi" name="hrmkuKisi" th:value="${zyuy.hrmkuKisi}" style="width:20%;float:left" />
-									<span>&nbsp;時 &nbsp;&nbsp;~&nbsp;</span>
-									<input type="text" class="form-control" id="hrmkuSyryu" name="hrmkuSyryu" th:value="${zyuy.hrmkuSyryu}" style="width:20%;float:left" />
+									<input type="text" class="form-control" id="hrmkuKisi" name="hrmkuKisi" th:value="${zyuy.hrmkuKisi}" style="width: 20%; float: left" />
+									<span>&nbsp;時&nbsp;&nbsp;~&nbsp;</span>
+									<input type="text" class="form-control" id="hrmkuSyryu" name="hrmkuSyryu" th:value="${zyuy.hrmkuSyryu}" style="width: 20%; float: left" />
 									<span>&nbsp;時 &nbsp; </span>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label">夜間出勤時刻</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="yknkuKisi" name="yknkuKisi" th:value="${zyuy.yknkuKisi}" style="width:20%;float:left" />
-									<span>&nbsp;時 &nbsp;&nbsp;~&nbsp;</span>
-									<input type="text" class="form-control" id="yknkuSyryu" name="yknkuSyryu" th:value="${zyuy.yknkuSyryu}" style="width:20%;float:left" />
+									<input type="text" class="form-control" id="yknkuKisi" name="yknkuKisi" th:value="${zyuy.yknkuKisi}" style="width: 20%; float: left" />
+									<span>&nbsp;時&nbsp;&nbsp;~&nbsp;</span>
+									<input type="text" class="form-control" id="yknkuSyryu" name="yknkuSyryu" th:value="${zyuy.yknkuSyryu}" style="width: 20%; float: left" />
 									<span>&nbsp;時 &nbsp; </span>
 								</div>
 							</div>
@@ -72,7 +73,7 @@ span{
 								<div class="col-sm-7 col-sm-offset-5">
 									<div style="display: inline-block;" th:if="${not #strings.isEmpty(zyuy.sttCd)}">
 										<!-- <button type="submit" class="btn btn-primary">確&nbsp;認</button> -->
-										<input type="submit" class="btn btn-primary" value="確&nbsp;認"/>
+										<input type="submit" class="btn btn-primary" value="確&nbsp;認" />
 									</div>
 									<div style="display: inline-block;">
 										<button type="button" onclick="closeWin();" class="btn btn-primary">戻&nbsp;る</button>
@@ -111,13 +112,12 @@ span{
 						data : $('#frm').serialize(),
 						success : function(obj) {
 							if (obj == "zyuy/zyuytran") {
-								location.href="/zyuy/getZyuyById";
-							} 
-							else if (obj == "errors") {
+								location.href = "/zyuy/getZyuyById";
+							} else if (obj == "errors") {
 								location.href = "/errorException";
 							} else {
 								$("#ERR_TOP").text(obj);
-							}	
+							}
 						},
 						error : function() {
 							location.href = "/errorException";
@@ -131,69 +131,64 @@ span{
 		$().ready(function() {
 			// キーボードを押してリリースし、提出したformを検証します
 			$("#frm").validate({
- 				rules : {
+				rules : {
 					// 誕生日前倒し日数単項目チェック
 					tnzybZynts : {
 						// 属性チェック
-						checkzokusei : true, 
+						checkzokusei : true,
 						// 範囲チェック
-						range : [0,999]
+						range : [ 0, 999 ]
 					},
 					// 身分証期限前倒し日数単項目チェック
 					mbnsyuZynts : {
 						// 属性チェック
 						checkzokusei : true,
 						// 範囲チェック
-						range : [0,999]
+						range : [ 0, 999 ]
 					},
 					// 健診日前倒し日数単項目チェック
 					knsunZynts : {
 						// 属性チェック
 						checkzokusei : true,
 						// 範囲チェック
-						range : [0,999]
+						range : [ 0, 999 ]
 					},
 					// 昼間出勤開始時刻単項目チェック
 					hrmkuKisi : {
 						// 属性チェック
 						checkzokusei : true,
 						// 範囲チェック
-						range : [0,12]
+						range : [ 0, 12 ]
 					},
 					// 昼間出勤終了時刻単項目チェック
 					hrmkuSyryu : {
 						// 属性チェック
 						checkzokusei : true,
 						// 範囲チェック
-						range : [12,24],
+						range : [ 13, 24 ],
 						// 昼間出勤開始時刻と昼間出勤終了時刻入力チェック
-						checkNynHrm : true,
-						// 昼間出勤開始時刻 < 昼間出勤終了時刻チェック
-						checkHrmku : true,
-						// 昼間出勤終了時刻 < 夜間出勤開始時刻
-						checkHkakuYknHrm : true
+						checkNynHrm : true
 					},
 					// 夜間出勤開始時刻単項目チェック
 					yknkuKisi : {
 						// 属性チェック
 						checkzokusei : true,
 						// 範囲チェック
-						range : [12,24]
+						range : [ 13, 24 ],
+						// 昼間出勤終了時刻 < 夜間出勤開始時刻
+						checkHkakuYknHrm : true
 					},
 					// 夜間出勤終了時刻単項目チェック
 					yknkuSyryu : {
 						// 属性チェック
 						checkzokusei : true,
 						// 範囲チェック
-						range : [0,12],
+						range : [ 0, 12 ],
 						// 夜間出勤開始時刻と夜間出勤終了時刻入力チェック
 						checkNynYkn : true,
-						// 夜間出勤終了時刻 < 夜間出勤開始時刻チェック
-						checkYknku : true,
 						// 夜間出勤終了時刻 < 昼間出勤開始時刻チェック
 						checkHkakuHrmYkn : true
 					}
-
 				},
 				messages : {
 					tnzybZynts : {
@@ -211,14 +206,13 @@ span{
 					hrmkuKisi : {
 						range : "昼間出勤開始時刻は0~12の指定範囲内で入力してください",
 						checkzokusei : "昼間出勤開始時刻は半角数字で入力して下さい"
-						
 					},
 					hrmkuSyryu : {
-						range : "昼間出勤終了時刻は12~24の指定範囲内で入力してください",
+						range : "昼間出勤終了時刻は13~24の指定範囲内で入力してください",
 						checkzokusei : "昼間出勤終了時刻は半角数字で入力して下さい"
 					},
 					yknkuKisi : {
-						range : "夜間出勤開始時刻は12~24の指定範囲内で入力してください",
+						range : "夜間出勤開始時刻は13~24の指定範囲内で入力してください",
 						checkzokusei : "夜間出勤開始時刻は半角数字で入力して下さい"
 					},
 					yknkuSyryu : {
@@ -227,88 +221,81 @@ span{
 					}
 				},
 				/* 設定エラーメッセージは画面項目の後に表示されます */
-				 errorPlacement: function(error, element) {
+				errorPlacement : function(error, element) {
 					error.appendTo(element.parent().parent());
-				} 
+				}
 			});
 			/* 単項目属性チェック */
-			$.validator.addMethod("checkzokusei",function(value,element,params) {
+			$.validator.addMethod("checkzokusei", function(value, element, params) {
 				var chrnum = /^([0-9]+)$/;
 				return this.optional(element) || (chrnum.test(value));
 			});
 			/* 昼間出勤開始時刻と昼間出勤終了時刻入力チェック */
-			$.validator.addMethod("checkNynHrm",function(value,element,params) {
+			$.validator.addMethod("checkNynHrm", function(value, element, params) {
 				var hrmkuKisi = document.getElementById('hrmkuKisi').value;
 				var hrmkuSyryu = document.getElementById('hrmkuSyryu').value;
-				if ((hrmkuKisi == "" && hrmkuSyryu == "") || 
-						(hrmkuKisi != "" && hrmkuSyryu != "")) {
+				if ((hrmkuKisi == "" && hrmkuSyryu == "") || (hrmkuKisi != "" && hrmkuSyryu != "")) {
+					$("#hrmkuKisi").css("border", "1px solid #e5e6e7");
 					return true;
 				} else {
 					$("#hrmkuKisi").css("border", "1px dotted #cc5965");
+					$(element).data('error-msg', '昼間出勤開始時刻と昼間出勤終了時刻が全てを入力してください');
 					return false;
 				}
-			},"昼間出勤開始時刻と昼間出勤終了時刻が全てを入力してください");
+			},  function(params, element) {
+				return $(element).data('error-msg');
+			});
 			/* 夜間出勤開始時刻と夜間出勤終了時刻入力チェック */
-			$.validator.addMethod("checkNynYkn",function(value,element,params) {
+			$.validator.addMethod("checkNynYkn", function(value, element, params) {
 				var yknkuKisi = document.getElementById('yknkuKisi').value;
 				var yknkuSyryu = document.getElementById('yknkuSyryu').value;
-				if ((yknkuKisi == "" && yknkuSyryu == "") || 
-						(yknkuKisi != "" && yknkuSyryu != "")) {
+				if ((yknkuKisi == "" && yknkuSyryu == "") || (yknkuKisi != "" && yknkuSyryu != "")) {
+					$("#yknkuKisi").css("border", "1px solid #e5e6e7");
 					return true;
 				} else {
 					$("#yknkuKisi").css("border", "1px dotted #cc5965");
+					$(element).data('error-msg', '夜間出勤開始時刻と夜間出勤終了時刻が全てを入力してください');
 					return false;
 				}
-			},"夜間出勤開始時刻と夜間出勤終了時刻が全てを入力してください");
-			/* 昼間出勤開始時刻 < 昼間出勤終了時刻チェック */
-			$.validator.addMethod("checkHrmku",function(value,element,params) {
-				var hrmkuKisi = document.getElementById('hrmkuKisi').value;
-				var hrmkuSyryu = document.getElementById('hrmkuSyryu').value;
-				if (parseInt(hrmkuKisi) < parseInt(hrmkuSyryu)) {
-					return true;
-				} else {
-					$("#hrmkuKisi").css("border", "1px dotted #cc5965");
-					return false;
-				}
-			},"昼間出勤開始時刻は昼間出勤終了時刻より小ください");
-			/* 夜間出勤終了時刻 < 夜間出勤開始時刻チェック */
-			$.validator.addMethod("checkYknku",function(value,element,params) {
-				var yknkuKisi = document.getElementById('yknkuKisi').value;
-				var yknkuSyryu = document.getElementById('yknkuSyryu').value;
-				if (parseInt(yknkuSyryu) < parseInt(yknkuKisi)) {
-					return true;
-				} else {
-					$("#yknkuKisi").css("border", "1px dotted #cc5965");
-					return false;
-				}
-			},"夜間出勤終了時刻は夜間出勤開始時刻より小ください");
-			/* 夜間出勤終了時刻 <= 昼間出勤開始時刻チェック */
-			$.validator.addMethod("checkHkakuHrmYkn",function(value,element,params) {
-				var yknkuSyryu = document.getElementById('yknkuSyryu').value;
-				var hrmkuKisi = document.getElementById('hrmkuKisi').value;
-				if (parseInt(yknkuSyryu) <= parseInt(hrmkuKisi)) {
-					return true;
-				} else {
-					$("#hrmkuKisi").css("border", "1px dotted #cc5965");
-					return false;
-				}
-			},"夜間出勤終了時刻は昼間出勤開始時刻より小ください");
-			/* 昼間出勤終了時刻 <= 夜間出勤開始時刻チェック */
-			$.validator.addMethod("checkHkakuYknHrm",function(value,element,params) {
-				var hrmkuSyryu = document.getElementById('hrmkuSyryu').value;
-				var yknkuKisi = document.getElementById('yknkuKisi').value;
-				if (parseInt(hrmkuSyryu) <= parseInt(yknkuKisi)) {
-					return true;
-				} else {
-					$("#yknkuKisi").css("border", "1px dotted #cc5965");
-					return false;
-				}
-			},"昼間出勤終了時刻は夜間出勤開始時刻より小ください");
+			}, function(params, element) {
+				return $(element).data('error-msg');
+			});
 
+			/* 夜間出勤終了時刻 <= 昼間出勤開始時刻チェック */
+			$.validator.addMethod("checkHkakuHrmYkn", function(value, element, params) {
+				var yknkuSyryu = document.getElementById('yknkuSyryu').value;
+				var hrmkuKisi = document.getElementById('hrmkuKisi').value;
+				if (yknkuSyryu != "" && hrmkuKisi != "") {
+					if (parseInt(yknkuSyryu) <= parseInt(hrmkuKisi)) {
+						$("#hrmkuKisi").css("border", "1px solid #e5e6e7");
+						return true;
+					} else {
+						$("#hrmkuKisi").css("border", "1px dotted #cc5965");
+						return false;
+					}
+				}
+				return true;
+			}, "夜間出勤終了時刻は昼間出勤開始時刻より小ください");
+
+			/* 昼間出勤終了時刻 <= 夜間出勤開始時刻チェック */
+			$.validator.addMethod("checkHkakuYknHrm", function(value, element, params) {
+				var hrmkuSyryu = document.getElementById('hrmkuSyryu').value;
+				var yknkuKisi = document.getElementById('yknkuKisi').value;
+				if (hrmkuSyryu != "" && yknkuKisi != "") {
+					if (parseInt(hrmkuSyryu) <= parseInt(yknkuKisi)) {
+						$("#yknkuKisi").css("border", "1px solid #e5e6e7");
+						return true;
+					} else {
+						$("#yknkuKisi").css("border", "1px dotted #cc5965");
+						return false;
+					}
+				}
+				return true;
+			}, "昼間出勤終了時刻は夜間出勤開始時刻より小ください");
 		});
 
 		function closeWin() {
-			location.href="getZyuyById";
+			location.href = "getZyuyById";
 		}
 	</script>
 </body>

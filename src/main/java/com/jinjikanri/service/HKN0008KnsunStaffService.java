@@ -5,8 +5,18 @@ import java.util.Map;
 
 import com.jinjikanri.entity.HKN0008KnsunStaffEntity;
 
+/**
+ * ビジネスロジックインターフェース
+ * @author 李春菊　2020/01/10
+ */
 public interface HKN0008KnsunStaffService {
 	
+	/**
+	 * 検索の方法
+	 * @param hkn0008KnsunStaffEntity
+	 * @param offset
+	 * @return
+	 */
 	Map<String, Object> selectKnsunStaffs(HKN0008KnsunStaffEntity hkn0008KnsunStaffEntity, int offset);
 	/**
 	 * 新規追加の方法

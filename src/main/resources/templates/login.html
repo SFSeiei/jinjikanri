@@ -42,43 +42,50 @@
 		$().ready(
 				function() {
 					//  フォームを送信
-					$("#login-validation").validate(
-							{
-								rules : {
-									usrId : {
-										required : true,
-										maxlength : 8,
-									},
-									passwd : {
-										required : true,
-										maxlength : 20,
-									}
-								},
-								messages : {
-									usrId : {
-										required : "ユーザーIDを入力してください",
-										maxlength : "ユーザーIDが8桁以内英数字"
-									},
-									passwd : {
-										required : "パスワードを入力してください",
-										maxlength : $.validator
-												.format("パスワードが20桁以内")
-									}
-								},
-								onsubmit : true,
-								onfocusout : false,
-								onkeyup : false,
-								onclick : false,
-								focusInvalid : false,
-								focusCleanup : true
-							});
-					// ユーザーID、パスワード単項目属性チェック 
-					$.validator.addMethod("checkUserMassage", function(value,
+					$("#login-validation").validate({
+						rules : {
+							usrId : {
+								required : true,
+								maxlength : 8,
+								checkUserID : true
+							},
+							passwd : {
+								required : true,
+								maxlength : 20,
+								checkPassWD : true
+							}
+						},
+						messages : {
+							usrId : {
+								required : "ユーザーIDを入力してください",
+								maxlength : "ユーザーIDが8桁以内英数字"
+							},
+							passwd : {
+								required : "パスワードを入力してください",
+								maxlength : $.validator.format("パスワードが20桁以内")
+							}
+						},
+						onsubmit : true,
+						onfocusout : false,
+						onkeyup : false,
+						onclick : false,
+						focusInvalid : false,
+						focusCleanup : true
+					});
+					// ユーザーID単項目属性チェック 
+					$.validator.addMethod("checkUserID", function(value,
 							element, params) {
-						// ユーザーID、パスワードの正規表現
+						// ユーザーIDの正規表現
 						var reg = /^[0-9a-zA-Z]+$/;
 						return this.optional(element) || (reg.test(value));
-					}, $.validator.format("パスワードが20桁以内"));
+					}, $.validator.format("ユーザーIDが半角英数字で入力して下さい"));
+					// パスワード単項目属性チェック 
+					$.validator.addMethod("checkPassWD", function(value,
+							element, params) {
+						// パスワードの正規表現
+						var reg = /^[0-9a-zA-Z]+$/;
+						return this.optional(element) || (reg.test(value));
+					}, $.validator.format("パスワードが半角英数字で入力して下さい"));
 					if (window != top) {
 						top.location.href = "page/login.jsp";
 					}

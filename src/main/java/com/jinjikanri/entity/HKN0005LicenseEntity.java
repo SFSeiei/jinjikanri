@@ -2,6 +2,12 @@ package com.jinjikanri.entity;
 
 import java.sql.Timestamp;
 
+/**
+ * シャトルバス情報<BR>
+ * シャトルバス情報の内容一覧<BR>
+ * @author 田柳　2020/01/08
+ *
+ */
 public class HKN0005LicenseEntity {
 
 	/**

@@ -16,15 +16,15 @@
 		<result column="REC_KOSN_ZITU_YMD_HMS"
 			property="recKosnZituYmdHms" />
 	</resultMap>
-	
+
 	<!--添加用户角色权限关系 -->
 	<insert id="saveRel"
 		parameterType="com.jinjikanri.entity.SYST06UserCharRightRelEntity">
 		insert into
-		syst06user_char_right_rel(USER_CHAR_RIGHT_MEI,USR_CD,CHAR_CD,RIGHT_CD)
-		values(#{userCharRightMei},#{usrCd},#{charCd},#{rightCd})
+		syst06user_char_right_rel(USER_CHAR_RIGHT_MEI,USR_CD,CHAR_CD,RIGHT_CD,REC_SAKS_ZITU_YMD_HMS,REC_KOSN_ZITU_YMD_HMS)
+		values(#{userCharRightMei},#{usrCd},#{charCd},#{rightCd},#{recSaksZituYmdHms},#{recKosnZituYmdHms})
 	</insert>
-	
+
 	<!--根据关系实体删除用户角色权限关系 -->
 	<select id="selectRelByEntity"
 		parameterType="com.jinjikanri.entity.SYST06UserCharRightRelEntity"

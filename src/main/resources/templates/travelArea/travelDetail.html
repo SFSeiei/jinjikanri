@@ -33,7 +33,7 @@
 										<td>
 											<label class="control-label">出&nbsp;張&nbsp;地&nbsp;域&nbsp;省:&nbsp;</label>
 											<div style="display: inline-block;">
-												<input type="text" onclick="getProvince();" class="form-control" id="provinceName" name="provinceName" th:value="${travelArea.provinceName}" placeholder="クリックして選択"  readonly="readonly" maxlength="16"/>										
+												<input type="text" maxlength="16" onclick="getProvince();" class="form-control" id="provinceName" name="provinceName" th:value="${travelArea.provinceName}" placeholder="クリックして選択" readonly="readonly"/>										
 											</div>&nbsp;&nbsp;
 											<div class="error" id="ERR_PROVINCE" style="display: inline-block;"></div>										
 										</td>									
@@ -42,7 +42,7 @@
 										<td>
 											<label class="control-label">出&nbsp;張&nbsp;地&nbsp;域&nbsp;市:&nbsp;</label>
 											<div style="display: inline-block;">
-												<input type="text" onclick="getCityOrCountry('cityArea','provinceId');" class="form-control" id="cityName" name="cityName" th:value="${travelArea.cityName}" placeholder="クリックして選択" readonly="readonly" maxlength="16"/>
+												<input type="text" maxlength="16" onclick="getCityOrCountry('cityArea','provinceId');" class="form-control" id="cityName" name="cityName" th:value="${travelArea.cityName}" placeholder="クリックして選択" readonly="readonly"/>
 											</div>&nbsp;&nbsp;
 											<div class="error" id="ERR_CITY" style="display: inline-block;"></div>
 										</td>										
@@ -51,7 +51,7 @@
 										<td>
 											<label class="control-label">出張地域区/县:</label>
 											<div style="display: inline-block;">
-												<input type="text" onclick="getCityOrCountry('countryArea','cityId');" class="form-control" id="countryName" name="countryName" th:value="${travelArea.countryName}" placeholder="クリックして選択" readonly="readonly" maxlength="16"/>
+												<input type="text" maxlength="16" onclick="getCityOrCountry('countryArea','cityId');" class="form-control" id="countryName" name="countryName" th:value="${travelArea.countryName}" placeholder="クリックして選択" readonly="readonly"/>
 											</div>&nbsp;&nbsp;
 											<div class="error" id="ERR_COUNTRY" style="display: inline-block;"></div>
 										</td>
@@ -60,7 +60,7 @@
 										<td>
 											<label class="control-label">補助金（元）:&nbsp;</label>
 											<div style="display: inline-block;">
-												<input type="text" class="form-control" id="travelMoney" name="travelMoneyStr" th:value="${travelArea.travelMoney}" placeholder="補助金を入力してください" maxlength="13"/>
+												<input type="text" maxlength="13" class="form-control" id="travelMoney" name="travelMoneyStr" th:value="${travelArea.travelMoney}" placeholder="補助金を入力してください" />
 											</div>&nbsp;&nbsp;
 											<div class="error" id="ERR_TRAVELMONEY" style="display: inline-block;"></div>
 										</td>

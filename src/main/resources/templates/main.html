@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org" lang="en">
+	xmlns:th="http://www.thymeleaf.org" lang="en"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <meta charset="UTF-8">
 <title>人事管理</title>
@@ -25,8 +27,8 @@
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span
 								class="clear"> <span class="block m-t-xs"> <strong
 										class="font-bold">用户名：<label th:text="${user.usrId}"
-											class="control-label"></label></strong></span> <span
-									class="text-muted text-xs block"> <b class="caret"></b>
+											class="control-label"></label></strong>
+								</span> <span class="text-muted text-xs block"> <b class="caret"></b>
 								</span>
 							</span>
 							</a>
@@ -38,33 +40,45 @@
 						</div>
 						<div class="logo-element">+</div>
 					</li>
-					<li><a href="#"> <i class="glyphicon glyphicon-list-alt"></i>
-							<span class="nav-label">竞价管理</span> <span class="fa arrow"></span>
+					<li
+						shiro:hasAnyPermissions="sys:knsun:select,sys:bus:select,sys:travelArea:select,sys:zeiritu:select,sys:zyuy:select,sys:orga:select,sys:staff:select,sys:apply:select,sys:admit:select"><a
+						href="#"> <i class="glyphicon glyphicon-list-alt"></i> <span
+							class="nav-label">基本データ</span> <span class="fa arrow"></span>
 					</a>
 						<ul class="nav nav-second-level">
-							<li><a class="J_menuItem" href="/user/selectUsers">产权转让</a></li>
+							<li shiro:hasPermission="sys:knsun:select"><a
+								class="J_menuItem" href="/knsunStaff/selectKnsunStaffs">健康診断の日</a></li>
+							<li shiro:hasPermission="sys:bus:select"><a
+								class="J_menuItem" href="/HKN0005LicenseEntity/selectBus">送迎バスメンテナンス</a></li>
+							<li shiro:hasPermission="sys:travelArea:select"><a
+								class="J_menuItem" href="/travelArea/getTravelArea">出張地域の管理</a></li>
+							<li shiro:hasPermission="sys:zeiritu:select"><a
+								class="J_menuItem" href="/zeiritu/display">税金計算基準設定</a></li>
+							<li shiro:hasPermission="sys:zyuy:select"><a
+								class="J_menuItem" href="/zyuy/getZyuyById">システムパラメータ設定</a></li>
+							<li shiro:hasPermission="sys:orga:select"><a
+								class="J_menuItem" href="/orga/getOrganization">組織管理</a></li>
+							<li shiro:hasPermission="sys:staff:select"><a
+								class="J_menuItem" href="/staff/selectStaffs">人員基本情報メンテナンス</a></li>
+							<li shiro:hasPermission="sys:apply:select"><a
+								class="J_menuItem" href="/applyAdd">人員情報変更申請</a></li>
+							<li shiro:hasPermission="sys:apply:select"><a
+								class="J_menuItem" href="/getApplyList">人的情報変更申請一覧</a></li>
+							<li shiro:hasPermission="sys:apply:select"><a
+								class="J_menuItem" href="/getApplyHistory">人的情報変更申請履歴</a></li>
+							<li shiro:hasPermission="sys:admit:select"><a
+								class="J_menuItem" href="/admit/selectAdmit">人的情報認定一覧</a></li>
+							<li shiro:hasPermission="sys:admit:select"><a
+								class="J_menuItem" href="/admit/selectAdmit2">人的情報は履歴を承認する</a></li>
 						</ul></li>
-					<li><a href="#"> <i class="glyphicon glyphicon-list-alt"></i>
-							<span class="nav-label">内容管理</span> <span class="fa arrow"></span>
-					</a>
-						<ul class="nav nav-second-level">
-							<li><a class="J_menuItem" href="${ctx }/banner/list.do">轮播管理</a></li>
-							<li><a class="J_menuItem" href="${ctx }/contenttype/list.do">资讯分类</a></li>
-							<li><a class="J_menuItem" href="${ctx }/article/list.do">资讯管理</a></li>
-							<li><a class="J_menuItem" href="${ctx }/mall_notice/list.do">通知管理</a></li>
-						</ul></li>
-					<!-- shiro:hasPermission="sys:user:select" -->
-					<li><a href="#"> <i class="glyphicon glyphicon-user"></i>
-							<span class="nav-label">ユーザー管理</span> <span class="fa arrow"></span>
-					</a>
-						<ul class="nav nav-second-level">
-							<li><a class="J_menuItem" href="/sys/user/selectUsers">ユーザーリスト</a></li>
-						</ul></li>
-					<li><a href="#"> <i class="glyphicon glyphicon-cog"></i> <span
+					<li shiro:hasAnyPermissions="sys:user:select,sys:char:select"><a href="#"> <i class="glyphicon glyphicon-cog"></i> <span
 							class="nav-label">システム管理</span> <span class="fa arrow"></span>
 					</a>
 						<ul class="nav nav-second-level">
-							<li><a class="J_menuItem" href="/sys/char/selectChars">キャラクター管理</a></li>
+							<li shiro:hasPermission="sys:user:select"><a
+								class="J_menuItem" href="/sys/user/selectUsers">ユーザーリスト</a></li>
+							<li shiro:hasPermission="sys:char:select"><a
+								class="J_menuItem" href="/sys/char/selectChars">キャラクター管理</a></li>
 						</ul></li>
 				</ul>
 			</div>

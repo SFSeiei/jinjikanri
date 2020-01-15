@@ -21,15 +21,17 @@ import com.jinjikanri.service.HKN0003TravelAreaService;
  */
 @Service
 public class HKN0003TravelAreaServiceImpl implements HKN0003TravelAreaService {
-	
+	//	画面入力の出張地域省	
 	private static String province;
+	//	画面入力の出張地域市
 	private static String city;
+	//	画面入力の出張地域区/县
 	private static String country;
 	
 	@Autowired
 	private HKN0003TravelAreaMapper hkn0003TravelAreaMapper;
 	/**
-	   * 省市区によるhkn0003travelarea表のデータ
+	 * 省市区によるhkn0003travelarea表のデータ
 	 * @param travelArea HKN0003TravelAreamEntityオブジェクト
 	 * @param offset 現在のページ
 	 * @param limit ページあたりのデータ量

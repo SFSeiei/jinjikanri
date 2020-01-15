@@ -45,7 +45,6 @@ public class LoginController {
 			model.addAttribute("errormsg", "権限検証が失敗");
 			return "login";
 		}
-		System.out.println(SecurityUtils.getSubject().getPrincipals());
 		SYST01UserEntity currentUser = (SYST01UserEntity) SecurityUtils.getSubject().getPrincipal();
 		model.addAttribute("user", currentUser);
 		return "main";
@@ -55,8 +54,7 @@ public class LoginController {
 	 * 退出
 	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout() {
+	public void logout() {
 		SecurityUtils.getSubject().logout();
-		return "login";
 	}
 }

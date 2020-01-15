@@ -9,9 +9,21 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.jinjikanri.entity.HKN0008KnsunStaffEntity;
 
+/**
+ * DB操作<BR>
+ * DB詳細操作の実行
+ * @author 李春菊  2019/12/27
+ *
+ */
 @Mapper
 public interface HKN0008KnsunStaffMapper {
 	
+	/**
+	 * 検索の方法とページの方法
+	 * @param hkn0008KnsunStaffEntity
+	 * @param rowBounds
+	 * @return
+	 */
 	List<HKN0008KnsunStaffEntity> hkn0008KnsunStaffEntities(HKN0008KnsunStaffEntity hkn0008KnsunStaffEntity, RowBounds rowBounds);
 	/**
 	 * 新規追加の方法

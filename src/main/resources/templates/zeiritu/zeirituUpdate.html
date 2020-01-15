@@ -8,7 +8,7 @@
 		<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
 		<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
 		<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
-		<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />		
+		<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
 	</head>
 	<body>
 		<div class="wrapper wrapper-content animated fadeInRight">
@@ -109,422 +109,439 @@
 		<script src="/js/plugins/summernote/summernote.min.js"></script>
 		<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
 		<Script>
-		$.validator.setDefaults({
-			submitHandler : function() {
-				var ok = confirm("変更を確認するかどうか？");
-				if (ok) {
-					$.ajax({
-						type : "POST",
-						url : "/zeiritu/confirm",
-						data : $('#frm').serialize(),
-						success : function(obj) {
-							if (obj == "zeiritu/zeirituDisplay") {
-								location.href="/zeiritu/display";
-							} else if(obj == "errors") {
-								location.href="/errorException";
-							} else {
-								$("#ERR").text(obj);
+			$.validator.setDefaults({
+				submitHandler : function() {
+					var ok = confirm("変更を確認するかどうか？");
+					if (ok) {
+						$.ajax({
+							type : "POST",
+							url : "/zeiritu/confirm",
+							data : $('#frm').serialize(),
+							success : function(obj) {
+								if (obj == "zeiritu/zeirituDisplay") {
+									location.href="/zeiritu/display";
+								} else if(obj == "errors") {							
+									location.href="/errorException";
+								} else {
+									$("#ERR").text(obj);
+								}
+							},
+							error : function(){
+								location.href = "/errorException";
 							}
-						},
-						error : function(){
-							location.href = "/errorException";
-						}
-					});
-				}
-				
-			}	
-		});
-		// 1画面入力項目単項目チェック
-		$().ready(function(){
-			// 1キーボードを押してリリースし、提出したformを検証します
-			$("#frm").validate({
-				rules : {
-					tukiTinkinTkyu1 : {
-  						// 項目相関チェック
-						compare1 : true,
- 						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 7,
-						// 規定値チェック
-						digits : true
-					},
-					tukiTinkinTkyu2 : {
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 7,
-						// 規定値チェック
-						digits : true
-					},
-					tukiTinkinTkyu2_nd : {
-						// 項目相関チェック
-						compare2 : true,
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 7,
-						// 規定値チェック
-						digits : true
-					},
-					tukiTinkinTkyu3 : {
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 7,
-						// 規定値チェック
-						digits : true
-					},
-					tukiTinkinTkyu3_nd : {
-  						// 項目相関チェック
-						compare3 : true,
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 7,
-						// 規定値チェック
-						digits : true
-					},
-					tukiTinkinTkyu4 : {
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 7,
-						// 規定値チェック
-						digits : true
-					},
-					tukiTinkinTkyu4_nd : {
-  						// 項目相関チェック
-						compare4 : true,
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 7,
-						// 規定値チェック
-						digits : true
-					},
-					tukiTinkinTkyu5 : {
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 7,
-						// 規定値チェック
-						digits : true
-					},
-					tukiTinkinTkyu5_nd : {
-  						// 項目相関チェック
-						compare5 : true,
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 7,
-						// 規定値チェック
-						digits : true
-					},
-					tukiTinkinTkyu6 : {
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 7,
-						// 規定値チェック
-						digits : true
-					},
-					tukiTinkinTkyu6_nd : {
-  						// 項目相関チェック
-						compare6 : true,
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 7,
-						// 規定値チェック
-						digits : true
-					},
-					tukiTinkinTkyu7 : {
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 7,
-						// 規定値チェック
-						digits : true
-					},
-					tukiTinkinTkyu7_nd : {
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 7,
-						// 規定値チェック
-						digits : true
-					},
-					zeiritKbn1 : {
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 2,
-						// 規定値チェック
-						digits : true
-					},
-					zeiritKbn2 : {
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 2,
-						// 規定値チェック
-						digits : true
-					},
-					zeiritKbn3 : {
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 2,
-						// 規定値チェック
-						digits : true
-					},
-					zeiritKbn4 : {
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 2,
-						// 規定値チェック
-						digits : true
-					},
-					zeiritKbn5 : {
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 2,
-						// 規定値チェック
-						digits : true
-					},
-					zeiritKbn6 : {
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 2,
-						// 規定値チェック
-						digits : true
-					},
-					zeiritKbn7 : {
-						// 必須チェック
-						required : true,
-						// 桁数チェック
-						maxlength : 2,
-						// 規定値チェック
-						digits : true
+						});
 					}
-				},
-				messages : {
-					tukiTinkinTkyu1 : {
-						required : "一級課税所得額が必須入力。",
-						maxlength : "一級課税所得額がレンスは7バイト以上が不可。",
-						digits : "一級課税所得額が正の整数を入力してください。"
-					},
-					tukiTinkinTkyu2 : {
-						required : "一級課税所得額が必須入力。",
-						maxlength : "一級課税所得額がレンスは7バイト以上が不可。",
-						digits : "一級課税所得額が正の整数を入力してください。"
-					},
-					tukiTinkinTkyu2_nd : {
-						required : "二級課税所得額が必須入力。",
-						maxlength : "二級課税所得額がレンスは7バイト以上が不可。",
-						digits : "二級課税所得額が正の整数を入力してください。"
-					},
-					tukiTinkinTkyu3 : {
-						required : "二級課税所得額が必須入力。",
-						maxlength : "二級課税所得額がレンスは7バイト以上が不可。",
-						digits : "二級課税所得額が正の整数を入力してください。"
-					},
-					tukiTinkinTkyu3_nd : {
-						required : "三級課税所得額が必須入力。",
-						maxlength : "三級課税所得額がレンスは7バイト以上が不可。",
-						digits : "三級課税所得額が正の整数を入力してください。"
-					},
-					tukiTinkinTkyu4 : {
-						required : "三級課税所得額が必須入力。",
-						maxlength : "三級課税所得額がレンスは7バイト以上が不可。",
-						digits : "三級課税所得額が正の整数を入力してください。"
-					},
-					tukiTinkinTkyu4_nd : {
-						required : "四級課税所得額が必須入力。",
-						maxlength : "四級課税所得額がレンスは7バイト以上が不可。",
-						digits : "四級課税所得額が正の整数を入力してください。"
-					},
-					tukiTinkinTkyu5 : {
-						required : "四級課税所得額が必須入力。",
-						maxlength : "四級課税所得額がレンスは7バイト以上が不可。",
-						digits : "四級課税所得額が正の整数を入力してください。"
-					},
-					tukiTinkinTkyu5_nd : {
-						required : "五級課税所得額が必須入力。",
-						maxlength : "五級課税所得額がレンスは7バイト以上が不可。",
-						digits : "五級課税所得額が正の整数を入力してください。"
-					},
-					tukiTinkinTkyu6 : {
-						required : "五級課税所得額が必須入力。",
-						maxlength : "五級課税所得額がレンスは7バイト以上が不可。",
-						digits : "五級課税所得額が正の整数を入力してください。"
-					},
-					tukiTinkinTkyu6_nd : {
-						required : "六級課税所得額が必須入力。",
-						maxlength : "六級課税所得額がレンスは7バイト以上が不可。",
-						digits : "六級課税所得額が正の整数を入力してください。"
-					},
-					tukiTinkinTkyu7 : {
-						required : "六級課税所得額が必須入力。",
-						maxlength : "六級課税所得額がレンスは7バイト以上が不可。",
-						digits : "六級課税所得額が正の整数を入力してください。"
-					},
-					tukiTinkinTkyu7_nd : {
-						required : "七級課税所得額が必須入力。",
-						maxlength : "七級課税所得額がレンスは7バイト以上が不可。",
-						digits : "七級課税所得額が正の整数を入力してください。"
-					},
-					zeiritKbn1 : {
-						required : "税率が必須入力。",
-						maxlength : "税率がレンスは2バイト以上が不可。",
-						digits : "税率が正の整数を入力してください。"
-					},
-					zeiritKbn2 : {
-						required : "税率が必須入力。",
-						maxlength : "税率がレンスは2バイト以上が不可。",
-						digits : "税率が正の整数を入力してください。"
-					},
-					zeiritKbn3 : {
-						required : "税率が必須入力。",
-						maxlength : "税率がレンスは2バイト以上が不可。",
-						digits : "税率が正の整数を入力してください。"
-					},
-					zeiritKbn4 : {
-						required : "税率がこの必須入力。",
-						maxlength : "税率がレンスは2バイト以上が不可。",
-						digits : "税率が正の整数を入力してください。"
-					},
-					zeiritKbn5 : {
-						required : "税率がこの必須入力。",
-						maxlength : "税率がレンスは2バイト以上が不可。",
-						digits : "税率が正の整数を入力してください。"
-					},
-					zeiritKbn6 : {
-						required : "税率が必須入力。",
-						maxlength : "税率がレンスは2バイト以上が不可。",
-						digits : "税率が正の整数を入力してください。"
-					},
-					zeiritKbn7 : {
-						required : "税率が必須入力。",
-						maxlength : "税率がレンスは2バイト以上が不可。",
-						digits : "税率が正の整数を入力してください。"
-					}
-				},
-				errorPlacement: function(error, element) {
-					error.appendTo(element.parent().parent());
-				}
+				}	
 			});
-  			$.validator.addMethod("compare1",function(value,element,params) {
-				var tukiTinkinTkyu1 = document.getElementById('tukiTinkinTkyu1').value;
-				var tukiTinkinTkyu2 = document.getElementById('tukiTinkinTkyu2').value;
-				if (parseInt(tukiTinkinTkyu1) < parseInt(tukiTinkinTkyu2)) {
+			// 1画面入力項目単項目チェック
+			$().ready(function(){
+				// 1キーボードを押してリリースし、提出したformを検証します
+				$("#frm").validate({
+					rules : {
+						tukiTinkinTkyu1 : {
+	  						// 項目相関チェック
+							compare1 : true,
+	 						// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu2 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu2_nd : {
+							// 項目相関チェック
+							compare2 : true,
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu3 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu3_nd : {
+	  						// 項目相関チェック
+							compare3 : true,
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu4 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu4_nd : {
+	  						// 項目相関チェック
+							compare4 : true,
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu5 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu5_nd : {
+	  						// 項目相関チェック
+							compare5 : true,
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu6 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu6_nd : {
+	  						// 項目相関チェック
+							compare6 : true,
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu7 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu7_nd : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						zeiritKbn1 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 2,
+							// 規定値チェック
+							digits : true
+						},
+						zeiritKbn2 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 2,
+							// 規定値チェック
+							digits : true
+						},
+						zeiritKbn3 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 2,
+							// 規定値チェック
+							digits : true
+						},
+						zeiritKbn4 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 2,
+							// 規定値チェック
+							digits : true
+						},
+						zeiritKbn5 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 2,
+							// 規定値チェック
+							digits : true
+						},
+						zeiritKbn6 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 2,
+							// 規定値チェック
+							digits : true
+						},
+						zeiritKbn7 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 2,
+							// 規定値チェック
+							digits : true
+						}
+					},
+					messages : {
+						tukiTinkinTkyu1 : {
+							required : "課税所得額(左)が必須入力。",
+							maxlength : "課税所得額(左)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(左)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu2 : {
+							required : "課税所得額(右)が必須入力。",
+							maxlength : "課税所得額(右)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(右)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu2_nd : {
+							required : "課税所得額(左)が必須入力。",
+							maxlength : "課税所得額(左)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(左)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu3 : {
+							required : "課税所得額(右)が必須入力。",
+							maxlength : "課税所得額(右)が範囲を0～9999999の間に設定してください。。",
+							digits : "課税所得額(右)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu3_nd : {
+							required : "課税所得額(左)が必須入力。",
+							maxlength : "課税所得額(左)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(左)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu4 : {
+							required : "課税所得額(右)が必須入力。",
+							maxlength : "課税所得額(右)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(右)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu4_nd : {
+							required : "課税所得額(左)が必須入力。",
+							maxlength : "課税所得額(左)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(左)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu5 : {
+							required : "課税所得額(右)が必須入力。",
+							maxlength : "課税所得額(右)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(右)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu5_nd : {
+							required : "課税所得額(左)が必須入力。",
+							maxlength : "課税所得額(左)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(左)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu6 : {
+							required : "課税所得額(右)が必須入力。",
+							maxlength : "課税所得額(右)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(右)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu6_nd : {
+							required : "課税所得額(左)が必須入力。",
+							maxlength : "課税所得額(左)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(左)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu7 : {
+							required : "課税所得額(右)が必須入力。",
+							maxlength : "課税所得額(右)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(右)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu7_nd : {
+							required : "課税所得額が必須入力。",
+							maxlength : "課税所得額が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額が正の整数を入力してください。"
+						},
+						zeiritKbn1 : {
+							required : "税率が必須入力。",
+							maxlength : "税率が範囲を0～99の間に設定してください。",
+							digits : "税率が正の整数を入力してください。"
+						},
+						zeiritKbn2 : {
+							required : "税率が必須入力。",
+							maxlength : "税率が範囲を0～99の間に設定してください。",
+							digits : "税率が正の整数を入力してください。"
+						},
+						zeiritKbn3 : {
+							required : "税率が必須入力。",
+							maxlength : "税率が範囲を0～99の間に設定してください。",
+							digits : "税率が正の整数を入力してください。"
+						},
+						zeiritKbn4 : {
+							required : "税率がこの必須入力。",
+							maxlength : "税率が範囲を0～99の間に設定してください。",
+							digits : "税率が正の整数を入力してください。"
+						},
+						zeiritKbn5 : {
+							required : "税率がこの必須入力。",
+							maxlength : "税率が範囲を0～99の間に設定してください。",
+							digits : "税率が正の整数を入力してください。"
+						},
+						zeiritKbn6 : {
+							required : "税率が必須入力。",
+							maxlength : "税率が範囲を0～99の間に設定してください。",
+							digits : "税率が正の整数を入力してください。"
+						},
+						zeiritKbn7 : {
+							required : "税率が必須入力。",
+							maxlength : "税率が範囲を0～99の間に設定してください。",
+							digits : "税率が正の整数を入力してください。"
+						}
+					},
+					errorPlacement: function(error, element) {
+						error.appendTo(element.parent().parent());
+					}
+				});
+	  			$.validator.addMethod("compare1",function(value,element,params) {
+					var tukiTinkinTkyu1 = document.getElementById('tukiTinkinTkyu1').value;
+					var tukiTinkinTkyu2 = document.getElementById('tukiTinkinTkyu2').value;
+					if ((/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu1)) && (/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu2))) {
+						if (parseInt(tukiTinkinTkyu1) < parseInt(tukiTinkinTkyu2)) {
+							return true;
+						} else {
+							return false;
+						}
+					}
 					return true;
-				} else {
-					return false;
-				}
-			},"前者は後者より小さいはずでありませ");
-  			$.validator.addMethod("compare2",function(value,element,params) {
-				var tukiTinkinTkyu2_nd = document.getElementById('tukiTinkinTkyu2_nd').value;
-				var tukiTinkinTkyu3 = document.getElementById('tukiTinkinTkyu3').value;
-				if (parseInt(tukiTinkinTkyu2_nd) < parseInt(tukiTinkinTkyu3)) {
+				},"前者は後者より小さいはずでありませ");
+	  			$.validator.addMethod("compare2",function(value,element,params) {
+					var tukiTinkinTkyu2_nd = document.getElementById('tukiTinkinTkyu2_nd').value;
+					var tukiTinkinTkyu3 = document.getElementById('tukiTinkinTkyu3').value;
+					if ((/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu1)) && (/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu2))) {
+						if (parseInt(tukiTinkinTkyu2_nd) < parseInt(tukiTinkinTkyu3)) {
+							return true;
+						} else {
+							return false;
+						}
+					}
 					return true;
-				} else {
-					return false;
-				}
-			},"前者は後者より小さいはずでありませ");
-  			$.validator.addMethod("compare3",function(value,element,params) {
-				var tukiTinkinTkyu3_nd = document.getElementById('tukiTinkinTkyu3_nd').value;
-				var tukiTinkinTkyu4 = document.getElementById('tukiTinkinTkyu4').value;
-				if (parseInt(tukiTinkinTkyu3_nd) < parseInt(tukiTinkinTkyu4)) {
+				},"前者は後者より小さいはずでありませ");
+	  			$.validator.addMethod("compare3",function(value,element,params) {
+					var tukiTinkinTkyu3_nd = document.getElementById('tukiTinkinTkyu3_nd').value;
+					var tukiTinkinTkyu4 = document.getElementById('tukiTinkinTkyu4').value;
+					if ((/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu1)) && (/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu2))) {
+						if (parseInt(tukiTinkinTkyu3_nd) < parseInt(tukiTinkinTkyu4)) {
+							return true;
+						} else {
+							return false;
+						}
+					}
 					return true;
-				} else {
-					return false;
-				}
-			},"前者は後者より小さいはずでありませ");
-  			$.validator.addMethod("compare4",function(value,element,params) {
-				var tukiTinkinTkyu4_nd = document.getElementById('tukiTinkinTkyu4_nd').value;
-				var tukiTinkinTkyu5 = document.getElementById('tukiTinkinTkyu5').value;
-				if (parseInt(tukiTinkinTkyu4_nd) < parseInt(tukiTinkinTkyu5)) {
+				},"前者は後者より小さいはずでありませ");
+	  			$.validator.addMethod("compare4",function(value,element,params) {
+					var tukiTinkinTkyu4_nd = document.getElementById('tukiTinkinTkyu4_nd').value;
+					var tukiTinkinTkyu5 = document.getElementById('tukiTinkinTkyu5').value;
+					if ((/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu1)) && (/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu2))) {
+						if (parseInt(tukiTinkinTkyu4_nd) < parseInt(tukiTinkinTkyu5)) {
+							return true;
+						} else {
+							return false;
+						}
+					}
 					return true;
-				} else {
-					return false;
-				}
-			},"前者は後者より小さいはずでありませ");
-  			$.validator.addMethod("compare5",function(value,element,params) {
-				var tukiTinkinTkyu5_nd = document.getElementById('tukiTinkinTkyu5_nd').value;
-				var tukiTinkinTkyu6 = document.getElementById('tukiTinkinTkyu6').value;
-				if (parseInt(tukiTinkinTkyu5_nd) < parseInt(tukiTinkinTkyu6)) {
+				},"前者は後者より小さいはずでありませ");
+	  			$.validator.addMethod("compare5",function(value,element,params) {
+					var tukiTinkinTkyu5_nd = document.getElementById('tukiTinkinTkyu5_nd').value;
+					var tukiTinkinTkyu6 = document.getElementById('tukiTinkinTkyu6').value;
+					if ((/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu1)) && (/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu2))) {
+						if (parseInt(tukiTinkinTkyu5_nd) < parseInt(tukiTinkinTkyu6)) {
+							return true;
+						} else {
+							return false;
+						}
+					}
 					return true;
-				} else {
-					return false;
-				}
-			},"前者は後者より小さいはずでありませ");
-  			$.validator.addMethod("compare6",function(value,element,params) {
-				var tukiTinkinTkyu6_nd = document.getElementById('tukiTinkinTkyu6_nd').value;
-				var tukiTinkinTkyu7 = document.getElementById('tukiTinkinTkyu7').value;
-				if (parseInt(tukiTinkinTkyu6_nd) < parseInt(tukiTinkinTkyu7)) {
+				},"前者は後者より小さいはずでありませ");
+	  			$.validator.addMethod("compare6",function(value,element,params) {
+					var tukiTinkinTkyu6_nd = document.getElementById('tukiTinkinTkyu6_nd').value;
+					var tukiTinkinTkyu7 = document.getElementById('tukiTinkinTkyu7').value;
+					if ((/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu1)) && (/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu2))) {
+						if (parseInt(tukiTinkinTkyu6_nd) < parseInt(tukiTinkinTkyu7)) {
+							return true;
+						} else {
+							return false;
+						}
+					}
 					return true;
-				} else {
-					return false;
-				}
-			},"前者は後者より小さいはずでありませ");
-		});
+				},"前者は後者より小さいはずでありませ");
+			});
 
-		function goback(){
-			location.href="display";
-		}
-		function same2(){
-			var x = document.getElementById('tukiTinkinTkyu2').value;
-			document.getElementById('tukiTinkinTkyu2_nd').value = x;
-		}
-		function same2_nd(){
-			var x = document.getElementById('tukiTinkinTkyu2_nd').value;
-			document.getElementById('tukiTinkinTkyu2').value = x;
-		}
-		function same3(){
-			var x = document.getElementById('tukiTinkinTkyu3').value;
-			document.getElementById('tukiTinkinTkyu3_nd').value = x;
-		}
-		function same3_nd(){
-			var x = document.getElementById('tukiTinkinTkyu3_nd').value;
-			document.getElementById('tukiTinkinTkyu3').value = x;
-		}
-		function same4(){
-			var x = document.getElementById('tukiTinkinTkyu4').value;
-			document.getElementById('tukiTinkinTkyu4_nd').value = x;
-		}
-		function same4_nd(){
-			var x = document.getElementById('tukiTinkinTkyu4_nd').value;
-			document.getElementById('tukiTinkinTkyu4').value = x;
-		}
-		function same5(){
-			var x = document.getElementById('tukiTinkinTkyu5').value;
-			document.getElementById('tukiTinkinTkyu5_nd').value = x;
-		}
-		function same5_nd(){
-			var x = document.getElementById('tukiTinkinTkyu5_nd').value;
-			document.getElementById('tukiTinkinTkyu5').value = x;
-		}
-		function same6(){
-			var x = document.getElementById('tukiTinkinTkyu6').value;
-			document.getElementById('tukiTinkinTkyu6_nd').value = x;
-		}
-		function same6_nd(){
-			var x = document.getElementById('tukiTinkinTkyu6_nd').value;
-			document.getElementById('tukiTinkinTkyu6').value = x;
-		}
-		function same7(){
-			var x = document.getElementById('tukiTinkinTkyu7').value;
-			document.getElementById('tukiTinkinTkyu7_nd').value = x;
-		}
-		function same7_nd(){
-			var x = document.getElementById('tukiTinkinTkyu7_nd').value;
-			document.getElementById('tukiTinkinTkyu7').value = x;
-		}
+			function goback(){
+				location.href="display";
+			}
+			function same2(){
+				var x = document.getElementById('tukiTinkinTkyu2').value;
+				document.getElementById('tukiTinkinTkyu2_nd').value = x;
+			}
+			function same2_nd(){
+				var x = document.getElementById('tukiTinkinTkyu2_nd').value;
+				document.getElementById('tukiTinkinTkyu2').value = x;
+			}
+			function same3(){
+				var x = document.getElementById('tukiTinkinTkyu3').value;
+				document.getElementById('tukiTinkinTkyu3_nd').value = x;
+			}
+			function same3_nd(){
+				var x = document.getElementById('tukiTinkinTkyu3_nd').value;
+				document.getElementById('tukiTinkinTkyu3').value = x;
+			}
+			function same4(){
+				var x = document.getElementById('tukiTinkinTkyu4').value;
+				document.getElementById('tukiTinkinTkyu4_nd').value = x;
+			}
+			function same4_nd(){
+				var x = document.getElementById('tukiTinkinTkyu4_nd').value;
+				document.getElementById('tukiTinkinTkyu4').value = x;
+			}
+			function same5(){
+				var x = document.getElementById('tukiTinkinTkyu5').value;
+				document.getElementById('tukiTinkinTkyu5_nd').value = x;
+			}
+			function same5_nd(){
+				var x = document.getElementById('tukiTinkinTkyu5_nd').value;
+				document.getElementById('tukiTinkinTkyu5').value = x;
+			}
+			function same6(){
+				var x = document.getElementById('tukiTinkinTkyu6').value;
+				document.getElementById('tukiTinkinTkyu6_nd').value = x;
+			}
+			function same6_nd(){
+				var x = document.getElementById('tukiTinkinTkyu6_nd').value;
+				document.getElementById('tukiTinkinTkyu6').value = x;
+			}
+			function same7(){
+				var x = document.getElementById('tukiTinkinTkyu7').value;
+				document.getElementById('tukiTinkinTkyu7_nd').value = x;
+			}
+			function same7_nd(){
+				var x = document.getElementById('tukiTinkinTkyu7_nd').value;
+				document.getElementById('tukiTinkinTkyu7').value = x;
+			}
 		</Script>
 	</body>
 </html>

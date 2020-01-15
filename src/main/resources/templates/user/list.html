@@ -108,7 +108,8 @@
 			</div>
 		</div>
 	</div>
-	<input type="hidden" id="recKosnZituYmdHms" th:value="${user.recKosnZituYmdHms}" />
+	<input type="hidden" id="recKosnZituYmdHms"
+		th:value="${user.recKosnZituYmdHms}" />
 	<input type="hidden" id="total" th:value="${total}" />
 	<input type="hidden" id="pages" th:value="${pages}" />
 
@@ -130,10 +131,17 @@
 		}
 
 		function del(id) {
-			if (confirm("削除ですか")) {
-				var usrCds = [ id ];
-				location.href = "/sys/user/delete?usrCds=" + usrCds + "";
-			}
+			parent.layer.alert('削除しますか？', {
+				skin : 'layui-layer-molv',
+				time : 10000,
+				icon : 3,
+				btn : [ 'はい', 'いいえ' ],
+				yes : function() {
+					parent.layer.closeAll('dialog');
+					var usrCds = [ id ];
+					location.href = "/sys/user/delete?usrCds=" + usrCds + "";
+				}
+			});
 		}
 		function getParameter(name) {
 			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");

@@ -36,11 +36,14 @@ public  class HKN0001ServiceImpl implements HKN0001Service {
 		return result;
 	}
 	@Override
-	public HKN0001ORGEntity deleteOrgazization(Integer organizationCd) {
-		return hkn0001Mapper.deleteOrgazization(organizationCd);
+	public HKN0001ORGEntity deleteOrganizationCd(Integer organizationCd) {
+		return hkn0001Mapper.deleteOrganizationCd(organizationCd);
 
 	}
-	
+	@Override
+	public int delDate(Integer organizationCd) {
+		return hkn0001Mapper.delDate(organizationCd);
+	}
 	@Override
 	public HKN0001ORGEntity selectUserById(Integer organizationCd) {
 		return hkn0001Mapper.selectUserById(organizationCd);

@@ -5,6 +5,10 @@ import java.util.List;
 
 import com.jinjikanri.entity.HKN0007KnsunEntity;
 
+/**
+ * ビジネスロジックインターフェース
+ * @author 李春菊　2020/01/10
+ */
 public interface HKN0007KnsunService {
 	/**
 	 * 健診日下の引張り方法を実現する

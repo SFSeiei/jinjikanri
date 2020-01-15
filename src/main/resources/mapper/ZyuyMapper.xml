@@ -18,7 +18,7 @@
 	
 	<select id="getZyuyById" parameterType="com.jinjikanri.entity.HKN0010ZyuyntsEntity" 
 	resultMap="HKN0010ZyuyntsEntity">
-		SELECT * FROM HKN0010ZYUYNTS 
+		SELECT * FROM HKN0010ZYUYNTS WHERE STT_CD=1
 	</select>
 	
 	<update id="updateZyuyById" parameterType="com.jinjikanri.entity.HKN0010ZyuyntsEntity">

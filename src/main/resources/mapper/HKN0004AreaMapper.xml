@@ -3,24 +3,30 @@
 
 <mapper namespace="com.jinjikanri.mapper.HKN0004AreaMapper">
 
- <resultMap type="com.jinjikanri.entity.HKN0004AreaEntity" id="hKN0004AreaEntityMap">
-	<id column="AREA_ID" property="areaId"/>
-	<result column="AREA_NAME" property="areaName"/>
-	<result column="PARENT_ID" property="parentId"/>
-	<result column="REC_SAKS_ZITU_YMD_HMS" property="recSaksZituYmdHms"/>
-	<result column="REC_KOSN_ZITU_YMD_HMS" property="recKosnZituYmdHms"/>
-</resultMap>
- 
-<select id="getProvince" resultMap="hKN0004AreaEntityMap">
-	select distinct * from hkn0004area where PARENT_ID='0'
-</select>
+	<resultMap type="com.jinjikanri.entity.HKN0004AreaEntity"
+		id="hKN0004AreaEntityMap">
+		<id column="AREA_ID" property="areaId" />
+		<result column="AREA_NAME" property="areaName" />
+		<result column="PARENT_ID" property="parentId" />
+		<result column="REC_SAKS_ZITU_YMD_HMS"
+			property="recSaksZituYmdHms" />
+		<result column="REC_KOSN_ZITU_YMD_HMS"
+			property="recKosnZituYmdHms" />
+	</resultMap>
 
-<select id="getCityOrCountry"  resultMap="hKN0004AreaEntityMap" parameterType="java.lang.Integer">
-	select distinct * from hkn0004area where PARENT_ID=#{parentId,jdbcType=INTEGER}
-</select>
+	<select id="getProvince" resultMap="hKN0004AreaEntityMap">
+		select distinct * from hkn0004area where PARENT_ID='0'
+	</select>
 
- <select id="selectAreaId" resultType="java.lang.Integer">
-	select AREA_ID from hkn0004area where AREA_NAME=#{areaName,jdbcType=VARCHAR} and PARENT_ID=#{parentId,jdbcType=INTEGER}
-</select>
+	<select id="getCityOrCountry" resultMap="hKN0004AreaEntityMap"
+		parameterType="java.lang.Integer">
+		select distinct * from hkn0004area where
+		PARENT_ID=#{parentId,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectAreaId" resultType="java.lang.Integer">
+		select AREA_ID from hkn0004area where AREA_NAME=#{areaName,jdbcType=VARCHAR}
+		and PARENT_ID=#{parentId,jdbcType=INTEGER}
+	</select>
 
 </mapper>

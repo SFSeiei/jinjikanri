@@ -9,6 +9,11 @@
 <link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
 <link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
 <link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+<style type="text/css">
+.error {
+	color: red;
+}
+</style>
 </head>
 <body class="gray-bg">
 	<div class="wrapper wrapper-content animated fadeInRight">
@@ -22,7 +27,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label">パスワード：</label>
 								<div class="col-sm-4">
-									<input type="password" class="form-control" name="password"
+									<input type="password" class="form-control" name="passwd"
 										id="OLD_PASSWD" />
 								</div>
 							</div>
@@ -30,7 +35,9 @@
 								<label class="col-sm-4 control-label">新しいパスワード：</label>
 								<div class="col-sm-4">
 									<input type="password" class="form-control" name="newPassword"
-										id="NEW_PASSWD" />
+										id="NEW_PASSWD" /> <input type="hidden"
+										th:value="${user.recKosnZituYmdHms}" id="dbUserUpdateTime"
+										name="updateTime" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -53,10 +60,9 @@
 				</div>
 			</div>
 		</div>
-		<input type="hidden" id="USR_ID" th:value="${user.usrId}" /> <input
-			type="hidden" id="MSG" th:value="${msg}" />
 	</div>
-
+	<input type="hidden" id="USR_ID" th:value="${user.usrId}" />
+	<input type="hidden" id="MSG" th:value="${msg}" />
 	<script src="/js/jquery.min.js?v=2.1.4"></script>
 	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
 	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
@@ -68,8 +74,9 @@
 			//  フォームを送信
 			$("#frm").validate({
 				rules : {
-					password: {
+					passwd: {
 						required: true,
+						maxlength : 20,
 						remote: {
 							url: "/login",
 							type: "post",
@@ -77,9 +84,6 @@
 							data: {
 								usrId: function () {
 									return $("#USR_ID").val();
-								},
-								passwd: function () {
-									return $("#OLD_PASSWD").val();　　　　//这个是取要验证的密码
 								}
 							},
 							dataFilter: function (data) {　　　　//判断控制器返回的内容
@@ -96,7 +100,9 @@
 					newPassword : {
 						required : true,
 						maxlength : 20,
-						checkUserMassage:true
+						checkUserMassage:true,
+						checkNewPassword:true
+
 					},
 					newPassword_cf : {
 						required : true,
@@ -106,18 +112,19 @@
 					}
 				},
 				messages : {
-					password: {
-						required: "パスワードを入力してください",
-						remote: "もとのパスワードが不正,もう一度入力してください！"
+					passwd: {
+						required: $.validator.format("パスワードを入力してください"),
+						maxlength :$.validator.format("パスワードが20桁以内英数字"),
+						remote: $.validator.format("もとのパスワードが不正,もう一度入力してください！")
 					},
 					newPassword : {
-						required : "新しいパスワードを入力してください",
-						rangelength : $.validator.format("パスワードが20桁以内英数字")
+						required : $.validator.format("新しいパスワードを入力してください"),
+						maxlength : $.validator.format("新しいパスワードが20桁以内英数字")
 					},
 					newPassword_cf : {
-						required : "確認のパスワードを入力してください",
-						rangelength : $.validator.format("パスワードが20桁以内英数字"),
-						equalTo : "パスワードが一致しない！"
+						required : $.validator.format("確認のパスワードを入力してください"),
+						maxlength : $.validator.format("確認のパスワードが20桁以内英数字"),
+						equalTo : $.validator.format("新しいパスワードが一致しない！")
 					}
 				}
 			});
@@ -126,9 +133,13 @@
 				// パスワードの正規表現
 				var reg = /^[0-9a-zA-Z]+$/;
 				return this.optional(element)||(reg.test(value));
-			},$.validator.format("パスワードが20桁以内英数字"));
+			},$.validator.format("パスワードが英数字"));
+			// パスワード単項目属性チェック 
+			$.validator.addMethod("checkNewPassword",function(value,element,params) {
+				return this.optional(element)||(value!=$("#OLD_PASSWD").val());
+			},$.validator.format("元のパスワードと同様ができない。"));
 			if($("#MSG").val()!=null && $("#MSG").val()!=""){
-				if($("#MSG").val().lastIndexOf("成功")){
+				if($("#MSG").val().lastIndexOf("成功")!=-1){
 					alertMessage($("#MSG").val(),1);
 				}else{
 					alertMessage($("#MSG").val(),5);

@@ -16,12 +16,18 @@ import com.jinjikanri.entity.HKN0008KnsunStaffEntity;
 import com.jinjikanri.mapper.HKN0008KnsunStaffMapper;
 import com.jinjikanri.service.HKN0008KnsunStaffService;
 
+/**
+ * “人員健診日の管理 ”の業務ロジック
+ * @author 李春菊
+ *
+ */
 @Service
 public class HKN0008KnsunStaffServiceImpl implements HKN0008KnsunStaffService {
 	@Autowired
 	private HKN0008KnsunStaffMapper hkn0008KnsunStaffMapper;
+	
 	/**
-	 * クエリの方法
+	 * 検索の方法とページの方法
 	 */
 	@Override
 	public Map<String, Object> selectKnsunStaffs(HKN0008KnsunStaffEntity hkn0008KnsunStaffEntity, int offset) {
@@ -79,5 +85,4 @@ public class HKN0008KnsunStaffServiceImpl implements HKN0008KnsunStaffService {
 		}
 		return hkn0008KnsunStaffMapper.insertKnsunStaff(knsunStaff);
 	}
-
 }

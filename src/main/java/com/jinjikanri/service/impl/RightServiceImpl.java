@@ -1,5 +1,6 @@
 package com.jinjikanri.service.impl;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.jinjikanri.common.constant.ItemConstant;
+import com.jinjikanri.common.util.Tools;
 import com.jinjikanri.entity.SYST06RightEntity;
 import com.jinjikanri.mapper.RightMapper;
 import com.jinjikanri.mapper.UserCharRightRelMapper;
@@ -42,6 +44,9 @@ public class RightServiceImpl implements RightService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean saveRight(SYST06RightEntity rightEntity) {
+		// レコード作成実年月日時分秒を設定する。
+		rightEntity.setRecSaksZituYmdHms(Tools.getSysDate());
+		rightEntity.setRecKosnZituYmdHms(Tools.getSysDate());
 		return this.rightMapper.saveRight(rightEntity);
 	}
 

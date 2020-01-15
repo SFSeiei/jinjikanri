@@ -10,6 +10,11 @@ import com.jinjikanri.entity.HKN0007KnsunEntity;
 import com.jinjikanri.mapper.HKN0007KnsunMapper;
 import com.jinjikanri.service.HKN0007KnsunService;
 
+/**
+ * “健診日の管理 ”の業務ロジック
+ * @author 李春菊
+ *
+ */
 @Service
 public class HKN0007KnsunServiceImpl implements HKN0007KnsunService {
 	
@@ -73,5 +78,4 @@ public class HKN0007KnsunServiceImpl implements HKN0007KnsunService {
 	public List<HKN0007KnsunEntity> selectKnsun(List<Integer> knsunIdList) {
 		return hkn0007KnsunMapper.selectKnsun(knsunIdList);
 	}
-
 }

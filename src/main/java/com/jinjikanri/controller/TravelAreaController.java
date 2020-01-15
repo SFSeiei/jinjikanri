@@ -14,8 +14,8 @@ import com.jinjikanri.common.util.Tools;
 import com.jinjikanri.common.util.TravelAreaCheck;
 import com.jinjikanri.entity.HKN0003TravelAreaEntity;
 import com.jinjikanri.entity.HKN0004AreaEntity;
-import com.jinjikanri.service.impl.HKN0003TravelAreaServiceImpl;
-import com.jinjikanri.service.impl.HKN0004AreaServiceImpl;
+import com.jinjikanri.service.HKN0003TravelAreaService;
+import com.jinjikanri.service.HKN0004AreaService;
 
 /**
  * “出張地域の管理 ”の控制器
@@ -26,9 +26,9 @@ import com.jinjikanri.service.impl.HKN0004AreaServiceImpl;
 public class TravelAreaController {
 
 	@Autowired 
-	HKN0003TravelAreaServiceImpl hkn0003TravelAreaServiceImpl;
+	HKN0003TravelAreaService hkn0003TravelAreaServiceImpl;
 	@Autowired
-	HKN0004AreaServiceImpl hkn0004AreaServiceImpl;
+	HKN0004AreaService hkn0004AreaServiceImpl;
 	
 	private HKN0003TravelAreaEntity tra = new HKN0003TravelAreaEntity();
 	

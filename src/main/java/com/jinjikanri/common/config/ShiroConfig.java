@@ -2,11 +2,10 @@ package com.jinjikanri.common.config;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.SessionListener;
@@ -24,7 +23,6 @@ import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 
@@ -54,14 +52,6 @@ public class ShiroConfig {
 	@Bean
 	public ShiroDialect shiroDialect() {
 		return new ShiroDialect();
-	}
-
-	@Bean
-	@ConditionalOnMissingBean
-	public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
-		DefaultAdvisorAutoProxyCreator defaultAAP = new DefaultAdvisorAutoProxyCreator();
-		defaultAAP.setProxyTargetClass(true);
-		return defaultAAP;
 	}
 
 	// 将自己的验证方式加入容器
@@ -181,17 +171,21 @@ public class ShiroConfig {
 	public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
-		Map<String, String> map = new HashMap<>();
-		// 登出
-		map.put("/logout", "logout");
-		// 对所有用户认证
-		map.put("/**", "anon");
 		// 登录
-		shiroFilterFactoryBean.setLoginUrl("/login");
+		shiroFilterFactoryBean.setLoginUrl("/");
 		// 首页
 		shiroFilterFactoryBean.setSuccessUrl("/welcome");
 		// 错误页面，认证不通过跳转
 		shiroFilterFactoryBean.setUnauthorizedUrl("/error");
+		Map<String, String> map = new LinkedHashMap<>();
+		// 登出
+		map.put("/login", "anon");
+		map.put("/", "anon");
+		map.put("/static/**", "anon");
+		// 登出
+		map.put("/logout", "logout");
+		// 对所有用户认证
+		map.put("/**", "authc");
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
 		return shiroFilterFactoryBean;
 	}
@@ -209,12 +203,21 @@ public class ShiroConfig {
 		return factoryBean;
 	}
 
+	@Bean
+	@ConditionalOnMissingBean
+	public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+		DefaultAdvisorAutoProxyCreator defaultAAP = new DefaultAdvisorAutoProxyCreator();
+		defaultAAP.setProxyTargetClass(true);
+		return defaultAAP;
+	}
+
 	/**
 	 * 开启shiro aop注解支持. 使用代理方式;所以需要开启代码支持;
 	 * 
 	 * @param securityManager
 	 * @return
 	 */
+
 	@Bean
 	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
 		AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();

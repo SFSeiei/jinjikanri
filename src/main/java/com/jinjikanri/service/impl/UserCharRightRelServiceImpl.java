@@ -1,10 +1,12 @@
 package com.jinjikanri.service.impl;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jinjikanri.common.util.Tools;
 import com.jinjikanri.entity.SYST06UserCharRightRelEntity;
 import com.jinjikanri.mapper.UserCharRightRelMapper;
 import com.jinjikanri.service.UserCharRightRelService;
@@ -37,6 +39,8 @@ public class UserCharRightRelServiceImpl implements UserCharRightRelService {
 			SYST06UserCharRightRelEntity userCharRel = new SYST06UserCharRightRelEntity();
 			userCharRel.setUsrCd(usrCd);
 			userCharRel.setCharCd(charCd);
+			userCharRel.setRecSaksZituYmdHms(Tools.getSysDate());
+			userCharRel.setRecKosnZituYmdHms(Tools.getSysDate());
 			userCharRightRelMapper.saveRel(userCharRel);
 		}
 		return true;
@@ -64,6 +68,8 @@ public class UserCharRightRelServiceImpl implements UserCharRightRelService {
 			SYST06UserCharRightRelEntity charRightRel = new SYST06UserCharRightRelEntity();
 			charRightRel.setCharCd(charCd);
 			charRightRel.setRightCd(rightCd);
+			charRightRel.setRecSaksZituYmdHms(Tools.getSysDate());
+			charRightRel.setRecKosnZituYmdHms(Tools.getSysDate());
 			userCharRightRelMapper.saveRel(charRightRel);
 		}
 		return true;

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
 <meta charset="UTF-8">
 <title>人事勤怠管理システム構築 -シャトルバス-詳細</title>
@@ -41,8 +40,7 @@
 								</div>
 							</div>
 
-							<div class="form-group"
-								th:if="${not #strings.isEmpty(HKN0005LicenseEntity.sex)}">
+							<div class="form-group" th:if="${not #strings.isEmpty(HKN0005LicenseEntity.sex)}">
 								<label class="col-sm-3 control-label">運転手の性別</label>
 								<div class="col-sm-5">
 									<input type="text" class="form-control" th:if="${HKN0005LicenseEntity.sex} == 0" readonly="readonly" th:value="男" />
@@ -93,7 +91,8 @@
 								<div class="col-sm-5 col-sm-offset-3">
 									<a href="javascript:void();" th:onclick="|update(${HKN0005LicenseEntity.busId})|" class="btn btn-primary">変更</a>
 									&nbsp;&nbsp;
-									<a href="javascript:void();" th:onclick="|del(${HKN0005LicenseEntity.busId})|" class="btn btn-primary">削除</a>&nbsp;&nbsp;
+									<a href="javascript:void();" th:onclick="|del(${HKN0005LicenseEntity.busId})|" class="btn btn-primary">削除</a>
+									&nbsp;&nbsp;
 									<button type="button" th:onclick="closeWin();" class="btn btn-primary">戻る</button>
 								</div>
 							</div>

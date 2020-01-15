@@ -48,8 +48,8 @@
 	<insert id="saveRight"
 		parameterType="com.jinjikanri.entity.SYST06RightEntity">
 		INSERT INTO
-		syst06right(P_RIGHT_CD,RIGHT_MEI,RIGHT_DHISKRPSN,RIGHT_KEY,RIGHT_URL)
-		VALUES(#{pRightCd},#{rightMei},#{rightDhiskrpsn},#{rightKey},#{rightUrl})
+		syst06right(P_RIGHT_CD,RIGHT_MEI,RIGHT_DHISKRPSN,RIGHT_KEY,RIGHT_URL,REC_SAKS_ZITU_YMD_HMS,REC_KOSN_ZITU_YMD_HMS)
+		VALUES(#{pRightCd},#{rightMei},#{rightDhiskrpsn},#{rightKey},#{rightUrl},#{recSaksZituYmdHms},#{recKosnZituYmdHms})
 	</insert>
 
 	<!--修改Right -->
@@ -62,8 +62,10 @@
 			<if test="rightDhiskrpsn!=null">RIGHT_DHISKRPSN = #{rightDhiskrpsn},</if>
 			<if test="rightKey!=null">RIGHT_KEY = #{rightKey},</if>
 			<if test="rightUrl!=null">RIGHT_URL = #{rightUrl},</if>
+			<if test="recSaksZituYmdHms!=null">REC_SAKS_ZITU_YMD_HMS=#{recSaksZituYmdHms},</if>
+			<if test="recKosnZituYmdHms!=null">REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms},</if>
 			<if
-				test="pRightCd==null and rightMei==null and rightDhiskrpsn==null and rightKey==null and rightUrl==null">
+				test="pRightCd==null and rightMei==null and rightDhiskrpsn==null and rightKey==null and rightUrl==null and recSaksZituYmdHms==null and recKosnZituYmdHms==null">
 				RIGHT_CD = #{rightCd},
 			</if>
 		</trim>

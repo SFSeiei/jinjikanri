@@ -13,12 +13,20 @@ import com.jinjikanri.entity.HKN0009ZiknEntity;
 @Mapper
 public interface ZiknMapper {
 
-	// 1データの検索
+	/**
+	 * 課税所得額から税率取得する
+	 */
 	HKN0009ZiknEntity selectZiknById();
 
-	// 1データの変更
+	/**
+	 * 課税所得額から税率変更する
+	 * @param zikn 課税所得額から税率
+	 */
 	void updateZiknById(HKN0009ZiknEntity zikn);
 
-	// 1データの排他
+	/**
+	 * 課税所得額から税率排他クエリーする
+	 * @param recKosnZituYmdHms レコード更新実年月日時分秒
+	 */
 	HKN0009ZiknEntity getZiknDBcheck(Timestamp recKosnZituYmdHms);
 }

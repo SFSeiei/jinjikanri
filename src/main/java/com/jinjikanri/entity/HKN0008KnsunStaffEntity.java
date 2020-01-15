@@ -54,6 +54,9 @@ public class HKN0008KnsunStaffEntity {
      */
     private Timestamp recKosnZituYmdHms;
     
+    /**
+     * 健診日情報(マンツーマンで表示)。
+     */
     private HKN0007KnsunEntity hkn0007KnsunEntity;
     
     
@@ -217,10 +220,22 @@ public class HKN0008KnsunStaffEntity {
         this.recKosnZituYmdHms = recKosnZituYmdHms;
     }
 
+    /**
+     * 健診日情報を取得する。
+     * @param なし
+     * @return hkn0007KnsunEntity 健診日情報
+     * @exception なし
+     */
 	public HKN0007KnsunEntity getHkn0007KnsunEntity() {
 		return hkn0007KnsunEntity;
 	}
 
+	/**
+     * 健診日情報を設定する。
+     * @param hkn0007KnsunEntity 健診日情報
+     * @return なし
+     * @exception なし
+     */
 	public void setHkn0007KnsunEntity(HKN0007KnsunEntity hkn0007KnsunEntity) {
 		this.hkn0007KnsunEntity = hkn0007KnsunEntity;
 	}

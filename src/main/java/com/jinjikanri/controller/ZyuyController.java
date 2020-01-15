@@ -31,8 +31,15 @@ public class ZyuyController {
 	@RequestMapping(value="/getZyuyById")
 	public String getZyuyById(Integer sttCd, Model model) {
 		HKN0010ZyuyntsEntity zyuy = zyuyService.getZyuyById(sttCd);
-		model.addAttribute("zyuy", zyuy);
-		return "zyuy/zyuytran";
+		if (zyuy == null) {
+			model.addAttribute("errMsg", "該当データがありません");
+			zyuy = new HKN0010ZyuyntsEntity();
+			model.addAttribute("zyuy",zyuy);
+			return "zyuy/zyuytran";
+		} else {
+			model.addAttribute("zyuy", zyuy);
+			return "zyuy/zyuytran";
+		}
 	}
 	
 	/**
@@ -44,8 +51,15 @@ public class ZyuyController {
 	@RequestMapping(value="/getZyuysById")
 	public String getZyuysById(Integer sttCd, Model model) {
 		HKN0010ZyuyntsEntity zyuy = zyuyService.getZyuyById(sttCd);
-		model.addAttribute("zyuy", zyuy);
-		return "zyuy/zyuyhenkou";
+		if (zyuy == null) {
+			model.addAttribute("errMsg", "該当データがありません");
+			zyuy = new HKN0010ZyuyntsEntity();
+			model.addAttribute("zyuy",zyuy);
+			return "zyuy/zyuytran";
+		} else {
+			model.addAttribute("zyuy", zyuy);
+			return "zyuy/zyuyhenkou";
+		}
 	}
 	
 	/**
@@ -129,7 +143,7 @@ public class ZyuyController {
 			isTrue = false;
 		}
 		// 昼間出勤終了時刻範囲チェック
-		if (zyuy.getHrmkuSyryu() != null && !Tools.rangeCheck(zyuy.getHrmkuSyryu(), 12, 24)) {
+		if (zyuy.getHrmkuSyryu() != null && !Tools.rangeCheck(zyuy.getHrmkuSyryu(), 13, 24)) {
 			isTrue = false;
 		}
 		// 夜間出勤開始時刻正整数チェック
@@ -137,7 +151,7 @@ public class ZyuyController {
 			isTrue = false;
 		}
 		// 夜間出勤開始時刻範囲チェック
-		if (zyuy.getYknkuKisi() != null && !Tools.rangeCheck(zyuy.getYknkuKisi(), 12, 24)) {
+		if (zyuy.getYknkuKisi() != null && !Tools.rangeCheck(zyuy.getYknkuKisi(), 13, 24)) {
 			isTrue = false;
 		}
 		// 夜間出勤終了時刻正整数チェック

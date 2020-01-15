@@ -20,7 +20,7 @@ public interface UserService {
 	/**
 	 * 修改用户
 	 */
-	boolean updateUser(SYST01UserEntity user, List<Integer> charCdList);
+	String updateUser(String updateTime,SYST01UserEntity user, List<Integer> charCdList);
 
 	/**
 	 * 修改密码
@@ -29,7 +29,7 @@ public interface UserService {
 	 * @param password    原密码
 	 * @param newPassword 新密码
 	 */
-	boolean updateUserPassword(Integer usrCd, String password, String newPassword);
+	boolean updateUserPassword(Integer usrCd, String password, String newPassword,String updateTime);
 
 	boolean deleteUserBatch(Integer[] usrCds);
 }

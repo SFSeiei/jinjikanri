@@ -1,5 +1,6 @@
 package com.jinjikanri.service.impl;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.jinjikanri.common.constant.ItemConstant;
+import com.jinjikanri.common.util.ErrorMessage;
+import com.jinjikanri.common.util.Tools;
 import com.jinjikanri.entity.SYST06CharEntity;
 import com.jinjikanri.mapper.CharMapper;
 import com.jinjikanri.mapper.UserCharRightRelMapper;
@@ -47,6 +50,9 @@ public class CharServiceImpl implements CharService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean saveChar(SYST06CharEntity charEntity, List<Integer> rightCdList) {
+		// レコード作成実年月日時分秒を設定する。
+		charEntity.setRecSaksZituYmdHms(Tools.getSysDate());
+		charEntity.setRecKosnZituYmdHms(Tools.getSysDate());
 		this.charMapper.saveChar(charEntity);
 		// 保存角色与菜单关系
 		return userCharRightRelService.saveOrUpdateCRRel(charEntity.getCharCd(), rightCdList);
@@ -54,10 +60,37 @@ public class CharServiceImpl implements CharService {
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean updateChar(SYST06CharEntity charEntity, List<Integer> rightCdList) {
-		this.charMapper.updateChar(charEntity);
-		// 更新角色与菜单关系
-		return userCharRightRelService.saveOrUpdateCRRel(charEntity.getCharCd(), rightCdList);
+	public String updateChar(String updateTime, SYST06CharEntity charEntity, List<Integer> rightCdList) {
+		String message = null;
+		// 画面のCharCdを取得する
+		Integer charCd = charEntity.getCharCd();
+		Timestamp updateTimeDate = Tools.transStringToTimestamp(updateTime);
+		// 更新されたデータを検索
+		SYST06CharEntity searchCharEntity = new SYST06CharEntity();
+		searchCharEntity.setCharCd(charCd);
+		List<SYST06CharEntity> dbCharEntitys = this.charMapper.selectChars(searchCharEntity, new RowBounds());
+		if (dbCharEntitys.size() == 0) {
+			// 更新されたデータは存在しませんエラー
+			message = ErrorMessage.ERR0029();
+		} else {
+			// DB更新排他チェック
+			if (!dbCharEntitys.get(0).getRecKosnZituYmdHms().equals(updateTimeDate)) {
+				// 更新排他エラー
+				message = ErrorMessage.ERR0048();
+			} else {
+				charEntity.setRecKosnZituYmdHms(Tools.getSysDate());
+				if (this.charMapper.updateChar(charEntity)) {
+					// 更新角色与菜单关系
+					userCharRightRelService.saveOrUpdateCRRel(charEntity.getCharCd(), rightCdList);
+					// 更新成功
+					message = "updateSucess";
+				} else {
+					// 更新失敗
+					message = "updateFail";
+				}
+			}
+		}
+		return message;
 	}
 
 	@Override
