@@ -16,7 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-<shiro.version>1.4.0</shiro.version>
+<shiro.version>1.5.0</shiro.version>
 	</properties>
 
 	<dependencies>
@@ -41,7 +41,7 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<!-- mybatisã®æ”¹ãƒšãEã‚¸ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ -->
+		<!-- mybatisç¸ºï½®è¬¾ï½¹ç¹å£¹ãƒ»ç¹§ï½¸ç¹åŠ±Î›ç¹§ï½°ç¹§ï½¤ç¹ï½³ -->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper</artifactId>
@@ -79,7 +79,7 @@
 		    <artifactId>fastjson</artifactId>
 		    <version>1.2.62</version>
 		</dependency>
-		<!-- ãƒ­ã‚° -->
+		<!-- ç¹ï½­ç¹§ï½° -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
@@ -102,23 +102,23 @@
 			<artifactId>shiro-web</artifactId>
 			<version>${shiro.version}</version>
 		</dependency>
-		<!-- ‰º–ÊŽO˜¢¥shiro”z’uehcacheŠŽùjar•ï. -->
+		<!-- ä¸‹é¢ä¸‰ä¸ªæ˜¯shiroé…ç½®ehcacheæ‰€éœ€jaråŒ…. -->
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-ehcache</artifactId>
 			<version>${shiro.version}</version>
 		</dependency>
-		<!--?? cache ?‘¶ -->
+		<!--?? cache ?å­˜ -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-cache</artifactId>
 		</dependency>
-		<!-- ehcache ?‘¶ -->
+		<!-- ehcache ?å­˜ -->
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
 		</dependency>
-		<!-- thymeleaf ‹y?“W‡Œ-->
+		<!-- thymeleaf åŠ?å±•æ’ä»¶-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
