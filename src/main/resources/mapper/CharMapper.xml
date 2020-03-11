@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinjikanri.mapper.CharMapper">
+	<resultMap type="com.jinjikanri.entity.SYST06CharEntity"
+		id="CharMap">
+		<result column="CHAR_CD" property="charCd" />
+		<result column="CHAR_MEI" property="charMei" />
+		<result column="CHAR_DHISKRPSN" property="charDhiskrpsn" />
+		<result column="REC_SAKS_ZITU_YMD_HMS"
+			property="recSaksZituYmdHms" />
+		<result column="REC_KOSN_ZITU_YMD_HMS"
+			property="recKosnZituYmdHms" />
+	</resultMap>
+
+	<select id="selectChars"
+		parameterType="com.jinjikanri.entity.SYST06CharEntity"
+		resultMap="CharMap">
+		SELECT * FROM syst06char
+		<where>
+			<if test="charCd!=null"> AND CHAR_CD = #{charCd}</if>
+			<if test="charMei!=null"> AND CHAR_MEI LIKE CONCAT('%',#{charMei},'%')</if>
+			<if test="charDhiskrpsn!=null"> AND CHAR_DHISKRPSN LIKE CONCAT('%',#{charDhiskrpsn},'%')</if>
+			<if test="recSaksZituYmdHms!=null"> AND REC_SAKS_ZITU_YMD_HMS LIKE
+				CONCAT('%',#{recSaksZituYmdHms},'%')</if>
+			<if test="recKosnZituYmdHms!=null"> AND REC_KOSN_ZITU_YMD_HMS LIKE
+				CONCAT('%',#{recKosnZituYmdHms},'%')</if>
+		</where>
+	</select>
+
+	<select id="selectCharListByUsrCd" resultMap="CharMap"
+		parameterType="Integer">
+		SELECT * FROM syst06char
+		WHERE CHAR_CD IN (SELECT
+		syst06user_char_right_rel.CHAR_CD
+		FROM
+		syst06user_char_right_rel WHERE
+		syst06user_char_right_rel.USR_CD =
+		#{usrCd})
+	</select>
+
+	<insert id="saveChar"
+		parameterType="com.jinjikanri.entity.SYST06CharEntity"
+		useGeneratedKeys="true" keyProperty="charCd">
+		INSERT INTO
+		syst06char(CHAR_MEI,CHAR_DHISKRPSN,REC_SAKS_ZITU_YMD_HMS,REC_KOSN_ZITU_YMD_HMS)
+		VALUES(#{charMei},#{charDhiskrpsn},#{recSaksZituYmdHms},#{recKosnZituYmdHms})
+	</insert>
+
+	<!--修改Char -->
+	<update id="updateChar"
+		parameterType="com.jinjikanri.entity.SYST06CharEntity">
+		UPDATE syst06char
+		<trim prefix="set" suffixOverrides=",">
+			<if test="charMei!=null">CHAR_MEI=#{charMei},</if>
+			<if test="charDhiskrpsn!=null">CHAR_DHISKRPSN=#{charDhiskrpsn},</if>
+			<if test="recSaksZituYmdHms!=null">REC_SAKS_ZITU_YMD_HMS=#{recSaksZituYmdHms},</if>
+			<if test="recKosnZituYmdHms!=null">REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms},</if>
+			<if test="charMei==null and charDhiskrpsn==null and recSaksZituYmdHms==null and recKosnZituYmdHms==null">
+				CHAR_CD = #{charCd},
+			</if>
+		</trim>
+		WHERE CHAR_CD = #{charCd}
+	</update>
+
+	<delete id="deleteCharBatch">
+		DELETE FROM syst06char
+		WHERE CHAR_CD IN (
+		<foreach collection="charCds" item="charCd" separator=",">
+			#{charCd}
+		</foreach>
+		)
+	</delete>
+</mapper>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>新規/変更</title>
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+
+</head>
+<body class="gray-bg">
+	<h2 align="center">人員情報変更申請</h2>
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form th:action="@{updateAdmitById}" method="get" class="form-horizontal" id="frm" onsubmit="return true">
+							<input name="dateId" type="hidden" id="dateId" th:value="${admit.dateId}" />
+							<input name="recognitionState" id="recognitionState" type="hidden" th:value="${admit.recognitionState}" />
+							<div class="form-group">
+								<label class="col-sm-2 control-label">変更者従業員ID</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="changerId" id="changerId" th:value="${admit.changerId}" readonly="readonly"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">変更者名前</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="changerName" id="changerName" th:value="${admit.changerName}" readonly="readonly"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">変更内容</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="changeContent" id="changeContent" th:value="${admit.changeContent}" readonly="readonly"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">変更前</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="changeBefore" id="changeBefore" th:value="${admit.changeBefore}" readonly="readonly"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">変更後</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="changeAfter" id="changeAfter" th:value="${admit.changeAfter}" readonly="readonly"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">申請者従業員ID</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="applicantId" id="applicantId" th:value="${admit.applicantId}" readonly="readonly"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">申請者名前</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="applicantName" id="applicantName" th:value="${admit.applicantName}" readonly="readonly"/>
+								</div>
+							</div>
+							
+
+							<div class="form-group">
+								<div class="col-sm-4 col-sm-offset-2" th:if=" ${sign} eq '0'">
+									<button onclick="toSubmit()" class="btn btn-primary" type="button">承認申請</button>
+									<button onclick="toupdate()" class="btn btn-primary" type="button" >承認しない</button>
+									<button class="btn btn-primary" type="button" onclick="closeWin1()" >戻る</button>
+								</div>
+								<div class="col-sm-4 col-sm-offset-2" th:if=" ${sign} eq '1'">
+									<button class="btn btn-primary" type="button" onclick="closeWin();">戻る</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js"></script>
+	<script src="/js/plugins/summernote/summernote.min.js"></script>
+	<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
+	
+	
+	<script>
+	
+	
+	
+	function toSubmit() {
+		$("#recognitionState").val(1);
+		alert("承認成功！");
+		$("#frm").submit();
+	}
+	
+	function toupdate() {
+		$("#recognitionState").val(2);
+		alert("承認しない成功！");
+		$("#frm").submit();
+	}
+	
+	function closeWin1() {
+		location.href="/admit/selectAdmit";
+	}
+
+
+		function closeWin() {
+			location.href="/admit/selectAdmit2";
+		}
+	</script>
+</body>
+</html>

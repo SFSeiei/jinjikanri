@@ -1,0 +1,23 @@
+@charset "UTF-8";
+select.area{
+	position:absolute;
+	width:5%;
+	left:25%;
+}
+
+#provinceArea{
+	top:5%;
+}
+
+#cityArea{
+	top:13%;
+}
+
+#countryArea{
+	top:21%;
+}
+
+#ERR_TOP,#ERR_PROVINCE,#ERR_CITY,#ERR_COUNTRY,#ERR_TRAVELMONEY{
+	color: #cc5965;
+	font-weight:bold;
+}

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8">
+<title>人事管理</title>
+<link rel="shortcut icon" href="/images/logo.ico" />
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+<link href="/css/animate.min.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+</head>
+<body class="fixed-sidebar full-height-layout gray-bg"
+	style="overflow: hidden">
+	<div id="wrapper">
+		<!--左侧导航开始-->
+		<nav class="navbar-default navbar-static-side" role="navigation">
+			<div class="nav-close">
+				<i class="fa fa-times-circle"></i>
+			</div>
+			<div class="sidebar-collapse">
+				<ul class="nav" id="side-menu">
+					<li class="nav-header">
+						<div class="dropdown profile-element">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span
+								class="clear"> <span class="block m-t-xs"> <strong
+										class="font-bold">用户名：<label th:text="${user.usrId}"
+											class="control-label"></label></strong>
+								</span> <span class="text-muted text-xs block"> <b class="caret"></b>
+								</span>
+							</span>
+							</a>
+							<ul class="dropdown-menu animated fadeInRight m-t-xs">
+								<li><a class="J_menuItem" href="/sys/user/modifyPasswdpage">パスワードを变更</a></li>
+								<li class="divider"></li>
+								<li><a href="/logout">安全退出</a></li>
+							</ul>
+						</div>
+						<div class="logo-element">+</div>
+					</li>
+					<li
+						shiro:hasAnyPermissions="sys:knsun:select,sys:bus:select,sys:travelArea:select,sys:zeiritu:select,sys:zyuy:select,sys:orga:select,sys:staff:select,sys:apply:select,sys:admit:select"><a
+						href="#"> <i class="glyphicon glyphicon-list-alt"></i> <span
+							class="nav-label">基本データ</span> <span class="fa arrow"></span>
+					</a>
+						<ul class="nav nav-second-level">
+							<li shiro:hasPermission="sys:knsun:select"><a
+								class="J_menuItem" href="/knsunStaff/selectKnsunStaffs">健康診断の日</a></li>
+							<li shiro:hasPermission="sys:bus:select"><a
+								class="J_menuItem" href="/HKN0005LicenseEntity/selectBus">送迎バスメンテナンス</a></li>
+							<li shiro:hasPermission="sys:travelArea:select"><a
+								class="J_menuItem" href="/travelArea/getTravelArea">出張地域の管理</a></li>
+							<li shiro:hasPermission="sys:zeiritu:select"><a
+								class="J_menuItem" href="/zeiritu/display">税金計算基準設定</a></li>
+							<li shiro:hasPermission="sys:zyuy:select"><a
+								class="J_menuItem" href="/zyuy/getZyuyById">システムパラメータ設定</a></li>
+							<li shiro:hasPermission="sys:orga:select"><a
+								class="J_menuItem" href="/orga/getOrganization">組織管理</a></li>
+							<li shiro:hasPermission="sys:staff:select"><a
+								class="J_menuItem" href="/staff/selectStaffs">人員基本情報メンテナンス</a></li>
+							<li shiro:hasPermission="sys:apply:select"><a
+								class="J_menuItem" href="/applyAdd">人員情報変更申請</a></li>
+							<li shiro:hasPermission="sys:apply:select"><a
+								class="J_menuItem" href="/getApplyList">人的情報変更申請一覧</a></li>
+							<li shiro:hasPermission="sys:apply:select"><a
+								class="J_menuItem" href="/getApplyHistory">人的情報変更申請履歴</a></li>
+							<li shiro:hasPermission="sys:admit:select"><a
+								class="J_menuItem" href="/admit/selectAdmit">人的情報認定一覧</a></li>
+							<li shiro:hasPermission="sys:admit:select"><a
+								class="J_menuItem" href="/admit/selectAdmit2">人的情報は履歴を承認する</a></li>
+						</ul></li>
+					<li shiro:hasAnyPermissions="sys:user:select,sys:char:select"><a href="#"> <i class="glyphicon glyphicon-cog"></i> <span
+							class="nav-label">システム管理</span> <span class="fa arrow"></span>
+					</a>
+						<ul class="nav nav-second-level">
+							<li shiro:hasPermission="sys:user:select"><a
+								class="J_menuItem" href="/sys/user/selectUsers">ユーザーリスト</a></li>
+							<li shiro:hasPermission="sys:char:select"><a
+								class="J_menuItem" href="/sys/char/selectChars">キャラクター管理</a></li>
+						</ul></li>
+				</ul>
+			</div>
+		</nav>
+		<!--左侧导航结束-->
+		<!--右侧部分开始-->
+		<div id="page-wrapper" class="gray-bg dashbard-1">
+			<div class="row border-bottom">
+				<nav class="navbar navbar-static-top" role="navigation"
+					style="margin-bottom: 0">
+					<div class="navbar-header">
+						<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "
+							href="#"> <i class="fa fa-bars"></i>
+						</a>
+						<div
+							style="margin-top: 8px; font-size: 25px; font-weight: 550; color: #18a689;">人事管理</div>
+					</div>
+				</nav>
+			</div>
+			<div class="row content-tabs">
+				<button class="roll-nav roll-left J_tabLeft">
+					<i class="fa fa-backward"></i>
+				</button>
+				<nav class="page-tabs J_menuTabs">
+					<div class="page-tabs-content">
+						<a href="javascript:;" class="active J_menuTab"
+							data-id="index_v1.html">トップページ</a>
+					</div>
+				</nav>
+				<button class="roll-nav roll-right J_tabRight">
+					<i class="fa fa-forward"></i>
+				</button>
+				<div class="btn-group roll-nav roll-right">
+					<button class="dropdown J_tabClose" data-toggle="dropdown">
+						操作<span class="caret"></span>
+					</button>
+					<ul role="menu" class="dropdown-menu dropdown-menu-right">
+						<li class="J_tabShowActive"><a>現在のタブを特定する</a></li>
+						<li class="divider"></li>
+						<li class="J_tabCloseAll"><a>全てのタブを閉じる</a></li>
+						<li class="J_tabCloseOther"><a>他のタブを閉じる</a></li>
+					</ul>
+				</div>
+				<a href="/logout" class="roll-nav roll-right J_tabExit"><i
+					class="fa fa fa-sign-out"></i>退出</a>
+			</div>
+			<div class="row J_mainContent" id="content-main">
+				<iframe class="J_iframe" name="iframe0" width="100%" height="100%"
+					src="/welcome" frameborder="0" data-id="index_v1.html" seamless></iframe>
+			</div>
+			<div class="footer">
+				<div class="pull-right">&copy; 2018 版权信息</div>
+			</div>
+		</div>
+		<!--右侧部分结束-->
+	</div>
+	<script src="/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+	<script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="/js/plugins/layer/layer.min.js"></script>
+	<script src="/js/hplus.min.js?v=4.1.0"></script>
+	<script type="text/javascript" src="/js/contabs.min.js"></script>
+	<script src="/js/plugins/pace/pace.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+       
+<mapper namespace="com.jinjikanri.mapper.HKN0007KnsunMapper">
+	
+	<resultMap type="com.jinjikanri.entity.HKN0007KnsunEntity" id="HKN0007KnsunEntity">
+		<result property="knsunYmdId" column="KNSUN_YMD_ID"/>
+		<result property="knsunYmdStart" column="KNSUN_YMD_START"/>
+		<result property="knsunYmdEnd" column="KNSUN_YMD_END"/>
+		<result property="recSaksZituYmdHms" column="REC_SAKS_ZITU_YMD_HMS"/>
+		<result property="recKosnZituYmdHms" column="REC_KOSN_ZITU_YMD_HMS"/>
+	</resultMap>
+	
+	<sql id="allColumn">
+		KNSUN_YMD_ID,KNSUN_YMD_START,KNSUN_YMD_END, REC_SAKS_ZITU_YMD_HMS, REC_KOSN_ZITU_YMD_HMS
+	</sql>
+	
+	 <select id="getKnsunById" resultMap="HKN0007KnsunEntity" parameterType="java.lang.Integer">
+		select * from tbl_knsun where KNSUN_YMD_ID=#{knsunId,jdbcType=INTEGER}
+	</select>
+	
+	<select id="selectKnsun" resultMap="HKN0007KnsunEntity" parameterType="java.lang.Integer">
+		select * from tbl_knsun where KNSUN_YMD_ID in
+		<foreach collection="list" item="travelAreaId" separator="," open="(" close=")">
+			#{knsunId}
+	    </foreach>
+	</select>
+	
+	<select id="getKnsunByIdAndUpdateTime" resultMap="HKN0007KnsunEntity">
+		select * from tbl_knsun where KNSUN_YMD_ID=#{knsunId,jdbcType=INTEGER} and REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms,jdbcType=TIMESTAMP}
+	</select>
+	
+	<insert id="insertKnsun" parameterType="com.jinjikanri.entity.HKN0007KnsunEntity" useGeneratedKeys="true" keyProperty="knsunYmdId">
+		insert into tbl_knsun(KNSUN_YMD_START,KNSUN_YMD_END,REC_SAKS_ZITU_YMD_HMS,REC_KOSN_ZITU_YMD_HMS)
+		values (
+		#{knsunYmdStart,jdbcType=DATE},
+		#{knsunYmdEnd,jdbcType=DATE},
+		#{recSaksZituYmdHms,jdbcType=TIMESTAMP},
+		#{recKosnZituYmdHms,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	<update id="updateKnsunById" parameterType="com.jinjikanri.entity.HKN0007KnsunEntity">
+		update tbl_knsun
+		<set>
+			<if test="knsunYmdId!=null">
+				KNSUN_YMD_ID=#{knsunYmdId},
+			</if>
+			<if test="knsunYmdStart!=null">
+				KNSUN_YMD_START=#{knsunYmdStart},
+			</if>
+			<if test="knsunYmdEnd!=null">
+				KNSUN_YMD_END=#{knsunYmdEnd},	
+			</if>
+			<if test="recSaksZituYmdHms!=null">
+				REC_SAKS_ZITU_YMD_HMS=#{recSaksZituYmdHms,jdbcType=TIMESTAMP},
+			</if>
+			<if test="recSaksZituYmdHms!=null">
+				REC_KOSN_ZITU_YMD_HMS=#{recKosnZituYmdHms,jdbcType=TIMESTAMP}
+			</if>		
+		</set>
+		where  KNSUN_YMD_ID=#{knsunYmdId}
+	</update>
+
+	<delete id="deleteKnsun" parameterType="java.lang.Integer">
+		DELETE FROM tbl_knsun WHERE KNSUN_YMD_ID = #{knsunId}
+	</delete> 
+	
+
+	<select id="hkn0007KnsunEntities" resultMap="HKN0007KnsunEntity">
+		SELECT <include refid="allColumn" /> FROM tbl_knsun ORDER BY REC_SAKS_ZITU_YMD_HMS DESC
+	</select>
+	
+	<select id="dataValid" parameterType="com.jinjikanri.entity.HKN0007KnsunEntity" resultMap="HKN0007KnsunEntity">
+		SELECT * FROM tbl_knsun 
+		<where>
+			<if test="knsunYmdStart!=null"> AND KNSUN_YMD_START = #{knsunYmdStart}</if>
+			<if test="knsunYmdEnd!=null"> AND KNSUN_YMD_END = #{knsunYmdEnd}</if>
+			<if test="knsunYmdId!=null"> AND KNSUN_YMD_ID != #{knsunYmdId}</if>
+		</where>
+	</select>
+	
+	
+</mapper>                                                                                                                                                                                          

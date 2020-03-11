@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>新規/変更</title>
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form action="" method="get" class="form-horizontal" id="frm" name="frm">
+							<div class="error" id="ERR_TOP"  style="display: inline-block;color:red;"></div>
+							<input name="createUser" type="hidden" id="createUser" />
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="organizationCd">組織コード</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="organizationCd" id="organizationCd" maxlength="10" />
+									
+								</div>
+								
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="departmentName">部署名</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="departmentName" id="departmentName" maxlength="10"/>
+							        
+								</div>
+								
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="superiorOrganizationCd">上位組織コード</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="superiorOrganizationCd" maxlength="10" id="superiorOrganizationCd" onkeyup="this.value=this.value.replace(/\D/g,'')" />
+ 							         
+								</div>
+							</div>
+							
+
+							<div class="form-group">
+								<div class="" align="center">
+									<button class="btn btn-primary" type="button" onclick="toSubmit();" >新規-1</button>&nbsp;単純追加
+									<button class="btn btn-primary" type="button" onclick="toSubmit2();">新規-2 </button>&nbsp;中間組織追加
+									<button class="btn btn-default" type="button" onclick="closeWin();">戻る</button>
+								</div>
+							</div>
+							<span id="updateResult" th:text="${updateResult}" th:hidden="true"></span>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+ 
+	<script src="/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js"></script>
+	<script src="/js/plugins/summernote/summernote.min.js"></script>
+	<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
+	<script>
+	  $().ready(function(){
+		$("#frm").validate({
+			 
+			rules:{
+				organizationCd:{
+					required:true,
+					maxlength:10,
+					check:true
+				},
+				departmentName:{
+					required:true,
+					maxlength:10
+				},
+				superiorOrganizationCd:{
+					maxlength:10,
+					check:true
+				}
+			},
+			messages:{
+				organizationCd:{
+					required:"ERR0001:組織コードを入力してください",
+					maxlength:"ERR0042:組織コード入力値大きい10桁はではありません。"
+				},
+				departmentName:{
+					required:"ERR0001:部署名を入力してください",
+					maxlength:"ERR0042:部署名入力値大きい10桁はではありません。"
+				},
+				superiorOrganizationCd:{
+					maxlength:"ERR0042:上位組織コード入力値大きい10桁はではありません。"
+				}
+			},
+		});
+		$.validator.addMethod("check",function(value,element,params) {
+			var reg = /(^[1-9](\d+)?(\.\d+)?$)|(^0$)|(^\d\.\d+$)/;
+			return this.optional(element)||(reg.test(value));
+		},"ERR0012:半角数字で入力して下さい。");
+	  
+	  });  
+function toSubmit(){
+	var isTrue = true;
+	var errorMessage;
+	var organizationCd=$("#organizationCd").val();
+	var superiorOrganizationCd=$("#superiorOrganizationCd").val();
+	if(organizationCd!= ""){
+		if(organizationCd == superiorOrganizationCd){
+			errorMessage = "ERR0035:組織コードと上位組織コードが同じくない。";
+			isTrue=false;
+		}
+	}
+	if(isTrue){
+		 document.frm.action = "insertOrgazization";
+		 $("#frm").submit();
+	}else{
+		$("#ERR_TOP").text(errorMessage);
+	}
+}
+function toSubmit2(){
+	var isTrue = true;
+	var errorMessage;
+	var organizationCd=$("#organizationCd").val();
+	var superiorOrganizationCd=$("#superiorOrganizationCd").val();
+	if(organizationCd!= ""){
+		if(organizationCd == superiorOrganizationCd){
+			errorMessage = "ERR0035:組織コードと上位組織コードが同じくない。";
+			isTrue=false;
+		}
+	}
+	if(isTrue){
+		 document.frm.action = "insertOrgazizationmid";
+		 $("#frm").submit();
+	}else{
+		$("#ERR_TOP").text(errorMessage);
+	}
+}
+$(function(){
+    var updateResult = document.getElementById("updateResult").innerText;
+   if(updateResult!=""){
+       alert(updateResult);
+   }
+
+});
+
+	function closeWin() {
+		location.href="/orga/getOrganization";
+	}
+	 
+		
+		
+	</script>
+</body>
+</html>

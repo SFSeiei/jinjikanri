@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>税金計算基準の設定(変更)</title>
+		<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+		<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+		<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+		<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+		<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="ibox float-e-margins">
+						<div class="ibox-content">
+							<form method="post" class="form-horizontal" action="" id="frm" onsubmit="return false">
+								<input name="ziknCD" type="hidden" id="ziknCd" />
+								<input name="recKosnZituYmdHms" type="hidden" id="recKosnZituYmdHms" th:value="${Zikn.recKosnZituYmdHms }" />
+								<div id="ERR" style="color:red"></div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">一級課税所得額（元）</label>
+									<div class="col-sm-6" style="margin-right:-12%;">
+										<input type="text" class="form-control" style="width:25%;float:left;" id="tukiTinkinTkyu1" name="tukiTinkinTkyu1" th:value="${Zikn.tukiTinkinTkyu1 }" />
+										<span style="float:left;padding-top:9px;">～</span>
+										<input type="text" class="form-control" style="width:25%;float:left;" id="tukiTinkinTkyu2" name="tukiTinkinTkyu2" th:value="${Zikn.tukiTinkinTkyu2 }" onblur="same2()" />
+										<label class="col-sm-2 control-label" style="margin-left:0%;">税率（%）</label>
+										<input type="text" class="form-control" style="width:8%;float:left;" id="zeiritKbn1" name="zeiritKbn1" th:value="${Zikn.zeiritKbn1 }" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">二級課税所得額（元）</label>
+									<div class="col-sm-6" style="margin-right:-12%;">
+										<input type="text" class="form-control" style="width:25%;float:left;" id="tukiTinkinTkyu2_nd" name="tukiTinkinTkyu2_nd" th:value="${Zikn.tukiTinkinTkyu2 }" onblur="same2_nd()" />
+										<span style="float:left;padding-top:9px;">～</span>
+										<input type="text" class="form-control" style="width:25%;float:left;" id="tukiTinkinTkyu3" name="tukiTinkinTkyu3" th:value="${Zikn.tukiTinkinTkyu3 }" onblur="same3()" />
+										<label class="col-sm-2 control-label" style="margin-left:0%;">税率（%）</label>
+										<input type="text" class="form-control" style="width:8%;float:left;" id="zeiritKbn2" name="zeiritKbn2" th:value="${Zikn.zeiritKbn2 }" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">三級課税所得額（元）</label>
+									<div class="col-sm-6" style="margin-right:-12%;">
+										<input type="text" class="form-control" style="width:25%;float:left;"id="tukiTinkinTkyu3_nd" name="tukiTinkinTkyu3_nd"  th:value="${Zikn.tukiTinkinTkyu3 }" onblur="same3_nd()" />
+										<span style="float:left;padding-top:9px;">～</span>
+										<input type="text" class="form-control" style="width:25%;float:left;"id="tukiTinkinTkyu4" name="tukiTinkinTkyu4"  th:value="${Zikn.tukiTinkinTkyu4 }" onblur="same4()" />
+										<label class="col-sm-2 control-label" style="margin-left:0%;">税率（%）</label>
+										<input type="text" class="form-control" style="width:8%;float:left;" id="zeiritKbn3" name="zeiritKbn3" th:value="${Zikn.zeiritKbn3 }" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">四級課税所得額（元）</label>
+									<div class="col-sm-6" style="margin-right:-12%;">
+										<input type="text" class="form-control" style="width:25%;float:left;"id="tukiTinkinTkyu4_nd" name="tukiTinkinTkyu4_nd"  th:value="${Zikn.tukiTinkinTkyu4 }" onblur="same4_nd()" />
+										<span style="float:left;padding-top:9px;">～</span>
+										<input type="text" class="form-control" style="width:25%;float:left;"id="tukiTinkinTkyu5" name="tukiTinkinTkyu5"  th:value="${Zikn.tukiTinkinTkyu5 }" onblur="same5()" />
+										<label class="col-sm-2 control-label" style="margin-left:0;">税率（%）</label>
+										<input type="text" class="form-control" style="width:8%;float:left;" id="zeiritKbn4" name="zeiritKbn4" th:value="${Zikn.zeiritKbn4 }" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">五級課税所得額（元）</label>
+									<div class="col-sm-6" style="margin-right:-12%;">
+										<input type="text" class="form-control" style="width:25%;float:left;" id="tukiTinkinTkyu5_nd" name="tukiTinkinTkyu5_nd" th:value="${Zikn.tukiTinkinTkyu5 }" onblur="same5_nd()" />
+										<span style="float:left;padding-top:9px;">～</span>
+										<input type="text" class="form-control" style="width:25%;float:left;" id="tukiTinkinTkyu6" name="tukiTinkinTkyu6" th:value="${Zikn.tukiTinkinTkyu6 }" onblur="same6()" />
+										<label class="col-sm-2 control-label" style="margin-left:0%;">税率（%）</label>
+										<input type="text" class="form-control" style="width:8%;float:left;" id="zeiritKbn5" name="zeiritKbn5" th:value="${Zikn.zeiritKbn5 }" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">六級課税所得額（元）</label>
+									<div class="col-sm-6" style="margin-right:-12%;">
+										<input type="text" class="form-control" style="width:25%;float:left;"id="tukiTinkinTkyu6_nd" name="tukiTinkinTkyu6_nd"  th:value="${Zikn.tukiTinkinTkyu6 }" onblur="same6_nd()" />
+										<span style="float:left;padding-top:9px;">～</span>
+										<input type="text" class="form-control" style="width:25%;float:left;"id="tukiTinkinTkyu7" name="tukiTinkinTkyu7"  th:value="${Zikn.tukiTinkinTkyu7 }" onblur="same7()" />
+										<label class="col-sm-2 control-label" style="margin-left:0%;">税率（%）</label>
+										<input type="text" class="form-control" style="width:8%;float:left;" id="zeiritKbn6" name="zeiritKbn6" th:value="${Zikn.zeiritKbn6 }" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">七級課税所得額（元）</label>
+									<div class="col-sm-6" style="margin-right:-12%;">
+										<input type="text" class="form-control" style="width:25%;float:left;" id="tukiTinkinTkyu7_nd" name="tukiTinkinTkyu7_nd" th:value="${Zikn.tukiTinkinTkyu7 }" onblur="same7_nd()" />
+										<label class="col-sm-2 control-label" style="float:left;margin-right:10.4%;">以上</label>
+										<label class="col-sm-2 control-label">税率（%）</label>
+										<input type="text" class="form-control" style="width:8%;float:left;" id="zeiritKbn7" name="zeiritKbn7" th:value="${Zikn.zeiritKbn7 }" />
+									</div>
+								</div>
+								
+ 								<div class="form-group">
+									<div class="col-sm-4 col-sm-offset-2">
+										<button class="btn btn-primary" type="submit">確定</button>
+										<button class="btn btn-default" type="button" onclick="goback();">戻る</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="/js/jquery.min.js?v=2.1.4"></script>
+		<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+		<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+		<script src="/js/plugins/validate/messages_zh.min.js"></script>
+		<script src="/js/plugins/summernote/summernote.min.js"></script>
+		<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
+		<Script>
+			$.validator.setDefaults({
+				submitHandler : function() {
+					var ok = confirm("変更を確認するかどうか？");
+					if (ok) {
+						$.ajax({
+							type : "POST",
+							url : "/zeiritu/confirm",
+							data : $('#frm').serialize(),
+							success : function(obj) {
+								if (obj == "zeiritu/zeirituDisplay") {
+									location.href="/zeiritu/display";
+								} else if(obj == "errors") {							
+									location.href="/errorException";
+								} else {
+									$("#ERR").text(obj);
+								}
+							},
+							error : function(){
+								location.href = "/errorException";
+							}
+						});
+					}
+				}	
+			});
+			// 1画面入力項目単項目チェック
+			$().ready(function(){
+				// 1キーボードを押してリリースし、提出したformを検証します
+				$("#frm").validate({
+					rules : {
+						tukiTinkinTkyu1 : {
+	  						// 項目相関チェック
+							compare1 : true,
+	 						// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu2 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu2_nd : {
+							// 項目相関チェック
+							compare2 : true,
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu3 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu3_nd : {
+	  						// 項目相関チェック
+							compare3 : true,
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu4 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu4_nd : {
+	  						// 項目相関チェック
+							compare4 : true,
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu5 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu5_nd : {
+	  						// 項目相関チェック
+							compare5 : true,
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu6 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu6_nd : {
+	  						// 項目相関チェック
+							compare6 : true,
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu7 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						tukiTinkinTkyu7_nd : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 7,
+							// 規定値チェック
+							digits : true
+						},
+						zeiritKbn1 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 2,
+							// 規定値チェック
+							digits : true
+						},
+						zeiritKbn2 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 2,
+							// 規定値チェック
+							digits : true
+						},
+						zeiritKbn3 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 2,
+							// 規定値チェック
+							digits : true
+						},
+						zeiritKbn4 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 2,
+							// 規定値チェック
+							digits : true
+						},
+						zeiritKbn5 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 2,
+							// 規定値チェック
+							digits : true
+						},
+						zeiritKbn6 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 2,
+							// 規定値チェック
+							digits : true
+						},
+						zeiritKbn7 : {
+							// 必須チェック
+							required : true,
+							// 桁数チェック
+							maxlength : 2,
+							// 規定値チェック
+							digits : true
+						}
+					},
+					messages : {
+						tukiTinkinTkyu1 : {
+							required : "課税所得額(左)が必須入力。",
+							maxlength : "課税所得額(左)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(左)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu2 : {
+							required : "課税所得額(右)が必須入力。",
+							maxlength : "課税所得額(右)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(右)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu2_nd : {
+							required : "課税所得額(左)が必須入力。",
+							maxlength : "課税所得額(左)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(左)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu3 : {
+							required : "課税所得額(右)が必須入力。",
+							maxlength : "課税所得額(右)が範囲を0～9999999の間に設定してください。。",
+							digits : "課税所得額(右)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu3_nd : {
+							required : "課税所得額(左)が必須入力。",
+							maxlength : "課税所得額(左)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(左)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu4 : {
+							required : "課税所得額(右)が必須入力。",
+							maxlength : "課税所得額(右)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(右)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu4_nd : {
+							required : "課税所得額(左)が必須入力。",
+							maxlength : "課税所得額(左)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(左)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu5 : {
+							required : "課税所得額(右)が必須入力。",
+							maxlength : "課税所得額(右)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(右)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu5_nd : {
+							required : "課税所得額(左)が必須入力。",
+							maxlength : "課税所得額(左)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(左)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu6 : {
+							required : "課税所得額(右)が必須入力。",
+							maxlength : "課税所得額(右)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(右)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu6_nd : {
+							required : "課税所得額(左)が必須入力。",
+							maxlength : "課税所得額(左)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(左)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu7 : {
+							required : "課税所得額(右)が必須入力。",
+							maxlength : "課税所得額(右)が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額(右)が正の整数を入力してください。"
+						},
+						tukiTinkinTkyu7_nd : {
+							required : "課税所得額が必須入力。",
+							maxlength : "課税所得額が範囲を0～9999999の間に設定してください。",
+							digits : "課税所得額が正の整数を入力してください。"
+						},
+						zeiritKbn1 : {
+							required : "税率が必須入力。",
+							maxlength : "税率が範囲を0～99の間に設定してください。",
+							digits : "税率が正の整数を入力してください。"
+						},
+						zeiritKbn2 : {
+							required : "税率が必須入力。",
+							maxlength : "税率が範囲を0～99の間に設定してください。",
+							digits : "税率が正の整数を入力してください。"
+						},
+						zeiritKbn3 : {
+							required : "税率が必須入力。",
+							maxlength : "税率が範囲を0～99の間に設定してください。",
+							digits : "税率が正の整数を入力してください。"
+						},
+						zeiritKbn4 : {
+							required : "税率がこの必須入力。",
+							maxlength : "税率が範囲を0～99の間に設定してください。",
+							digits : "税率が正の整数を入力してください。"
+						},
+						zeiritKbn5 : {
+							required : "税率がこの必須入力。",
+							maxlength : "税率が範囲を0～99の間に設定してください。",
+							digits : "税率が正の整数を入力してください。"
+						},
+						zeiritKbn6 : {
+							required : "税率が必須入力。",
+							maxlength : "税率が範囲を0～99の間に設定してください。",
+							digits : "税率が正の整数を入力してください。"
+						},
+						zeiritKbn7 : {
+							required : "税率が必須入力。",
+							maxlength : "税率が範囲を0～99の間に設定してください。",
+							digits : "税率が正の整数を入力してください。"
+						}
+					},
+					errorPlacement: function(error, element) {
+						error.appendTo(element.parent().parent());
+					}
+				});
+	  			$.validator.addMethod("compare1",function(value,element,params) {
+					var tukiTinkinTkyu1 = document.getElementById('tukiTinkinTkyu1').value;
+					var tukiTinkinTkyu2 = document.getElementById('tukiTinkinTkyu2').value;
+					if ((/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu1)) && (/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu2))) {
+						if (parseInt(tukiTinkinTkyu1) < parseInt(tukiTinkinTkyu2)) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+					return true;
+				},"前者は後者より小さいはずでありませ");
+	  			$.validator.addMethod("compare2",function(value,element,params) {
+					var tukiTinkinTkyu2_nd = document.getElementById('tukiTinkinTkyu2_nd').value;
+					var tukiTinkinTkyu3 = document.getElementById('tukiTinkinTkyu3').value;
+					if ((/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu1)) && (/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu2))) {
+						if (parseInt(tukiTinkinTkyu2_nd) < parseInt(tukiTinkinTkyu3)) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+					return true;
+				},"前者は後者より小さいはずでありませ");
+	  			$.validator.addMethod("compare3",function(value,element,params) {
+					var tukiTinkinTkyu3_nd = document.getElementById('tukiTinkinTkyu3_nd').value;
+					var tukiTinkinTkyu4 = document.getElementById('tukiTinkinTkyu4').value;
+					if ((/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu1)) && (/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu2))) {
+						if (parseInt(tukiTinkinTkyu3_nd) < parseInt(tukiTinkinTkyu4)) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+					return true;
+				},"前者は後者より小さいはずでありませ");
+	  			$.validator.addMethod("compare4",function(value,element,params) {
+					var tukiTinkinTkyu4_nd = document.getElementById('tukiTinkinTkyu4_nd').value;
+					var tukiTinkinTkyu5 = document.getElementById('tukiTinkinTkyu5').value;
+					if ((/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu1)) && (/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu2))) {
+						if (parseInt(tukiTinkinTkyu4_nd) < parseInt(tukiTinkinTkyu5)) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+					return true;
+				},"前者は後者より小さいはずでありませ");
+	  			$.validator.addMethod("compare5",function(value,element,params) {
+					var tukiTinkinTkyu5_nd = document.getElementById('tukiTinkinTkyu5_nd').value;
+					var tukiTinkinTkyu6 = document.getElementById('tukiTinkinTkyu6').value;
+					if ((/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu1)) && (/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu2))) {
+						if (parseInt(tukiTinkinTkyu5_nd) < parseInt(tukiTinkinTkyu6)) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+					return true;
+				},"前者は後者より小さいはずでありませ");
+	  			$.validator.addMethod("compare6",function(value,element,params) {
+					var tukiTinkinTkyu6_nd = document.getElementById('tukiTinkinTkyu6_nd').value;
+					var tukiTinkinTkyu7 = document.getElementById('tukiTinkinTkyu7').value;
+					if ((/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu1)) && (/^\+?[1-9][0-9]*$/.test(tukiTinkinTkyu2))) {
+						if (parseInt(tukiTinkinTkyu6_nd) < parseInt(tukiTinkinTkyu7)) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+					return true;
+				},"前者は後者より小さいはずでありませ");
+			});
+
+			function goback(){
+				location.href="display";
+			}
+			function same2(){
+				var x = document.getElementById('tukiTinkinTkyu2').value;
+				document.getElementById('tukiTinkinTkyu2_nd').value = x;
+			}
+			function same2_nd(){
+				var x = document.getElementById('tukiTinkinTkyu2_nd').value;
+				document.getElementById('tukiTinkinTkyu2').value = x;
+			}
+			function same3(){
+				var x = document.getElementById('tukiTinkinTkyu3').value;
+				document.getElementById('tukiTinkinTkyu3_nd').value = x;
+			}
+			function same3_nd(){
+				var x = document.getElementById('tukiTinkinTkyu3_nd').value;
+				document.getElementById('tukiTinkinTkyu3').value = x;
+			}
+			function same4(){
+				var x = document.getElementById('tukiTinkinTkyu4').value;
+				document.getElementById('tukiTinkinTkyu4_nd').value = x;
+			}
+			function same4_nd(){
+				var x = document.getElementById('tukiTinkinTkyu4_nd').value;
+				document.getElementById('tukiTinkinTkyu4').value = x;
+			}
+			function same5(){
+				var x = document.getElementById('tukiTinkinTkyu5').value;
+				document.getElementById('tukiTinkinTkyu5_nd').value = x;
+			}
+			function same5_nd(){
+				var x = document.getElementById('tukiTinkinTkyu5_nd').value;
+				document.getElementById('tukiTinkinTkyu5').value = x;
+			}
+			function same6(){
+				var x = document.getElementById('tukiTinkinTkyu6').value;
+				document.getElementById('tukiTinkinTkyu6_nd').value = x;
+			}
+			function same6_nd(){
+				var x = document.getElementById('tukiTinkinTkyu6_nd').value;
+				document.getElementById('tukiTinkinTkyu6').value = x;
+			}
+			function same7(){
+				var x = document.getElementById('tukiTinkinTkyu7').value;
+				document.getElementById('tukiTinkinTkyu7_nd').value = x;
+			}
+			function same7_nd(){
+				var x = document.getElementById('tukiTinkinTkyu7_nd').value;
+				document.getElementById('tukiTinkinTkyu7').value = x;
+			}
+		</Script>
+	</body>
+</html>

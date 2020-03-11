@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>人事管理</title>
+<link rel="shortcut icon" href="/images/logo.ico" />
+<link href="/css/login.css" rel="stylesheet" type="text/css" />
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+<script type="text/javascript" src="/js/jquery1.7.2.js"></script>
+<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/js/plugins/validate/messages_zh.min.js"></script>
+</head>
+<body
+	style="background: url('/images/login-img.jpg') no-repeat; background-size: 100% 100%;">
+	<div class="login_box">
+		<div class="login">
+			<div class="login_logo">
+				<a><img src="images/login_logo.png"
+					style="width: 110px; height: 110px; border-radius: 55px;" /></a>
+			</div>
+			<div class="login_name">
+				<p>人事管理</p>
+			</div>
+			<form th:action="@{login}" method="post" id="login-validation">
+				<input name="usrId" id="USR_ID" type="text" placeholder="ユーザーID" />
+				<input name="passwd" type="password" id="PASSWD" placeholder="パスワード" />
+				<div id="errorMsg"
+					style="color: #FF0000; text-align: center; margin-bottom: 10px; height: 20px;"
+					th:text="${errormsg}"></div>
+				<input value="ログイン" style="width: 100%;" type="submit"
+					id="LOGIN_SUBMIT_BN" name="LOGIN_SUBMIT_BN" />
+			</form>
+		</div>
+		<div class="copyright"></div>
+	</div>
+	<script type="text/javascript">
+		$().ready(
+				function() {
+					//  フォームを送信
+					$("#login-validation").validate({
+						rules : {
+							usrId : {
+								required : true,
+								maxlength : 8,
+								checkUserID : true
+							},
+							passwd : {
+								required : true,
+								maxlength : 20,
+								checkPassWD : true
+							}
+						},
+						messages : {
+							usrId : {
+								required : "ユーザーIDを入力してください",
+								maxlength : "ユーザーIDが8桁以内英数字"
+							},
+							passwd : {
+								required : "パスワードを入力してください",
+								maxlength : $.validator.format("パスワードが20桁以内")
+							}
+						},
+						onsubmit : true,
+						onfocusout : false,
+						onkeyup : false,
+						onclick : false,
+						focusInvalid : false,
+						focusCleanup : true
+					});
+					// ユーザーID単項目属性チェック 
+					$.validator.addMethod("checkUserID", function(value,
+							element, params) {
+						// ユーザーIDの正規表現
+						var reg = /^[0-9a-zA-Z]+$/;
+						return this.optional(element) || (reg.test(value));
+					}, $.validator.format("ユーザーIDが半角英数字で入力して下さい"));
+					// パスワード単項目属性チェック 
+					$.validator.addMethod("checkPassWD", function(value,
+							element, params) {
+						// パスワードの正規表現
+						var reg = /^[0-9a-zA-Z]+$/;
+						return this.optional(element) || (reg.test(value));
+					}, $.validator.format("パスワードが半角英数字で入力して下さい"));
+					if (window != top) {
+						top.location.href = "page/login.jsp";
+					}
+					$("body").keydown(function(event) {
+						var event = event || window.event;
+						if (event.keyCode == "13") {
+							$("#LOGIN_SUBMIT_BN").click();
+						}
+					});
+				});
+	</script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>人事勤怠管理システム構築 -シャトルバス-更新</title>
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+<link href="/css/autocomplete/jquery.autocomplete.css" rel="stylesheet" />
+
+</head>
+
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form method="post" class="form-horizontal" id="frm" onsubmit="return true">
+
+							<input type="hidden" class="form-control" name="busId" id="busId" th:value="${HKN0005LicenseEntity.busId}" th:if="${not #strings.isEmpty(HKN0005LicenseEntity.busId)}" />
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">車のナンバー</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="licenseId" id="licenseId" th:value="${HKN0005LicenseEntity.licenseId}" />
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-2 control-label">運転手の名前</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="name" id="name" th:value="${HKN0005LicenseEntity.name}" />
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-2 control-label">従業員コード</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" readonly="readonly" name="staffCd" id="staffCd" th:value="${HKN0005LicenseEntity.staffCd}" />
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-2 control-label">車種</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="vehicleType" id="vehicleType" th:value="${HKN0005LicenseEntity.vehicleType}" />
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-2 control-label">班次</label>
+								<div class="col-sm-6">
+									<input type="radio" name="classes" th:value="0" th:field="*{HKN0005LicenseEntity.classes}" />正常班 
+									<input type="radio" name="classes" th:value="1" th:field="*{HKN0005LicenseEntity.classes}" />倒加班
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-2 control-label">シャトルバスの路線</label>
+								<div class="col-sm-6">
+									<input type="hidden" id="course" th:value="${HKN0005LicenseEntity.course}" />
+									<input type="checkbox" name="course" th:value="A" id="A" />農学院
+									<input type="checkbox" name="course" th:value="B" id="B" />体育館
+									<input type="checkbox" name="course" th:value="C" id="C" />学院路
+									<input type="checkbox" name="course" th:value="D" id="D" />六道沟
+									<input type="checkbox" name="course" th:value="E" id="E" />天津站
+									<input type="checkbox" name="course" th:value="F" id="F" />搪沽火東站
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-2 control-label">連絡先の区域</label>
+								<div class="col-sm-6">
+									<input type="radio" name="locationId" th:value="0" th:field="*{HKN0005LicenseEntity.locationId}" />市内 
+									<input type="radio" name="locationId" th:value="1" th:field="*{HKN0005LicenseEntity.locationId}" />塘沽
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-2 control-label">連絡先</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="destination" id="destination" th:value="${HKN0005LicenseEntity.destination}" />
+								</div>
+							</div>
+
+							<input type="hidden" class="form-control" name="recKosnZituYmdHms" id="recKosnZituYmdHms" th:value="${HKN0005LicenseEntity.recKosnZituYmdHms}" th:if="${not #strings.isEmpty(HKN0005LicenseEntity.busId)}" />
+
+							<div class="form-group">
+								<div class="col-sm-4 col-sm-offset-2">
+									<button class="btn btn-primary" type="submit" th:if="${#strings.isEmpty(HKN0005LicenseEntity.busId)}">追加</button>
+									<button class="btn btn-primary" type="submit" th:if="${not #strings.isEmpty(HKN0005LicenseEntity.busId)}" onclick="busInsert()">変更</button>
+									<button type="reset" onclick="toReset();" class="btn btn-primary">リセット</button>
+									<button class="btn btn-primary" type="button" th:onclick="closeWin();">戻る</button>
+								</div>
+							</div>
+							
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/js/jQuery1.7.2.js"></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js"></script>
+	<script src="/js/plugins/summernote/summernote.min.js"></script>
+	<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
+	<script src="/js/autocomplete/jquery.autocomplete.js"></script>
+	<script src="/js/autocomplete/personDetail.js"></script>
+	<script>
+		/*　運転手の名前から、従業員コードを自動取得する 。*/
+		bindAutoComplete("#name", bind);
+		function bind(data) {
+			$("#staffCd").val(data.staffCd);
+			$("#name").val(data.name);
+		}
+
+		$(document).ready(function() {
+			/*复选框选中状态*/
+			var course = $("#course").val();
+			if (course.indexOf("A") != -1) {
+				$("#A").attr("checked", "checked");
+			}
+			if (course.indexOf("B") != -1) {
+				$("#B").attr("checked", "checked");
+			}
+			if (course.indexOf("C") != -1) {
+				$("#C").attr("checked", "checked");
+			}
+			if (course.indexOf("D") != -1) {
+				$("#D").attr("checked", "checked");
+			}
+			if (course.indexOf("E") != -1) {
+				$("#E").attr("checked", "checked");
+			}
+			if (course.indexOf("F") != -1) {
+				$("#F").attr("checked", "checked");
+			}
+		});
+
+		/*　入力ボックスを空にする。*/
+		$("#name").bind("keyup", function() {
+			var str = this.value;
+			if (str == null || str == "") {
+				/* 運転手の名前は空の場合から、従業員コードは空です。 */
+				$("#staffCd").val("");
+			}
+		});
+
+		/* すべての入力ボックスを空にする。*/
+		function toReset() {
+			$("form input[name='licenseId']").removeAttr("value");
+			$("form input[name='name']").removeAttr("value");
+			$("form input[name='staffCd']").removeAttr("value");
+			$("form input[name='vehicleType']").removeAttr("value");
+			$("form input[name='destination']").removeAttr("value");
+			$("form input[type='radio']").removeAttr("checked");
+			$("form input[type='checkbox']").removeAttr("checked");
+
+		};
+
+		/* 追加、変更ボタンを押下、バスIDは存在チェック、DB排他チェック、シャトルバスの情報は存在チェック 。*/
+		$.validator
+			.setDefaults({
+				submitHandler : function() {
+					if (confirm("添付を確認しましたか?")) {
+						$.ajax({
+							type : "GET",
+							url : "/HKN0005LicenseEntity/busInsert",
+							data : $('#frm').serialize(),
+							success : function(obj) {
+								if (obj == 'bus/busSearch') {
+									alert("操作に成功する。");
+									closeWin();
+								} else if (obj == "del") {
+									/* バスIDは存在しない 。*/
+									alert("指定のバス号情報がシャトルバス情報テーブルに存在しません。");
+									/* 検索画面に遷移する。 */
+									location.href = "/HKN0005LicenseEntity/selectBus";
+								} else if (obj == "alter") {
+									/* DB排他チェックは存在し、シャトルバスの情報が変更される。 */
+									alert("指定情報が失効しました、更新してから送信してください。");
+									location.href = "/HKN0005LicenseEntity/selectBus";
+								} else if (obj == "exist") {
+									/* シャトルバスの情報は存在する。 */
+									alert("指定の更新情報がシャトルバス情報テーブルに存在します。");
+									/* 検索画面に遷移する。 */
+									location.href = "/HKN0005LicenseEntity/selectBus";
+								} else if (obj == "errors") {
+									location.href = "/errorException";
+								} else {
+									alert("操作に失敗する。");
+								}
+							},
+							error : function() {
+								alert("操作に失敗する。 ");
+							}
+						});
+					}
+				}
+			});
+
+		/* 追加、変更ボタンを押下、必須、属性チェック。　*/
+		$().ready(function() {
+			// キーボードを押してリリースし、提出したformを検証します
+			$("#frm").validate({
+				/* エラーメッセージはオプションの後に表示する。 */
+				errorPlacement : function(error, element) {
+					if (element.is(":checkbox") || element.is(":radio")) {
+						error.appendTo(element.parent());
+					} else {
+						error.insertAfter(element);
+					}
+				},
+				rules : {
+					licenseId : {
+						/*車のナンバーの入力は判断する。*/
+						required : true,
+						/* 車のナンバーの桁数は判断する。 */
+						maxlength: 8,
+					},
+					name : {
+						/* 運転手の名前の桁数は判断する。 */
+						maxlength: 20,
+					},
+					staffCd :{
+						/*従業員コードの入力は判断する。*/
+						required : true,
+					},
+					vehicleType : {
+						/* 車種の桁数は判断する。 */
+						maxlength: 50,
+					},
+					classes : {
+						/*班次の入力は判断する。*/
+						required : true,
+					},
+					course : {
+						/*シャトルバスの路線の入力は判断する。*/
+						required : true,
+					},
+					destination : {
+						/*連絡先の入力は判断する。*/
+						required : true,
+						/*連絡先の桁数は判断する。*/
+						maxlength: 50
+					}
+				},
+				messages : {
+					licenseId : {
+						required : "車のナンバーを入力してください。",
+						maxlength : "車のナンバーは8桁以内で入力してください。",
+					},
+					name : {
+						maxlength: "運転手の名前は20桁以内で入力してください。",
+					},
+					staffCd : {
+						required : "従業員コードを出力してください。",
+					},
+					vehicleType : {
+						maxlength: "車種は50桁以内で入力してください。",
+					},
+					classes : {
+						required : "班次を入力してください。",
+					},
+					course : {
+						required : "シャトルバスの路線を入力してください。",
+					},
+					destination : {
+						required : "連絡先を入力してください。",
+						maxlength : "連絡先は50桁以内で入力してください。"
+					}
+				}
+			});
+		});
+
+		/* 更新画面を閉じる 。*/
+		function closeWin() {
+			/* 検索画面に遷移する。 */
+			location.href = "/HKN0005LicenseEntity/selectBus";
+		}
+	</script>
+
+</body>
+</html>

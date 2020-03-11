@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>新規/変更</title>
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form th:action="@{updateOrgazization}" method="get" class="form-horizontal" id="frm" >
+							<input name="createUser" type="hidden" id="createUser" />
+							
+							<div class="form-group">
+							<div class="form-group">
+							<label class="col-sm-2 control-label">変更前</label>
+							</div>
+								<label class="col-sm-2 control-label">組織コード</label>
+								<div class="col-sm-6">
+									<input type="text" readonly="readonly" class="form-control" name="organizationCd" id="organizationCd" th:value="${orga.organizationCd}"/>
+								</div>
+							</div>
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">部署名</label>
+								<div class="col-sm-6">
+									<input type="text" readonly="readonly" class="form-control" name="" id="" th:value="${orga.departmentName}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">上位組織コード</label>
+								<div class="col-sm-6">
+									<input type="text" readonly="readonly" class="form-control" name="superiorOrganizationCd" id="superiorOrganizationCd" th:value="${orga.superiorOrganizationCd}" />
+								</div>
+							</div>
+							<div class="form-group">
+							<label class="col-sm-2 control-label">変更後</label>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="departmentName">部署名</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="departmentName" id="departmentName" th:value="${orga.departmentName}" maxlength="10" />
+									
+								</div>
+						<font color="red" th:errors="${orga.departmentName}" ></font>
+
+							<div class="form-group">
+								<div class="col-sm-4 col-sm-offset-2">
+									<button class="btn btn-primary" type="submit" >変更</button>
+								
+									   
+									<button class="btn btn-default" type="button" onclick="closeWin();">戻る</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js"></script>
+	<script src="/js/plugins/summernote/summernote.min.js"></script>
+	<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
+	<script>
+
+	$().ready(function(){
+		$("#frm").validate({
+			rules:{
+				departmentName:{
+					required:true,
+					maxlength:10
+				}
+			},
+			messages:{
+				departmentName:{
+					required:"ERR0001:部署名を入力してください",
+					maxlength:"ERR0042:部署名入力値大きい10桁はではありません。"
+				}
+			},
+		});
+	});
+	function update() {
+ 		$("#frm").submit();
+	}
+		
+		function closeWin() {
+			location.href="/orga/getOrganization";
+		}
+	</script>
+</body>
+</html>

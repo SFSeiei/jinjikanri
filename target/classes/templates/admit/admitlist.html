@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>リスト</title>
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+
+<!-- Data Tables -->
+<link href="/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+
+<link href="/css/animate.min.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+<script src="/js/jquery.min.js?v=2.1.4"></script>
+<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/js/plugins/jeditable/jquery.jeditable.js"></script>
+<script src="/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/js/kkpager.min.js"></script>
+<link href="/css/kkpager_blue.css" rel="stylesheet" type="text/css" />
+<link href="/css/autocomplete/jquery.autocomplete.css" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+<h2 align="center">人員情報変更申請承認リスト</h2>
+	<div class="wrapper wrapper-content  animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<div>
+							<form th:action="@{selectAdmit}" method="post" id="frm">
+								<div class="form-group">
+									<label class="control-label">承認者名前:</label>
+									<div style="display: inline-block;">
+										<input type="text" class="form-control" id="admitsName" name="admitsName" th:value="${admit.admitsName}" />
+									</div>&nbsp;&nbsp;
+									<label class="control-label">承認者従業員ID:</label>
+									<div style="display: inline-block;">
+										<input type="text" class="form-control" id="admitsId" name="admitsId" th:value="${admit.admitsId}" />
+									</div>&nbsp;&nbsp;
+									
+									<div style="display: inline-block;">
+										<button type="button" onclick="toSubmit();" class="btn btn-primary">検&nbsp;索</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div style="clear: both;"></div>
+					</div>
+					<div class="ibox-content">
+						<input type="hidden" id="dateId" name="dateId" th:value="${admit.dateId}"></input>
+						<!-- <input type="hidden" id="recSaksZituYmdHms" name="recSaksZituYmdHms" th:value="${admit.recSaksZituYmdHms}"></input> -->
+						<input type="hidden" id="recKosnZituYmdHms" name="recKosnZituYmdHms" th:value="${admit.recKosnZituYmdHms}"></input>
+						<table class="table table-striped table-bordered table-hover dataTables-example">
+							<thead>
+								<tr>
+									<th style="text-align: center;">番号</th>
+									<th style="text-align: center;">変更者従業員ID</th>
+									<th style="text-align: center;">変更者名前</th>
+									<th style="text-align: center;">変更内容</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="gradeX" th:each="admit,var : ${admitList}">
+									<td th:text="${var.count}" align="center"></td>
+									<td th:text="${admit.changerId}" align="center"></td>
+									<td th:text="${admit.changerName}" align="center"></td>
+									<td th:text="${admit.changeContent}" align="center"></td>
+									<td width="200" align="center">
+										 <a href="javascript:void();" th:onclick="|detail(${admit.dateId})|">明細</a>&nbsp;&nbsp; 
+										
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div style="width:800px;margin:0 auto;">
+							<div id="kkpager"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" id="total" th:value="${total}"/>
+	<input type="hidden" id="pages" th:value="${pages}"/>
+
+	<script src="/js/jQuery1.7.2.js"></script>
+	<script src="/js/autocomplete/jquery.autocomplete.js"></script>
+	<script src="/js/autocomplete/personDetail.js"></script>
+	
+
+	<script>
+	
+		bindAutoComplete("#admitsName", bind);
+		function bind(data) {
+			$("#admitsId").val(data.staffCd);
+			$("#admitsName").val(data.name);
+	    }
+		
+		function toSubmit() {
+			$("#frm").submit();
+		}
+
+		function detail(id) {
+			location.href="/admit/selectAdmitById?dateId="+id+"";
+		}	
+		function getParameter(name) { 
+			var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); 
+			var r = window.location.search.substr(1).match(reg); 
+			if (r!=null) return unescape(r[2]); return null;
+		}
+		// init 改ページ
+		$(function(){
+			var totalPage = $("#pages").val();
+			var totalRecords = $("#total").val();
+			var pageNo = getParameter('pageIndex');
+			if(!pageNo){
+				pageNo = 1;
+			}
+			var admitsName = $("#admitsName").val();
+			kkpager.generPageHtml({
+				pno : pageNo,
+				total : totalPage,
+				totalRecords : totalRecords,
+				hrefFormer : 'selectAdmit',
+				hrefLatter : '?admitsName='+admitsName+'',
+				getLink : function(n){
+					return this.hrefFormer + this.hrefLatter + "&pageIndex="+n;
+				}
+			});
+		});
+	</script>
+</body>
+</html>

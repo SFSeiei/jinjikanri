@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinjikanri.mapper.StaffMapper">
+	<resultMap type="com.jinjikanri.entity.JIN0002StaffEntity" id="JIN0002StaffEntity">
+		<result property="staffCd" column="STAFF_CD" />
+		<result property="dePartMent" column="DEPARTMENT" />
+		<result property="name" column="NAME" />
+		<result property="idRuikei" column="ID_RUIKEI" />
+		<result property="idNumber" column="ID_NUMBER" />
+		<result property="sex" column="SEX" />
+		<result property="posiTion" column="POSITION" />
+		<result property="secTionManager" column="SECTION_MANAGER" />
+		<result property="miniSter" column="MINISTER" />
+		<result property="naTion" column="NATION" />
+		<result property="birthAddress" column="BIRTH_ADDRESS" />
+		<result property="graduationTime" column="GRADUATION_TIME" />
+		<result property="graduationSchool" column="GRADUATION_SCHOOL" />
+		<result property="majorStudied" column="MAJORSTUDIED" />
+		<result property="birthDate" column="BIRTH_DATE" />
+		<result property="entryTime" column="ENTRY_TIME" />
+		<result property="politicaloutLook" column="POLITICAL_OUTLOOK" />
+		<result property="educationDegree" column="EDUCATION_DEGREE" />
+		<result property="accountCharacter" column="ACCOUNT_CHARACTER" />
+		<result property="accountregistrationDate" column="ACCOUNT_REGISTRATION_DATE" />
+		<result property="registrationResidence" column="REGISTRATION_RESIDENCE" />
+		<result property="permanentAddress" column="PERMANENT_ADDRESS" />
+		<result property="professionalLevel" column="PROFESSIONAL_LEVEL" />
+		<result property="professionallevelDate" column="PROFESSIONAL_LEVEL_DATE" />
+		<result property="nameofWork" column="NAME_OF_WORK" />
+		<result property="contactNumber" column="CONTACT_NUMBER" />
+		<result property="eMail" column="E_MAIL" />
+		<result property="postalCode" column="POSTAL_CODE" />
+		<result property="recsakszituymdhms" column="REC_SAKS_ZITU_YMD_HMS" />
+		<result property="reckosnzituymdhms" column="REC_KOSN_ZITU_YMD_HMS" />
+	</resultMap>
+	
+	
+	<select id="selectstaff" resultMap="JIN0002StaffEntity">
+		SELECT * from jin0002staff where STAFF_CD = #{staffCd}
+	</select>
+	<select id="selectStaffs" resultMap="JIN0002StaffEntity">
+		SELECT * FROM jin0002staff
+		<where>
+			<if test="dePartMent != null and dePartMent != ''">
+				DEPARTMENT = #{dePartMent}
+			 </if>
+			<if test="secTionManager != null and secTionManager != ''">
+				AND SECTION_MANAGER = #{secTionManager}
+			 </if>
+			<if test="miniSter != null and miniSter != ''">
+				AND MINISTER = #{miniSter}
+			</if>
+		</where>
+	</select>
+	<select id="selectstaffid" resultMap="JIN0002StaffEntity">
+		SELECT * from jin0002staff where ID_NUMBER = #{idNumber}
+	</select>
+	<select id="selectstafftime" resultMap="JIN0002StaffEntity">
+		SELECT * from jin0002staff where STAFF_CD = #{staffCd} AND
+		REC_KOSN_ZITU_YMD_HMS = #{reckosnzituymdhms}
+	</select>
+	<update id="updatestaff">
+		UPDATE jin0002staff SET
+		DEPARTMENT = #{dePartMent},
+		NAME = #{name}, ID_RUIKEI = #{idRuikei},
+		ID_NUMBER = #{idNumber}, SEX = #{sex},
+		POSITION = #{posiTion}, SECTION_MANAGER = #{secTionManager},
+		MINISTER = #{miniSter}, NATION = #{naTion},
+		BIRTH_ADDRESS = #{birthAddress},
+		GRADUATION_TIME = #{graduationTime},
+		GRADUATION_SCHOOL = #{graduationSchool},
+		MAJORSTUDIED = #{majorStudied}, BIRTH_DATE = #{birthDate},
+		ENTRY_TIME = #{entryTime},
+		POLITICAL_OUTLOOK = #{politicaloutLook},
+		EDUCATION_DEGREE = #{educationDegree},
+		ACCOUNT_CHARACTER = #{accountCharacter},
+		ACCOUNT_REGISTRATION_DATE = #{accountregistrationDate},
+		REGISTRATION_RESIDENCE = #{registrationResidence},
+		PERMANENT_ADDRESS = #{permanentAddress},
+		PROFESSIONAL_LEVEL = #{professionalLevel},
+		PROFESSIONAL_LEVEL_DATE = #{professionallevelDate},
+		NAME_OF_WORK = #{nameofWork}, CONTACT_NUMBER = #{contactNumber},
+		E_MAIL = #{eMail}, POSTAL_CODE = #{postalCode},
+		REC_KOSN_ZITU_YMD_HMS = #{reckosnzituymdhms}
+		WHERE STAFF_CD = #{staffCd};
+	</update>
+	<insert id="insertStaff" parameterType="com.jinjikanri.entity.JIN0002StaffEntity" useGeneratedKeys="true" keyProperty="staffCd">
+		INSERT INTO jin0002staff(
+		DEPARTMENT, NAME, ID_RUIKEI, ID_NUMBER,
+		SEX, POSITION, SECTION_MANAGER, MINISTER, NATION,
+		BIRTH_ADDRESS, GRADUATION_TIME, GRADUATION_SCHOOL,
+		MAJORSTUDIED, BIRTH_DATE, ENTRY_TIME, POLITICAL_OUTLOOK,
+		EDUCATION_DEGREE, ACCOUNT_CHARACTER, ACCOUNT_REGISTRATION_DATE,
+		REGISTRATION_RESIDENCE, PERMANENT_ADDRESS, PROFESSIONAL_LEVEL,
+		PROFESSIONAL_LEVEL_DATE, NAME_OF_WORK, CONTACT_NUMBER, E_MAIL,
+		POSTAL_CODE, REC_SAKS_ZITU_YMD_HMS, REC_KOSN_ZITU_YMD_HMS)
+		VALUES (#{dePartMent}, #{name}, #{idRuikei},
+		#{idNumber}, #{sex}, #{posiTion}, #{secTionManager}, #{miniSter},
+		#{naTion}, #{birthAddress}, #{graduationTime}, #{graduationSchool},
+		#{majorStudied}, #{birthDate}, #{entryTime}, #{politicaloutLook},
+		#{educationDegree}, #{accountCharacter}, #{accountregistrationDate},
+		#{registrationResidence}, #{permanentAddress}, #{professionalLevel},
+		#{professionallevelDate}, #{nameofWork}, #{contactNumber}, #{eMail},
+		#{postalCode}, #{recsakszituymdhms}, #{reckosnzituymdhms});
+	</insert>
+	<delete id="delestaff" parameterType="com.jinjikanri.entity.JIN0002StaffEntity">
+		DELETE from jin0002staff where STAFF_CD = #{staffCd}
+	</delete>
+	
+	<!-- 問合せ者の基本情報を自動的に補完する -->
+	<select id="selectJIN0002StaffEntitysByName" resultMap="JIN0002StaffEntity">
+		SELECT * FROM jin0002staff 
+		<where>
+			AND NAME LIKE CONCAT('%',#{name},'%')
+		</where>
+	</select>
+	</mapper>

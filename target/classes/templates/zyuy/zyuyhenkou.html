@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>パラメータの設定(変更)</title>
+<link href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" />
+<link href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote.css" rel="stylesheet" />
+<link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+<link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet" />
+<style type="text/css">
+#ERR_TOP {
+	color: #cc5965;
+	font-weight: bold;
+}
+
+span {
+	float: left;
+	height: 34px;
+	line-height: 34px;
+}
+</style>
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<!-- th:action="@{/user/updateZyuyById}" -->
+						<form action="" method="post" class="form-horizontal" id="frm">
+							<input type="hidden" name="sttCd" />
+							<input type="hidden" name="recKosnZituYmdHms" id="recKosnZituYmdHms" th:value="${zyuy.recKosnZituYmdHms }" />
+							<div class="error" id="ERR_TOP" style="display: inline-block;"></div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">誕生日前倒し日数</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="tnzybZynts" name="tnzybZynts" th:value="${zyuy.tnzybZynts}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">身分証期限前倒し日数</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="mbnsyuZynts" name="mbnsyuZynts" th:value="${zyuy.mbnsyuZynts}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">健診日前倒し日数</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="knsunZynts" name="knsunZynts" th:value="${zyuy.knsunZynts}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">昼間出勤時刻</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="hrmkuKisi" name="hrmkuKisi" th:value="${zyuy.hrmkuKisi}" style="width: 20%; float: left" />
+									<span>&nbsp;時&nbsp;&nbsp;~&nbsp;</span>
+									<input type="text" class="form-control" id="hrmkuSyryu" name="hrmkuSyryu" th:value="${zyuy.hrmkuSyryu}" style="width: 20%; float: left" />
+									<span>&nbsp;時 &nbsp; </span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">夜間出勤時刻</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="yknkuKisi" name="yknkuKisi" th:value="${zyuy.yknkuKisi}" style="width: 20%; float: left" />
+									<span>&nbsp;時&nbsp;&nbsp;~&nbsp;</span>
+									<input type="text" class="form-control" id="yknkuSyryu" name="yknkuSyryu" th:value="${zyuy.yknkuSyryu}" style="width: 20%; float: left" />
+									<span>&nbsp;時 &nbsp; </span>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-7 col-sm-offset-5">
+									<div style="display: inline-block;" th:if="${not #strings.isEmpty(zyuy.sttCd)}">
+										<!-- <button type="submit" class="btn btn-primary">確&nbsp;認</button> -->
+										<input type="submit" class="btn btn-primary" value="確&nbsp;認" />
+									</div>
+									<div style="display: inline-block;">
+										<button type="button" onclick="closeWin();" class="btn btn-primary">戻&nbsp;る</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js"></script>
+	<script src="/js/plugins/summernote/summernote.min.js"></script>
+	<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
+	<!-- <script src="/js/layer/layer.js"></script> -->
+	<script>
+		/**
+		 * ヒントボックス
+		 * @param title メッセージ
+		 * @param flag フラッグ どのような操作を実行するかを確認します。
+		 * @param iconItem
+		 * @returns
+		 */
+		$.validator.setDefaults({
+			submitHandler : function() {
+				var ok = confirm("変更を確認するかどうか？");
+				if (ok) {
+					$.ajax({
+						type : "POST",
+						url : "/zyuy/updateZyuyById",
+						data : $('#frm').serialize(),
+						success : function(obj) {
+							if (obj == "zyuy/zyuytran") {
+								location.href = "/zyuy/getZyuyById";
+							} else if (obj == "errors") {
+								location.href = "/errorException";
+							} else {
+								$("#ERR_TOP").text(obj);
+							}
+						},
+						error : function() {
+							location.href = "/errorException";
+						}
+					});
+				}
+			}
+		});
+
+		// 画面入力項目単項目チェック
+		$().ready(function() {
+			// キーボードを押してリリースし、提出したformを検証します
+			$("#frm").validate({
+				rules : {
+					// 誕生日前倒し日数単項目チェック
+					tnzybZynts : {
+						// 属性チェック
+						checkzokusei : true,
+						// 範囲チェック
+						range : [ 0, 999 ]
+					},
+					// 身分証期限前倒し日数単項目チェック
+					mbnsyuZynts : {
+						// 属性チェック
+						checkzokusei : true,
+						// 範囲チェック
+						range : [ 0, 999 ]
+					},
+					// 健診日前倒し日数単項目チェック
+					knsunZynts : {
+						// 属性チェック
+						checkzokusei : true,
+						// 範囲チェック
+						range : [ 0, 999 ]
+					},
+					// 昼間出勤開始時刻単項目チェック
+					hrmkuKisi : {
+						// 属性チェック
+						checkzokusei : true,
+						// 範囲チェック
+						range : [ 0, 12 ]
+					},
+					// 昼間出勤終了時刻単項目チェック
+					hrmkuSyryu : {
+						// 属性チェック
+						checkzokusei : true,
+						// 範囲チェック
+						range : [ 13, 24 ],
+						// 昼間出勤開始時刻と昼間出勤終了時刻入力チェック
+						checkNynHrm : true
+					},
+					// 夜間出勤開始時刻単項目チェック
+					yknkuKisi : {
+						// 属性チェック
+						checkzokusei : true,
+						// 範囲チェック
+						range : [ 13, 24 ],
+						// 昼間出勤終了時刻 < 夜間出勤開始時刻
+						checkHkakuYknHrm : true
+					},
+					// 夜間出勤終了時刻単項目チェック
+					yknkuSyryu : {
+						// 属性チェック
+						checkzokusei : true,
+						// 範囲チェック
+						range : [ 0, 12 ],
+						// 夜間出勤開始時刻と夜間出勤終了時刻入力チェック
+						checkNynYkn : true,
+						// 夜間出勤終了時刻 < 昼間出勤開始時刻チェック
+						checkHkakuHrmYkn : true
+					}
+				},
+				messages : {
+					tnzybZynts : {
+						range : "誕生日前倒し日数は0~999の指定範囲内で入力してください",
+						checkzokusei : "誕生日前倒し日数は半角数字で入力して下さい"
+					},
+					mbnsyuZynts : {
+						range : "身分証期限前倒し日数は0~999の指定範囲内で入力してください",
+						checkzokusei : "身分証期限前倒し日数は半角数字で入力して下さい"
+					},
+					knsunZynts : {
+						range : "健診日前倒し日数は0~999の指定範囲内で入力してください",
+						checkzokusei : "健診日前倒し日数は半角数字で入力して下さい"
+					},
+					hrmkuKisi : {
+						range : "昼間出勤開始時刻は0~12の指定範囲内で入力してください",
+						checkzokusei : "昼間出勤開始時刻は半角数字で入力して下さい"
+					},
+					hrmkuSyryu : {
+						range : "昼間出勤終了時刻は13~24の指定範囲内で入力してください",
+						checkzokusei : "昼間出勤終了時刻は半角数字で入力して下さい"
+					},
+					yknkuKisi : {
+						range : "夜間出勤開始時刻は13~24の指定範囲内で入力してください",
+						checkzokusei : "夜間出勤開始時刻は半角数字で入力して下さい"
+					},
+					yknkuSyryu : {
+						range : "夜間出勤終了時刻は0~12の指定範囲内で入力してください",
+						checkzokusei : "夜間出勤終了時刻は半角数字で入力して下さい"
+					}
+				},
+				/* 設定エラーメッセージは画面項目の後に表示されます */
+				errorPlacement : function(error, element) {
+					error.appendTo(element.parent().parent());
+				}
+			});
+			/* 単項目属性チェック */
+			$.validator.addMethod("checkzokusei", function(value, element, params) {
+				var chrnum = /^([0-9]+)$/;
+				return this.optional(element) || (chrnum.test(value));
+			});
+			/* 昼間出勤開始時刻と昼間出勤終了時刻入力チェック */
+			$.validator.addMethod("checkNynHrm", function(value, element, params) {
+				var hrmkuKisi = document.getElementById('hrmkuKisi').value;
+				var hrmkuSyryu = document.getElementById('hrmkuSyryu').value;
+				if ((hrmkuKisi == "" && hrmkuSyryu == "") || (hrmkuKisi != "" && hrmkuSyryu != "")) {
+					$("#hrmkuKisi").css("border", "1px solid #e5e6e7");
+					return true;
+				} else {
+					$("#hrmkuKisi").css("border", "1px dotted #cc5965");
+					$(element).data('error-msg', '昼間出勤開始時刻と昼間出勤終了時刻が全てを入力してください');
+					return false;
+				}
+			},  function(params, element) {
+				return $(element).data('error-msg');
+			});
+			/* 夜間出勤開始時刻と夜間出勤終了時刻入力チェック */
+			$.validator.addMethod("checkNynYkn", function(value, element, params) {
+				var yknkuKisi = document.getElementById('yknkuKisi').value;
+				var yknkuSyryu = document.getElementById('yknkuSyryu').value;
+				if ((yknkuKisi == "" && yknkuSyryu == "") || (yknkuKisi != "" && yknkuSyryu != "")) {
+					$("#yknkuKisi").css("border", "1px solid #e5e6e7");
+					return true;
+				} else {
+					$("#yknkuKisi").css("border", "1px dotted #cc5965");
+					$(element).data('error-msg', '夜間出勤開始時刻と夜間出勤終了時刻が全てを入力してください');
+					return false;
+				}
+			}, function(params, element) {
+				return $(element).data('error-msg');
+			});
+
+			/* 夜間出勤終了時刻 <= 昼間出勤開始時刻チェック */
+			$.validator.addMethod("checkHkakuHrmYkn", function(value, element, params) {
+				var yknkuSyryu = document.getElementById('yknkuSyryu').value;
+				var hrmkuKisi = document.getElementById('hrmkuKisi').value;
+				if (yknkuSyryu != "" && hrmkuKisi != "") {
+					if (parseInt(yknkuSyryu) <= parseInt(hrmkuKisi)) {
+						$("#hrmkuKisi").css("border", "1px solid #e5e6e7");
+						return true;
+					} else {
+						$("#hrmkuKisi").css("border", "1px dotted #cc5965");
+						return false;
+					}
+				}
+				return true;
+			}, "夜間出勤終了時刻は昼間出勤開始時刻より小ください");
+
+			/* 昼間出勤終了時刻 <= 夜間出勤開始時刻チェック */
+			$.validator.addMethod("checkHkakuYknHrm", function(value, element, params) {
+				var hrmkuSyryu = document.getElementById('hrmkuSyryu').value;
+				var yknkuKisi = document.getElementById('yknkuKisi').value;
+				if (hrmkuSyryu != "" && yknkuKisi != "") {
+					if (parseInt(hrmkuSyryu) <= parseInt(yknkuKisi)) {
+						$("#yknkuKisi").css("border", "1px solid #e5e6e7");
+						return true;
+					} else {
+						$("#yknkuKisi").css("border", "1px dotted #cc5965");
+						return false;
+					}
+				}
+				return true;
+			}, "昼間出勤終了時刻は夜間出勤開始時刻より小ください");
+		});
+
+		function closeWin() {
+			location.href = "getZyuyById";
+		}
+	</script>
+</body>
+</html>
